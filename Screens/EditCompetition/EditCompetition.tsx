@@ -7,7 +7,7 @@ import Address from "../../Models/Address";
 
 export default () => {
   const navigator = useNavigation();
-  const [address, setAddress] = useState<Address>(null);
+  const [address, setAddress] = useState<Address>(new Address());
   /**
    * Update the address
    * @param address Address to keep
