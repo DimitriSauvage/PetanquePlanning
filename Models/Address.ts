@@ -1,14 +1,9 @@
+import { LatLng } from "react-native-maps";
+
 export default class Address {
   //#region Fields
-  /**
-   * Latitude
-   */
-  public latitude: number;
-  /**
-   * Longitude
-   */
-  public longitude: number;
 
+  public coordinate: LatLng;
   /**
    * House number
    */

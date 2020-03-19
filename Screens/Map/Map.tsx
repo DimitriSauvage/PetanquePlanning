@@ -1,10 +1,13 @@
-import Geolocation, { GeolocationConfiguration } from "@react-native-community/geolocation";
-import React, { useState } from "react";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import { Toast } from "native-base";
+import React, { useState, useEffect } from "react";
 import MapView, { Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
+import PermissionsHelper from "../../Helpers/PermissionsHelper";
 import styles from "./Style";
 
-export default () => {
+const Map = () => {
   //#region Fields
   /**
    * Default delta
@@ -19,13 +22,6 @@ export default () => {
     latitudeDelta: defaultDelta,
     longitudeDelta: defaultDelta
   };
-  /**
-   * Geo API config
-   */
-  const geoConfig: GeolocationConfiguration = {
-    skipPermissionRequests: false,
-    authorizationLevel: "whenInUse"
-  };
   //#endregion
 
   //#region State
@@ -35,20 +31,45 @@ export default () => {
   const [mapPosition, setMapPosition] = useState(initialPosition);
   //#endregion
 
-  //#region Set geoconfig
-  Geolocation.setRNConfiguration(geoConfig);
-  Geolocation.getCurrentPosition(
-    geoResponse => {
-      const position = {
-        latitude: geoResponse.coords.latitude,
-        longitude: geoResponse.coords.longitude,
-        latitudeDelta: defaultDelta,
-        longitudeDelta: defaultDelta
-      };
-      setMapPosition(position);
-    },
-    geoError => console.log(geoError)
-  );
+  //#region Get current position
+  useEffect(() => {
+    /**
+     * Get the current user location
+     */
+    const getCurrentLocation = async () => {
+      if (!PermissionsHelper.isGranted(Permissions.LOCATION)) {
+        //Inform the user we cannot locate him
+        Toast.show({
+          text: `Authorisation de localisation non accordée. La carte sera mise à une position par défaut`,
+          type: "warning"
+        });
+      } else {
+        //Get current position
+        try {
+          let location = await Location.getCurrentPositionAsync();
+          if (location != null) {
+            const position: Region = {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: defaultDelta,
+              longitudeDelta: defaultDelta
+            };
+            setMapPosition(position);
+          }
+        } catch (error) {
+          Toast.show({
+            text:
+              "Récupération de votre position impossible. La carte sera mise à une position par défaut",
+            type: "warning"
+          });
+        }
+      }
+    };
+
+    getCurrentLocation();
+  }, []);
+  //Ask for permission
+
   //#endregion
 
   return (
@@ -57,3 +78,5 @@ export default () => {
     </SafeAreaView>
   );
 };
+
+export default Map

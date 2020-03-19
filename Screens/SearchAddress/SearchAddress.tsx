@@ -17,7 +17,7 @@ import Address from "../../Models/Address";
 import addressRepository from "../../Repositories/AddressRepository";
 import styles from "./Style";
 
-export default () => {
+const SearchAddress = () => {
   //#region Fields
   /**
    * Addresses to display
@@ -85,3 +85,5 @@ export default () => {
     </SafeAreaView>
   );
 };
+
+export default SearchAddress;

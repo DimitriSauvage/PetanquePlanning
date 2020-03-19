@@ -1,17 +1,37 @@
 {
-  "name": "PetanquePlanning",
-  "displayName": "PetanquePlanning",
   "expo": {
-    "name": "PetanquePlanning",
+    "name": "Pétanque planning",
+    "description": "Tous les concours de pétanque à venir !",
     "slug": "PetanquePlanning",
-    "privacy": "unlisted",
+    "privacy": "public",
     "sdkVersion": "36.0.0",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
-    "entryPoint": "node_modules/expo/AppEntry.js",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ]
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "fr.dimitrisauvage.petanqueplanning",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDEUjEhF-864wgdgEsIbRs9NmhTxHrYXDg"
+      }
+    },
+    "android": {
+      "package": "fr.dimitrisauvage.petanqueplanning",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyA0Z-Cix3veOmoko1dF_U2VkH798V2qbWg"
+        }
+      }
+    }
   }
 }

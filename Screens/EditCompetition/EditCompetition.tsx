@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { TextInput } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import styles from "./Style";
 import { useNavigation } from "@react-navigation/native";
+import { Container, Content, Form, Input, Item } from "native-base";
+import React, { useState } from "react";
 import Address from "../../Models/Address";
+import SearchAddress from "../SearchAddress/SearchAddress";
+import styles from "./Style";
 
-export default () => {
+const EditCompetition = () => {
   const navigator = useNavigation();
   const [address, setAddress] = useState<Address>(new Address());
   /**
@@ -15,21 +15,32 @@ export default () => {
   const updateAddress = (address: Address) => setAddress(address);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TextInput autoFocus={true} placeholder="Nom du concours"></TextInput>
-      <TextInput
-        autoFocus={true}
-        editable={false}
-        placeholder="Adresse"
-        style={styles.input}
-        value={address.getFullAddress()}
-        onTouchStart={() => {
-          //Go to search address
-          navigator.navigate("SearchAddress", {
-            onGoBack: updateAddress
-          });
-        }}
-      ></TextInput>
-    </SafeAreaView>
+    <Container>
+      <Content>
+        <Form>
+          {/**Competition name */}
+          <Item>
+            <Input autoFocus={true} placeholder="Nom du concours"></Input>
+          </Item>
+          {/**Competition address */}
+          <Item>
+            <Input
+              autoFocus={true}
+              placeholder="Addresse"
+              style={styles.input}
+              value={address.getFullAddress()}
+              onTouchStart={() => {
+                //Go to search address
+                navigator.navigate(SearchAddress.name, {
+                  onGoBack: updateAddress
+                });
+              }}
+            ></Input>
+          </Item>
+        </Form>
+      </Content>
+    </Container>
   );
 };
+
+export default EditCompetition;
