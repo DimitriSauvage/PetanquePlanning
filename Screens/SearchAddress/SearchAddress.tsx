@@ -1,14 +1,26 @@
 import * as _ from "lodash";
 import { Form, Input, Item, Toast, Separator, Text } from "native-base";
-import React, { useState } from "react";
+import React, { useState, FunctionComponent } from "react";
 import { View } from "react-native";
 import AddressList from "../../Components/Addresses/AddressList/AddressList";
 import Loader from "../../Components/Shared/Loader/Loader";
 import Address from "../../Models/Address";
 import addressRepository from "../../Repositories/AddressRepository";
 import styles from "./Style";
+import { useNavigation } from "@react-navigation/native";
 
-const SearchAddress = () => {
+interface SearchAddressProps {
+  /**
+   * Method to execute when close the screen
+   */
+  route: any;
+  navigation: any;
+}
+
+const SearchAddress: FunctionComponent<SearchAddressProps> = ({
+  route,
+  navigation
+}) => {
   //#region Fields
   /**
    * Addresses to display
@@ -46,7 +58,7 @@ const SearchAddress = () => {
   return (
     <View style={styles.container}>
       {/**Search input */}
-      <Form style={{backgroundColor:'#D0D0D0'}}>
+      <Form style={{ backgroundColor: "#D0D0D0" }}>
         <Item>
           <Input
             autoFocus={true}
@@ -58,13 +70,15 @@ const SearchAddress = () => {
 
       <View style={styles.listContainer}>
         {/**Search results */}
-        {addresses && addresses?.length > 0 && (
+        {!searching && addresses && addresses?.length > 0 && (
           <View>
             <AddressList
               addresses={addresses}
-              onSelect={(address: Address) =>
-                console.log("Adresse sélectionnée")
-              }
+              onSelect={(address: Address) => {
+                //Call the function before go back
+                if (route?.params?.onGoBack) route?.params?.onGoBack(address);
+                navigation.goBack();
+              }}
             />
           </View>
         )}

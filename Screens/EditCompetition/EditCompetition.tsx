@@ -12,7 +12,11 @@ const EditCompetition = () => {
    * Update the address
    * @param address Address to keep
    */
-  const updateAddress = (address: Address) => setAddress(address);
+  const updateAddress = (address: Address) => {
+    if (address && address.getFullAddress().trim() !== "") {
+      setAddress(address);
+    }
+  };
 
   return (
     <Form>

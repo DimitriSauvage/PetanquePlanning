@@ -23,11 +23,14 @@ const AddressListItem: FunctionComponent<AddressListItemProps> = ({
   return (
     address && (
       <ListItem
+        key={address.id.toString()}
         onPress={event => {
           if (selectItem) selectItem(address);
         }}
       >
-        <Text numberOfLines={1} ellipsizeMode="clip">{address.getFullAddress()}</Text>
+        <Text numberOfLines={1} ellipsizeMode="clip">
+          {address.getFullAddress()}
+        </Text>
       </ListItem>
     )
   );

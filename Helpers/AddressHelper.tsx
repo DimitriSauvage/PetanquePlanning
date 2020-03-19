@@ -14,7 +14,7 @@ export default class AddressHelper {
     };
     address.number = feature.properties.housenumber;
     address.street = feature.properties.street;
-    address.zipCode = feature.properties.zipCode;
+    address.zipCode = feature.properties.postCode;
     address.city = feature.properties.city;
 
     return address;
