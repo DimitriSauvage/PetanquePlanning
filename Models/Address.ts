@@ -1,8 +1,15 @@
 import { LatLng } from "react-native-maps";
+import { Guid } from "guid-typescript";
 
 export default class Address {
   //#region Fields
-
+  /**
+   * Identifier
+   */
+  public id: Guid;
+  /**
+   * GPS Coordinate
+   */
   public coordinate: LatLng;
   /**
    * House number
@@ -60,7 +67,22 @@ export default class Address {
   // public set number(v: string) {
   //   this._number = v;
   // }
+  // public get id(): Guid {
+  //   return this._id;
+  // }
+  // public set id(v: Guid) {
+  //   this._id = v;
+  // }
 
+  //#endregion
+
+  //#region Constructor
+  /**
+   * Default constructor
+   */
+  constructor(id?: Guid) {
+    this.id = id ? id : Guid.create();
+  }
   //#endregion
 
   //#region Methods

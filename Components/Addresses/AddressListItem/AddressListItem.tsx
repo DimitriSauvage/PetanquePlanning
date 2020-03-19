@@ -1,6 +1,7 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import Address from "../../../Models/Address";
+import { ListItem } from "native-base";
 
 //Props
 interface AddressListItemProps {
@@ -21,13 +22,13 @@ const AddressListItem: FunctionComponent<AddressListItemProps> = ({
 }) => {
   return (
     address && (
-      <TouchableOpacity
+      <ListItem
         onPress={event => {
           if (selectItem) selectItem(address);
         }}
       >
-        <Text>{address.getFullAddress()}</Text>
-      </TouchableOpacity>
+        <Text numberOfLines={1} ellipsizeMode="clip">{address.getFullAddress()}</Text>
+      </ListItem>
     )
   );
 };

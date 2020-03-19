@@ -6,6 +6,11 @@ import { Provider } from "react-redux";
 import Navigator from "./Navigation/Navigator";
 import store from "./Store/configureStore";
 import { View } from "react-native";
+import { YellowBox } from "react-native";
+
+YellowBox.ignoreWarnings([
+  "Non-serializable values were found in the navigation state"
+]);
 
 export default function App() {
   return (

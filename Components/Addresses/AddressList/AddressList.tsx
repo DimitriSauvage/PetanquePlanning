@@ -3,6 +3,7 @@ import { FlatList } from "react-native";
 import Address from "../../../Models/Address";
 import AddressListItem from "../AddressListItem/AddressListItem";
 import styles from "./Style";
+import { List } from "native-base";
 
 //Props
 interface AddressListProps {
@@ -27,16 +28,25 @@ const AddressList: FunctionComponent<AddressListProps> = ({
 
   return (
     addresses?.length > 0 && (
-      <FlatList
-        style={styles.list}
-        data={addresses}
-        renderItem={address => (
+      <List>
+        {addresses.map(address => (
           <AddressListItem
-            address={address.item}
+            address={address}
             selectItem={selectItem}
           ></AddressListItem>
-        )}
-      ></FlatList>
+        ))}
+      </List>
+      // <FlatList
+      //   style={styles.list}
+      //   data={addresses}
+      //   renderItem={address => (
+      //     <AddressListItem
+      //       address={address.item}
+      //       selectItem={selectItem}
+      //       key={address.item.id.toString()}
+      //     ></AddressListItem>
+      //   )}
+      // ></FlatList>
     )
   );
 };

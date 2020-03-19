@@ -3,6 +3,7 @@ import * as HttpStatus from "http-status-codes";
 import AddressHelper from "../Helpers/AddressHelper";
 import Address from "../Models/Address";
 import Repository from "./Repository";
+import { Toast } from "native-base";
 
 /**
  * Address repository
@@ -38,13 +39,12 @@ class AddressRepository extends Repository {
         this.baseSearchURL}?q=${searchedValue}&limit=${resultsLimit}`
     );
 
+    Toast.show({ text: "Result : " + JSON.stringify(result) });
+
     //Transform feature to address
     if (response.status == HttpStatus.OK) {
       result = response.data.features
-        .sort(
-          (a, b) =>
-            (a.properties.score as number) - (b.properties.score as number)
-        )
+        .sort((a, b) => b.properties.score - a.properties.score)
         .map(x => AddressHelper.featureToAddress(x));
     }
 

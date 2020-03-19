@@ -1,7 +1,12 @@
 import Address from "./Address";
+import { Guid } from "guid-typescript";
 
 export default class Competition {
   //#region Fields
+  /**
+   * Identifier
+   */
+  public id: Guid;
   /**
    * Address of the competition
    */
@@ -17,9 +22,8 @@ export default class Competition {
   /**
    * Competition description
    */
-  public description : string;
-  
-  
+  public description: string;
+
   //#endregion
 
   //#region Getters and setters
@@ -47,5 +51,20 @@ export default class Competition {
   // public set description(v : string) {
   //   this._description = v;
   // }
+  // public get id(): Guid {
+  //   return this._id;
+  // }
+  // public set id(v: Guid) {
+  //   this._id = v;
+  // }
+  //#endregion
+
+  //#region Constructor
+  /**
+   * Default constructor
+   */
+  constructor(id?: Guid) {
+    this.id = id ? id : Guid.create();
+  }
   //#endregion
 }

@@ -1,16 +1,7 @@
 import * as _ from "lodash";
-import {
-  Container,
-  Content,
-  Form,
-  Input,
-  Item,
-  Label,
-  Toast
-} from "native-base";
+import { Form, Input, Item, Toast, Separator, Text } from "native-base";
 import React, { useState } from "react";
-import { View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
 import AddressList from "../../Components/Addresses/AddressList/AddressList";
 import Loader from "../../Components/Shared/Loader/Loader";
 import Address from "../../Models/Address";
@@ -37,7 +28,8 @@ const SearchAddress = () => {
   const searchAddresses = async value => {
     try {
       setSearching(true);
-      setAddresses(await addressRepository.searchAddress(value));
+      const result = await addressRepository.searchAddress(value);
+      setAddresses(result);
     } catch (error) {
       // Message for the error
       Toast.show({
@@ -51,38 +43,36 @@ const SearchAddress = () => {
 
   //#endregion
 
-  const [address, setAddress] = useState(null);
-
   return (
-    <SafeAreaView>
+    <View style={styles.container}>
       {/**Search input */}
-      <Container>
-        <Content>
-          <Form>
-            <Item floatingLabel>
-              <Label>Taper pour rechercher</Label>
-              <Input onChange={_.debounce(searchAddresses, 500)}></Input>
-              <Text>{JSON.stringify(address)}</Text>
-            </Item>
-          </Form>
-        </Content>
-      </Container>
+      <Form style={{backgroundColor:'#D0D0D0'}}>
+        <Item>
+          <Input
+            autoFocus={true}
+            placeholder="Taper pour rechercher"
+            onChangeText={_.debounce(searchAddresses, 500)}
+          ></Input>
+        </Item>
+      </Form>
 
       <View style={styles.listContainer}>
         {/**Search results */}
         {addresses && addresses?.length > 0 && (
-          <AddressList
-            addresses={addresses}
-            onSelect={address => {
-              setAddress(address);
-            }}
-          />
+          <View>
+            <AddressList
+              addresses={addresses}
+              onSelect={(address: Address) =>
+                console.log("Adresse sélectionnée")
+              }
+            />
+          </View>
         )}
 
         {/**Display activity indicator if searching */}
-        {searching && <Loader loading={searching} />}
+        {searching && <Loader style={styles.loader} loading={searching} />}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
