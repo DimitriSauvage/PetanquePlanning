@@ -7,12 +7,8 @@ import Loader from "../../Components/Shared/Loader/Loader";
 import Address from "../../Models/Address";
 import addressRepository from "../../Repositories/AddressRepository";
 import styles from "./Style";
-import { useNavigation } from "@react-navigation/native";
 
 interface SearchAddressProps {
-  /**
-   * Method to execute when close the screen
-   */
   route: any;
   navigation: any;
 }

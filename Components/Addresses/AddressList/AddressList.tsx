@@ -31,6 +31,7 @@ const AddressList: FunctionComponent<AddressListProps> = ({
       <List>
         {addresses.map(address => (
           <AddressListItem
+            key={address.id.toString()}
             address={address}
             selectItem={selectItem}
           ></AddressListItem>

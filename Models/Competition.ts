@@ -10,7 +10,7 @@ export default class Competition {
   /**
    * Address of the competition
    */
-  public address: Address;
+  public address: Address = new Address();
   /**
    * Name of the competition
    */
@@ -18,7 +18,7 @@ export default class Competition {
   /**
    * Date of the competition
    */
-  public date: Date;
+  public date: Date
   /**
    * Competition description
    */
