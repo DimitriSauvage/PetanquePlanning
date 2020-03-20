@@ -1,8 +1,11 @@
-Map markers
-End of edition window
+Create list of competition --> With filters
+Create a calendar
 Toast --> Review the displaying and create an abstraction for all application
 Repositories --> HOC ?
 Current components --> Presentational and container components
 Database :
 	- Saving
 	- Loading
+
+Date text input in readonly
+App components (Input, DatePicker...)

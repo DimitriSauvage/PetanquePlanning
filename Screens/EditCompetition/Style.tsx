@@ -6,5 +6,8 @@ export default StyleSheet.create({
   },
   input: {
     marginTop: 3
+  },
+  saveButton: {
+    marginTop: 10
   }
 });

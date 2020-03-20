@@ -1,3 +1,4 @@
+import DateTimePicker from "@react-native-community/datetimepicker";
 import _ from "lodash";
 import { Form, Input, Item, Toast } from "native-base";
 import React, { FunctionComponent, useState } from "react";
@@ -9,6 +10,7 @@ import Competition from "../../Models/Competition";
 import saveCompetitionAction from "../../Store/Actions/Creators/competition.action";
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
+import moment from "moment";
 
 interface EditCompetitionProps {
   route: any;
@@ -30,6 +32,14 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
       ? route.params.competition
       : new Competition()) as Competition
   );
+  /**
+   * Display or not the date picker
+   */
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  /**
+   * Display or not the time picker
+   */
+  const [showTimePicker, setShowTimePicker] = useState(false);
   //#endregion
 
   //#region Methods
@@ -42,12 +52,32 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
   };
 
   /**
+   * Update the dateof the competition
+   * @param dateTime Date
+   */
+  const updateDate = (date: Date) => {
+    //Update competition
+    updateField("date", date);
+    setShowDatePicker(false);
+  };
+
+  /**
+   * Update the hour of the competition
+   * @param hour Date
+   */
+  const updateHour = (hour: Date) => {
+    //Update competition
+    updateField("hour", hour);
+    setShowTimePicker(false);
+  };
+
+  /**
    * Update a field of the competition object
    * @param field Field to update
    * @param value Value to set
    */
   const updateField = (field: string, value: any) => {
-    const newCompetition = {
+    const newCompetition: Competition = {
       ...competition
     };
     newCompetition[_.camelCase(field)] = value;
@@ -79,7 +109,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
       {/**Competition name */}
       <Item>
         <Input
-          autoFocus={false}
+          autoFocus={!competition?.name || competition?.name === ""}
           placeholder="Nom du concours"
           onChangeText={value => updateField("name", value)}
         ></Input>
@@ -102,29 +132,50 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
       </Item>
       {/**Competition date*/}
       <Item>
-        {/* <DateTimePicker
-          mode="date"
-          minimumDate={new Date()}
-          value={competition?.date ? competition.date : new Date()}
-          locale={Localization.locale}
-          onChange={(event, date) => updateField("date", date)}
-        ></DateTimePicker> */}
-
-        {/* <DatePicker
-          animationType="fade"
-          minimumDate={new Date()}
-          locale={Localization.locale}
-          placeHolderText={
-            competition?.date
-              ? competition.date.toLocaleDateString()
-              : "Date de la compétition"
-          }
-          formatChosenDate={moment.localeData().longDateFormat("L")}
-          onDateChange={date => updateField("date", date)}
-        ></DatePicker> */}
+        <Input
+          placeholder="Date"
+          onTouchStart={() => setShowDatePicker(true)}
+          value={competition?.date ? moment(competition.date).format("L") : ""}
+        ></Input>
+        {showDatePicker && (
+          <DateTimePicker
+            mode="date"
+            value={competition?.date ? competition.date : new Date()}
+            display="calendar"
+            onChange={(event, date) => updateDate(date)}
+            minimumDate={new Date()}
+          />
+        )}
       </Item>
+      {/**Competition hout*/}
+      <Item>
+        <Input
+          placeholder="Heure"
+          onTouchStart={() => setShowTimePicker(true)}
+          value={competition?.hour ? moment(competition.hour).format("LT") : ""}
+        ></Input>
+        {showTimePicker && (
+          <DateTimePicker
+            mode="time"
+            value={competition?.hour ? competition.hour : new Date()}
+            display="clock"
+            onChange={(event, date) => updateHour(date)}
+            minimumDate={new Date()}
+          />
+        )}
+      </Item>
+      {/**Competition description */}
+      <Item>
+        <Input
+          placeholder="Decription"
+          multiline={true}
+          numberOfLines={2}
+          onChangeText={value => updateField("description", value)}
+        ></Input>
+      </Item>
+
       {/**Save button */}
-      <View style={{marginTop:10}}>
+      <View style={styles.saveButton}>
         <Button title="Enregistrer" onPress={saveCompetition}></Button>
       </View>
     </Form>
