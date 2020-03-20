@@ -9,8 +9,8 @@ export default class AddressHelper {
   public static featureToAddress = (feature: Feature<Point>) => {
     const address = new Address();
     address.coordinate = {
-      latitude: feature.geometry.coordinates[0],
-      longitude: feature.geometry.coordinates[1]
+      latitude: feature.geometry.coordinates[1],
+      longitude: feature.geometry.coordinates[0]
     };
     address.number = feature.properties.housenumber;
     address.street = feature.properties.street;

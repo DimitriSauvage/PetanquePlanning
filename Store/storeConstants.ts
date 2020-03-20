@@ -1,0 +1,2 @@
+export const SAVE_COMPETITION: string = "SAVE_COMPETITION";
+export const DELETE_COMPETITION: string = "DELETE_COMPETITION";

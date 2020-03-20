@@ -1,20 +1,25 @@
 import _ from "lodash";
-import { Form, Input, Item } from "native-base";
+import { Form, Input, Item, Toast } from "native-base";
 import React, { FunctionComponent, useState } from "react";
+import { Button, View } from "react-native";
+import { connect } from "react-redux";
+import { Action } from "redux";
 import Address from "../../Models/Address";
 import Competition from "../../Models/Competition";
+import saveCompetitionAction from "../../Store/Actions/Creators/competition.action";
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
 
 interface EditCompetitionProps {
   route: any;
   navigation: any;
-  competition?: Competition;
+  dispatch: (action: Action) => void;
 }
 
 const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
   route,
-  navigation
+  navigation,
+  dispatch
 }) => {
   //#region State
   /**
@@ -48,6 +53,25 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
     newCompetition[_.camelCase(field)] = value;
     setCompetition(newCompetition);
   };
+
+  /**
+   * Save the competition
+   */
+  const saveCompetition = () => {
+    try {
+      Toast.show({
+        text: "Compétition sauvegardé",
+        type: "success"
+      });
+      navigation.goBack();
+    } catch (error) {
+      Toast.show({
+        text: "Erreur lors de l'enregistrement",
+        type: "danger"
+      });
+    }
+    dispatch(saveCompetitionAction(competition));
+  };
   //#endregion
 
   return (
@@ -76,7 +100,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
           }}
         ></Input>
       </Item>
-      {/**Competition */}
+      {/**Competition date*/}
       <Item>
         {/* <DateTimePicker
           mode="date"
@@ -99,8 +123,18 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
           onDateChange={date => updateField("date", date)}
         ></DatePicker> */}
       </Item>
+      {/**Save button */}
+      <View style={{marginTop:10}}>
+        <Button title="Enregistrer" onPress={saveCompetition}></Button>
+      </View>
     </Form>
   );
 };
 
-export default EditCompetition;
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch: action => dispatch(action)
+  };
+};
+
+export default connect(null, mapDispatchToProps)(EditCompetition);

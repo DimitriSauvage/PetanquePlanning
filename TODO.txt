@@ -1,0 +1,8 @@
+Map markers
+End of edition window
+Toast --> Review the displaying and create an abstraction for all application
+Repositories --> HOC ?
+Current components --> Presentational and container components
+Database :
+	- Saving
+	- Loading

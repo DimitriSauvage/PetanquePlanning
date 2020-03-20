@@ -8,24 +8,24 @@ const SearchStack = createStackNavigator();
 
 export default () => {
   return (
-    <SearchStack.Navigator initialRouteName={EditCompetition.name}>
+    <SearchStack.Navigator initialRouteName={"EditCompetition"}>
       <SearchStack.Screen
         component={EditCompetition}
-        name={EditCompetition.name}
+        name={"EditCompetition"}
         options={{
           title: "Modification de la compétition"
         }}
       ></SearchStack.Screen>
       <SearchStack.Screen
         component={Search}
-        name={Search.name}
+        name={"Search"}
         options={{
           title: "Rechercher une compétition"
         }}
       ></SearchStack.Screen>
       <SearchStack.Screen
         component={SearchAddress}
-        name={SearchAddress.name}
+        name={"SearchAddress"}
         options={{
           title: "Rechercher une adresse"
         }}

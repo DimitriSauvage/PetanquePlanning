@@ -1,6 +1,7 @@
 import { Marker } from "react-native-maps";
 import Competition from "../Models/Competition";
 import StringHelper from "./StringHelper";
+import React from "react";
 
 export default class MapHelper {
   /**
@@ -16,6 +17,7 @@ export default class MapHelper {
     }
     return (
       <Marker
+        key={competition.id.toString()}
         coordinate={competition.address.coordinate}
         title={competition.name}
         description={description}

@@ -29,7 +29,7 @@ export default () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Carte"
+      initialRouteName="Map"
       tabBarOptions={{
         tabStyle: { justifyContent: "center" },
         activeTintColor: activeTintColor
@@ -37,17 +37,19 @@ export default () => {
     >
       {/**Screens */}
       <Tab.Screen
-        name="Carte"
+        name="Map"
         component={Map}
         options={{
-          tabBarIcon: ({ color }) => getIcon("map", color)
+          tabBarIcon: ({ color }) => getIcon("map", color),
+          title: "Carte"
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="Rechercher"
+        name="SearchStack"
         component={SearchStack}
         options={{
-          tabBarIcon: ({ color }) => getIcon("search", color)
+          tabBarIcon: ({ color }) => getIcon("search", color),
+          title: "Recherche"
         }}
       ></Tab.Screen>
     </Tab.Navigator>

@@ -1,4 +1,5 @@
 import { createStore } from "redux";
-import addMarkerReducer from "./Reducers/addMarkerReducer";
+import reducers from "./Reducers/combineReducers";
+import initialState from "./initialState";
 
-export default createStore(addMarkerReducer);
+export default createStore(reducers);

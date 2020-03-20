@@ -1,13 +1,22 @@
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { Toast } from "native-base";
-import React, { useState, useEffect } from "react";
-import MapView, { Region } from "react-native-maps";
+import React, { useEffect, useState, FunctionComponent } from "react";
+import MapView, { Region, Marker } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { connect } from "react-redux";
 import PermissionsHelper from "../../Helpers/PermissionsHelper";
+import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import styles from "./Style";
+import Competition from "../../Models/Competition";
+import MapHelper from "../../Helpers/MapHelper";
+import StringHelper from "../../Helpers/StringHelper";
 
-const Map = () => {
+interface MapProps {
+  competitions: Competition[];
+}
+
+const Map: FunctionComponent<MapProps> = ({ competitions }) => {
   //#region Fields
   /**
    * Default delta
@@ -74,9 +83,23 @@ const Map = () => {
 
   return (
     <SafeAreaView style={styles.mapContainer}>
-      <MapView style={styles.map} region={mapPosition}></MapView>
+      <MapView style={styles.map} region={mapPosition}>
+        {competitions.map(competition =>
+          MapHelper.competitionToMarker(competition)
+        )}
+      </MapView>
     </SafeAreaView>
   );
 };
 
-export default Map
+/**
+ * Map the global app state to the props
+ * @param state Global app state
+ */
+const mapStateToProps = (state: PetanquePlanningState) => {
+  return {
+    competitions: state.competitions
+  };
+};
+
+export default connect(mapStateToProps)(Map);
