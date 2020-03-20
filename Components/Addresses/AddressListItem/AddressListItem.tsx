@@ -2,34 +2,26 @@ import React, { FunctionComponent } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import Address from "../../../Models/Address";
 import { ListItem } from "native-base";
+import ListItemProps from "../../Props/ListItemProps";
 
 //Props
-interface AddressListItemProps {
-  /**
-   * Address to display
-   */
-  address: Address;
-  /**
-   * Function the item is selected
-   */
-  selectItem?: Function;
-}
+interface AddressListItemProps extends ListItemProps<Address> {}
 
 //Components
 const AddressListItem: FunctionComponent<AddressListItemProps> = ({
-  address,
-  selectItem
+  element,
+  onSelect
 }) => {
   return (
-    address && (
+    element && (
       <ListItem
-        key={address.id.toString()}
-        onPress={event => {
-          if (selectItem) selectItem(address);
+        key={element.id.toString()}
+        onPress={_ => {
+          if (onSelect) onSelect(element);
         }}
       >
         <Text numberOfLines={1} ellipsizeMode="clip">
-          {address.getFullAddress()}
+          {element.getFullAddress()}
         </Text>
       </ListItem>
     )

@@ -9,3 +9,4 @@ Database :
 
 Date text input in readonly
 App components (Input, DatePicker...)
+List components ==> How to reuse code

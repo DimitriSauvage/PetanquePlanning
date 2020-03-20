@@ -1,9 +1,8 @@
+import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Map from "../../Screens/Map/Map";
-import SearchStack from "../Stack/SearchStack";
-import { Text } from "native-base";
-import { FontAwesome } from "@expo/vector-icons";
+import CompetitionsStack from "../Stack/CompetitionsStack";
 
 export default () => {
   //#region Fields
@@ -45,11 +44,11 @@ export default () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="SearchStack"
-        component={SearchStack}
+        name="CompetitionsStack"
+        component={CompetitionsStack}
         options={{
-          tabBarIcon: ({ color }) => getIcon("search", color),
-          title: "Recherche"
+          tabBarIcon: ({ color }) => getIcon("list", color),
+          title: "Liste"
         }}
       ></Tab.Screen>
     </Tab.Navigator>

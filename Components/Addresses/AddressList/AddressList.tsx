@@ -4,22 +4,14 @@ import Address from "../../../Models/Address";
 import AddressListItem from "../AddressListItem/AddressListItem";
 import styles from "./Style";
 import { List } from "native-base";
+import ListProps from "../../Props/ListProps";
 
 //Props
-interface AddressListProps {
-  /**
-   * Addresses to display
-   */
-  addresses: Address[];
-  /**
-   * Function to apply when an item is selected
-   */
-  onSelect?: Function;
-}
+interface AddressListProps extends ListProps<Address> {}
 
 //Components
 const AddressList: FunctionComponent<AddressListProps> = ({
-  addresses,
+  elements,
   onSelect
 }) => {
   const selectItem = address => {
@@ -27,27 +19,16 @@ const AddressList: FunctionComponent<AddressListProps> = ({
   };
 
   return (
-    addresses?.length > 0 && (
+    elements?.length > 0 && (
       <List>
-        {addresses.map(address => (
+        {elements.map(address => (
           <AddressListItem
             key={address.id.toString()}
-            address={address}
-            selectItem={selectItem}
+            element={address}
+            onSelect={address => (onSelect ? onSelect(address) : undefined)}
           ></AddressListItem>
         ))}
       </List>
-      // <FlatList
-      //   style={styles.list}
-      //   data={addresses}
-      //   renderItem={address => (
-      //     <AddressListItem
-      //       address={address.item}
-      //       selectItem={selectItem}
-      //       key={address.item.id.toString()}
-      //     ></AddressListItem>
-      //   )}
-      // ></FlatList>
     )
   );
 };
