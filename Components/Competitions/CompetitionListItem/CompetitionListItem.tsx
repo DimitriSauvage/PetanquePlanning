@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import Competition from "../../../Models/Competition";
 import ListItemProps from "../../Props/ListItemProps";
 import styles from "./Style";
-import * as _ from "lodash";
+import _ from "lodash";
 import { Text } from "react-native";
 
 //Props

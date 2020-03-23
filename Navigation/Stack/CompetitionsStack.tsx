@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import Competitions from "../../Screens/Competitions/Competitions";
 import EditCompetition from "../../Screens/EditCompetition/EditCompetition";
 import SearchAddress from "../../Screens/SearchAddress/SearchAddress";
+import Competitions from "../../Screens/Competitions/Competitions";
 
 const CompetitionStack = createStackNavigator();
 
