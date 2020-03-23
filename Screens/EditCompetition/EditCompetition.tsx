@@ -11,6 +11,7 @@ import saveCompetitionAction from "../../Store/Actions/Creators/competition.acti
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
 import moment from "moment";
+import DateHelper from "../../Helpers/DateHelper";
 
 interface EditCompetitionProps {
   route: any;
@@ -102,6 +103,15 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
     }
     dispatch(saveCompetitionAction(competition));
   };
+
+  /**
+   * Get the default date time to display
+   */
+  const getDefaultDateTime = () => {
+    const date = DateHelper.getNextDateOfDay(6);
+    date.setHours(14, 0, 0);
+    return date;
+  };
   //#endregion
 
   return (
@@ -140,14 +150,14 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         {showDatePicker && (
           <DateTimePicker
             mode="date"
-            value={competition?.date ? competition.date : new Date()}
+            value={competition?.date ? competition.date : getDefaultDateTime()}
             display="calendar"
             onChange={(event, date) => updateDate(date)}
             minimumDate={new Date()}
           />
         )}
       </Item>
-      {/**Competition hout*/}
+      {/**Competition hour*/}
       <Item>
         <Input
           placeholder="Heure"
@@ -157,7 +167,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         {showTimePicker && (
           <DateTimePicker
             mode="time"
-            value={competition?.hour ? competition.hour : new Date()}
+            value={competition?.hour ? competition.hour : getDefaultDateTime()}
             display="clock"
             onChange={(event, date) => updateHour(date)}
             minimumDate={new Date()}

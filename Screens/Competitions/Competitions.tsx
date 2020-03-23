@@ -1,12 +1,12 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { Fab } from "native-base";
+import { Button, Fab, Icon } from "native-base";
 import React, { FunctionComponent } from "react";
+import { Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
-import { View } from "react-native";
+import styles from "./Style";
 
 interface CompetitionsProps {
   competitions: Competition[];
@@ -17,6 +17,19 @@ const Competitions: FunctionComponent<CompetitionsProps> = ({
   navigation,
   competitions
 }) => {
+  //#region Add button in header bar for ios
+  if (Platform.OS === "ios") {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <Button transparent>
+            <Icon name="plus" type="Entypo" />
+          </Button>
+        )
+      });
+    }, []);
+  }
+
   //#region Methods
   /**
    * Open the competition edition
@@ -36,22 +49,21 @@ const Competitions: FunctionComponent<CompetitionsProps> = ({
   //#endregion
 
   return (
-    <SafeAreaView>
-        {/* <Fab
-          position="bottomLeft"
-          style={{ backgroundColor: "red" }}
-          onPress={() => editCompetition()}
-          containerStyle={{}}
-        >
-          <FontAwesome name="plus"></FontAwesome>
-        </Fab> */}
-
+    <SafeAreaView style={styles.container}>
       <CompetitionList
         elements={competitions}
         onSelect={onSelect}
       ></CompetitionList>
-
-      {/**Button to add a competition */}
+      {/**Button to add a competition for android */}
+      {Platform.OS === "android" && (
+        <Fab
+          style={{ backgroundColor: "red" }}
+          onPress={() => editCompetition()}
+          containerStyle={{}}
+        >
+          <Icon name="plus" type="FontAwesome5" />
+        </Fab>
+      )}
     </SafeAreaView>
   );
 };

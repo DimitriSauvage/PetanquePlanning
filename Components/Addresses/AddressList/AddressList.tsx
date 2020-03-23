@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 import Address from "../../../Models/Address";
 import AddressListItem from "../AddressListItem/AddressListItem";
 import styles from "./Style";
-import { List } from "native-base";
+import { List, Toast } from "native-base";
 import ListProps from "../../Props/ListProps";
 
 //Props
@@ -14,10 +14,6 @@ const AddressList: FunctionComponent<AddressListProps> = ({
   elements,
   onSelect
 }) => {
-  const selectItem = address => {
-    if (onSelect) onSelect(address);
-  };
-
   return (
     elements?.length > 0 && (
       <List>

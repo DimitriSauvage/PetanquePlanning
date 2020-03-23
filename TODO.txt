@@ -7,6 +7,6 @@ Database :
 	- Saving
 	- Loading
 
-Date text input in readonly
+Date text input in readonly --> Plus bug
 App components (Input, DatePicker...)
 List components ==> How to reuse code

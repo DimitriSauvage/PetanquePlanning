@@ -54,7 +54,7 @@ const SearchAddress: FunctionComponent<SearchAddressProps> = ({
   return (
     <View style={styles.container}>
       {/**Search input */}
-      <Form style={{ backgroundColor: "#D0D0D0" }}>
+      <Form style={styles.formContainer}>
         <Item>
           <Input
             autoFocus={true}
@@ -69,7 +69,7 @@ const SearchAddress: FunctionComponent<SearchAddressProps> = ({
         {!searching && addresses && addresses?.length > 0 && (
           <View>
             <AddressList
-              addresses={addresses}
+              elements={addresses}
               onSelect={(address: Address) => {
                 //Call the function before go back
                 if (route?.params?.onGoBack) route?.params?.onGoBack(address);

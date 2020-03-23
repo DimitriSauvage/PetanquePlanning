@@ -23,7 +23,9 @@ export default () => {
         component={EditCompetition}
         name={"EditCompetition"}
         options={({ route }) => ({
-          title: route.params['competition'] ? route.params['competition'].name : "Ajout d'une compétition"
+          title: route.params["competition"]
+            ? route.params["competition"].name
+            : "Ajout d'une compétition"
         })}
       ></CompetitionStack.Screen>
 

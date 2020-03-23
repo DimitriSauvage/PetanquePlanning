@@ -39,8 +39,6 @@ class AddressRepository extends Repository {
         this.baseSearchURL}?q=${searchedValue}&limit=${resultsLimit}`
     );
 
-    Toast.show({ text: "Result : " + JSON.stringify(result) });
-
     //Transform feature to address
     if (response.status == HttpStatus.OK) {
       result = response.data.features

@@ -9,5 +9,8 @@ export default StyleSheet.create({
   },
   loader: {
     flex: 1
+  },
+  formContainer: {
+    backgroundColor: "#D0D0D0"
   }
 });
