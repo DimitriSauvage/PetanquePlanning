@@ -37,5 +37,6 @@ export default class Competition {
   constructor(id?: Guid) {
     this.id = id ? id : Guid.create();
   }
+
   //#endregion
 }
