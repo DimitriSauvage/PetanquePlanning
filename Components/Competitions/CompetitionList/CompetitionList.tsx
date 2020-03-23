@@ -1,5 +1,6 @@
 import { List } from "native-base";
 import React, { FunctionComponent } from "react";
+import { ViewProps } from "react-native";
 import { connect } from "react-redux";
 import Competition from "../../../Models/Competition";
 import PetanquePlanningState from "../../../Models/PetanquePlanningState";
@@ -7,17 +8,13 @@ import ListProps from "../../Props/ListProps";
 import CompetitionListItem from "../CompetitionListItem/CompetitionListItem";
 
 //Props
-interface CompetitionListProps extends ListProps<Competition> {}
+interface CompetitionListProps extends ListProps<Competition>, ViewProps {}
 
 //Components
 const AddressList: FunctionComponent<CompetitionListProps> = ({
   elements,
   onSelect
 }) => {
-  const selectItem = address => {
-    if (onSelect) onSelect(address);
-  };
-
   return (
     elements?.length > 0 && (
       <List>

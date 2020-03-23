@@ -1,21 +1,20 @@
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { Toast } from "native-base";
-import React, { useEffect, useState, FunctionComponent } from "react";
-import CalendarView, { Region, Marker } from "react-native-maps";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import MapView, { Region } from "react-native-maps";
 import { connect } from "react-redux";
+import MapHelper from "../../Helpers/MapHelper";
 import PermissionsHelper from "../../Helpers/PermissionsHelper";
+import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import styles from "./Style";
-import Competition from "../../Models/Competition";
-import StringHelper from "../../Helpers/StringHelper";
 
-interface CalendarProps {
+interface MapProps {
   competitions: Competition[];
 }
 
-const Calendar: FunctionComponent<CalendarProps> = ({ competitions }) => {
+const Map: FunctionComponent<MapProps> = ({ competitions }) => {
   //#region Fields
   /**
    * Default delta
@@ -34,9 +33,9 @@ const Calendar: FunctionComponent<CalendarProps> = ({ competitions }) => {
 
   //#region State
   /**
-   * Calendar position
+   * Map position
    */
-  const [mapPosition, setCalendarPosition] = useState(initialPosition);
+  const [mapPosition, setMapPosition] = useState(initialPosition);
   //#endregion
 
   //#region Get current position
@@ -62,7 +61,7 @@ const Calendar: FunctionComponent<CalendarProps> = ({ competitions }) => {
               latitudeDelta: defaultDelta,
               longitudeDelta: defaultDelta
             };
-            setCalendarPosition(position);
+            setMapPosition(position);
           }
         } catch (error) {
           Toast.show({
@@ -81,16 +80,16 @@ const Calendar: FunctionComponent<CalendarProps> = ({ competitions }) => {
   //#endregion
 
   return (
-    <CalendarView style={styles.map} region={mapPosition}>
+    <MapView style={styles.map} region={mapPosition}>
       {competitions.map(competition =>
-        CalendarHelper.competitionToMarker(competition)
+        MapHelper.competitionToMarker(competition)
       )}
-    </CalendarView>
+    </MapView>
   );
 };
 
 /**
- * Calendar the global app state to the props
+ * Map the global app state to the props
  * @param state Global app state
  */
 const mapStateToProps = (state: PetanquePlanningState) => {
@@ -99,4 +98,4 @@ const mapStateToProps = (state: PetanquePlanningState) => {
   };
 };
 
-export default connect(mapStateToProps)(Calendar);
+export default connect(mapStateToProps)(Map);
