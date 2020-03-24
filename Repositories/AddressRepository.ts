@@ -3,7 +3,6 @@ import * as HttpStatus from "http-status-codes";
 import AddressHelper from "../Helpers/AddressHelper";
 import Address from "../Models/Address";
 import Repository from "./Repository";
-import { Toast } from "native-base";
 
 /**
  * Address repository
