@@ -1,11 +1,15 @@
-Create list of competition --> With filters
 Create a calendar
+Create good models (Club, profiles...)
+Add fields in competition (Doublette, organizer)
+Add filters to search competitions
 Toast --> Review the displaying and create an abstraction for all application
 Repositories --> HOC ?
 Current components --> Presentational and container components
 Database :
 	- Saving
 	- Loading
+
+Mettre props plutot que le nom de chaque props utilisé dans les parametres des finctions composants (A revoir)
 
 Date text input in readonly --> Plus bug
 App components (Input, DatePicker...)

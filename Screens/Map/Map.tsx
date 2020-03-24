@@ -11,10 +11,9 @@ import styles from "./Style";
 import Competition from "../../Models/Competition";
 import MapHelper from "../../Helpers/MapHelper";
 import StringHelper from "../../Helpers/StringHelper";
+import CompetitionsProps from "../../Shared/Props/Competitions.props";
 
-interface MapProps {
-  competitions: Competition[];
-}
+interface MapProps extends CompetitionsProps {}
 
 const Map: FunctionComponent<MapProps> = ({ competitions }) => {
   //#region Fields
@@ -82,11 +81,11 @@ const Map: FunctionComponent<MapProps> = ({ competitions }) => {
   //#endregion
 
   return (
-      <MapView style={styles.map} region={mapPosition}>
-        {competitions.map(competition =>
-          MapHelper.competitionToMarker(competition)
-        )}
-      </MapView>
+    <MapView style={styles.map} region={mapPosition}>
+      {competitions.map(competition =>
+        MapHelper.competitionToMarker(competition)
+      )}
+    </MapView>
   );
 };
 

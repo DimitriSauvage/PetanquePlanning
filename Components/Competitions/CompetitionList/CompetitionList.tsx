@@ -1,6 +1,6 @@
 import { List } from "native-base";
 import React, { FunctionComponent } from "react";
-import { ViewProps } from "react-native";
+import { ViewProps, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import Competition from "../../../Models/Competition";
 import PetanquePlanningState from "../../../Models/PetanquePlanningState";
@@ -17,17 +17,19 @@ const AddressList: FunctionComponent<CompetitionListProps> = ({
 }) => {
   return (
     elements?.length > 0 && (
-      <List>
-        {elements.map(competition => (
-          <CompetitionListItem
-            key={competition.id.toString()}
-            element={competition}
-            onSelect={competition =>
-              onSelect ? onSelect(competition) : undefined
-            }
-          ></CompetitionListItem>
-        ))}
-      </List>
+      <ScrollView>
+        <List>
+          {elements.map(competition => (
+            <CompetitionListItem
+              key={competition.id.toString()}
+              element={competition}
+              onSelect={competition =>
+                onSelect ? onSelect(competition) : undefined
+              }
+            ></CompetitionListItem>
+          ))}
+        </List>
+      </ScrollView>
     )
   );
 };

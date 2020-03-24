@@ -3,12 +3,21 @@ import React from "react";
 import EditCompetition from "../../Screens/EditCompetition/EditCompetition";
 import SearchAddress from "../../Screens/SearchAddress/SearchAddress";
 import Competitions from "../../Screens/Competitions/Competitions";
+import CompetitionsCalendar from "../../Screens/CompetitionsCalendar/CompetitionsCalendar";
 
 const CompetitionStack = createStackNavigator();
 
 export default () => {
   return (
-    <CompetitionStack.Navigator initialRouteName={"Competitions"}>
+    <CompetitionStack.Navigator initialRouteName={"CompetionsCalendar"}>
+      <CompetitionStack.Screen
+        component={CompetitionsCalendar}
+        name="CompetionsCalendar"
+        options={{
+          title: "Calendrier des compétitions"
+        }}
+      ></CompetitionStack.Screen>
+
       {/**Competition list */}
       <CompetitionStack.Screen
         component={Competitions}

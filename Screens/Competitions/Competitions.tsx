@@ -7,13 +7,13 @@ import CompetitionList from "../../Components/Competitions/CompetitionList/Compe
 import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import styles from "./Style";
+import CompetitionsProps from "../../Shared/Props/Competitions.props";
 
-interface CompetitionsProps {
-  competitions: Competition[];
+interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;
 }
 
-const Competitions: FunctionComponent<CompetitionsProps> = ({
+const Competitions: FunctionComponent<CompetitionsScreenProps> = ({
   navigation,
   competitions
 }) => {
