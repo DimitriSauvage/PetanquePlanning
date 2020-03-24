@@ -43,9 +43,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
       ></CompetitionsAgenda>
 
       {/**Display list of competitions */}
-      <ScrollView>
         <CompetitionList elements={displayedCompetitions}></CompetitionList>
-      </ScrollView>
     </View>
   );
 };

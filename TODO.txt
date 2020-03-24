@@ -1,4 +1,3 @@
-Create a calendar
 Create good models (Club, profiles...)
 Add fields in competition (Doublette, organizer)
 Add filters to search competitions
