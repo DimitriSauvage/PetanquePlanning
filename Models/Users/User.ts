@@ -1,5 +1,6 @@
 import Club from "../Club";
 import Entity from "../Entity";
+import Profile from "./Profile";
 
 export default class User extends Entity {
   //#region Fields
@@ -39,11 +40,21 @@ export default class User extends Entity {
    * Club of the user
    */
   private _club: Club;
+  /**
+   * Club identifier
+   */
+  private _clubId: string;
 
   //#endregion
 
   //#region Getters and setters
 
+  public get clubId(): string {
+    return this._clubId;
+  }
+  public set clubId(v: string) {
+    this._clubId = v;
+  }
   public get email(): string {
     return this._email;
   }

@@ -1,21 +1,35 @@
 import { Icon } from "native-base";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Platform, ViewProps } from "react-native";
 import {
   CalendarList,
-  LocaleConfig,
-  DateCallbackHandler
+  DateObject,
+  MultiDotMarking
 } from "react-native-calendars";
-import CompetitionsProps from "../../../Shared/Props/Competitions.props";
 import CalendarHelper from "../../../Helpers/CalendarHelper";
+import CompetitionsProps from "../../../Shared/Props/Competitions.props";
+import DateHelper from "../../../Helpers/DateHelper";
 
 //Props
 interface CompetitionsAgendaProps extends CompetitionsProps, ViewProps {
-  onDayPress: DateCallbackHandler;
+  onDayPress: Function;
 }
 
 //Components
 const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => {
+  //#region State
+  const [markedDates, setMarkedDates] = useState(
+    CalendarHelper.getMultiDotsMarkedDatesFromCompetitions(
+      props.competitions,
+      new Date()
+    )
+  );
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  //#endregion
+
+  //#region Fields
+  //#endregion
+
   //#region Methods
   /**
    * Get arrow icon
@@ -25,6 +39,45 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
     const type = Platform.OS === "android" ? "MaterialIcons" : "Entypo";
     const name = direction === "left" ? "chevron-left" : "chevron-right";
     return <Icon type={type} name={name} />;
+  };
+  /**
+   * Call when a date is selected
+   * @param dateObject Selected date
+   */
+  const onDaySelected = (dateObject: DateObject) => {
+    const newSelectedDate = new Date(dateObject.timestamp);
+    if (!DateHelper.areDatesEquals(selectedDate, newSelectedDate)) {
+      //Copy the dates because the object must be immutable
+      const newMarkedDates = CalendarHelper.cloneMultiDotsMarkers(markedDates);
+      const previousSelectedDateString = CalendarHelper.getStringDate(
+        selectedDate
+      );
+
+      //Remove the selection of the previous selected date
+      if (selectedDate && newMarkedDates[previousSelectedDateString]) {
+        newMarkedDates[previousSelectedDateString].selected = false;
+      }
+
+      //Keep the new selected date
+      setSelectedDate(newSelectedDate);
+
+      //Set the new selectd date in the calendar
+      if (!newMarkedDates[dateObject.dateString]) {
+        newMarkedDates[dateObject.dateString] = {
+          dots: [],
+          disabled: false,
+          selected: true
+        } as MultiDotMarking;
+      } else {
+        newMarkedDates[dateObject.dateString].selected = true;
+      }
+      setMarkedDates(newMarkedDates);
+
+      //Call parent method
+      if (props.onDayPress) {
+        props.onDayPress(newSelectedDate);
+      }
+    }
   };
   //#endregion
 
@@ -36,18 +89,17 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
       pagingEnabled={true} //Enable paging to do not stop with a view between two months
       showScrollIndicator={false} //Hide scroll indicator
       firstDay={1} //Week start with monday
-      current={new Date()} //Current date
+      current={selectedDate} //Current date
       hideDayNames={false} //Display day names
       hideArrows={false} //Display arrows to navigate betweens months
       hideExtraDays={false} //Display the previous and next days in grey
       minDate={new Date()} //Min date selectable
       renderArrow={getArrowIcon} // Get the arrow to display
       markingType="multi-dot"
-      markedDates={CalendarHelper.getMultiDotsMarkedDatesFromCompetitions(
-        props.competitions
-      )}
+      markedDates={markedDates}
       theme={{ selectedDayBackgroundColor: "red" }}
-      onDayPress={props.onDayPress ? props.onDayPress : undefined}
+      onDayPress={onDaySelected}
+      selected={CalendarHelper.getStringDate(new Date())}
     ></CalendarList>
   );
 };

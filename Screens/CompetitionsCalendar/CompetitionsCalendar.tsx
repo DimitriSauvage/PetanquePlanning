@@ -23,12 +23,11 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
   //#region Methods
   /**
    * Handle the day press event displaying selected day competitions
-   * @param day Selected day
+   * @param selectedDate Selected date
    */
-  const onDayPress: DateCallbackHandler = (dateObject: DateObject) => {
-    const date = new Date(dateObject.timestamp);
+  const onDaySelected = (selectedDate: Date) => {
     const compets = props.competitions.filter(compet =>
-      DateHelper.areDatesEquals(date, compet.date)
+      DateHelper.areDatesEquals(selectedDate, compet.date)
     );
     setDisplayedCompetitions(compets);
   };
@@ -39,11 +38,11 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
 
       <CompetitionsAgenda
         competitions={props.competitions}
-        onDayPress={onDayPress}
+        onDayPress={onDaySelected}
       ></CompetitionsAgenda>
 
       {/**Display list of competitions */}
-        <CompetitionList elements={displayedCompetitions}></CompetitionList>
+      <CompetitionList elements={displayedCompetitions}></CompetitionList>
     </View>
   );
 };

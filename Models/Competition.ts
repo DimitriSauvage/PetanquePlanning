@@ -44,10 +44,20 @@ export default class Competition extends Entity {
    * Organizer
    */
   private _organizer: Club;
+  /**
+   * Competition organizer identifier
+   */
+  private _organizerId: string;
 
   //#endregion
 
   //#region Getters and setters
+  public get organizerId(): string {
+    return this._organizerId;
+  }
+  public set organizerId(v: string) {
+    this._organizerId = v;
+  }
   public get organizer(): Club {
     return this._organizer;
   }

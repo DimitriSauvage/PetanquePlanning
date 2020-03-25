@@ -1,5 +1,4 @@
-Create good models (Club, profiles...)
-Add fields in competition (Doublette, organizer)
+
 Add filters to search competitions
 Toast --> Review the displaying and create an abstraction for all application
 Repositories --> HOC ?

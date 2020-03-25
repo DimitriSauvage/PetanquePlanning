@@ -1,7 +1,15 @@
 import moment from "moment";
-import { LocaleConfig, MultiDotMarking } from "react-native-calendars";
+import {
+  LocaleConfig,
+  MultiDotMarking,
+  Calendar
+} from "react-native-calendars";
 import Competition from "../Models/Competition";
 import ColorHelper from "./ColorHelper";
+import DateHelper from "./DateHelper";
+
+//Declared here to simplify the usage
+export type MultiDotMarkingType = { [date: string]: MultiDotMarking };
 
 export default class CalendarHelper {
   //#region Fields
@@ -62,23 +70,22 @@ export default class CalendarHelper {
    * Get the marked dates from competitions
    */
   public static getMultiDotsMarkedDatesFromCompetitions = (
-    competitions: Competition[]
+    competitions: Competition[],
+    selectedDate?: Date
   ) => {
     //Final result
-    const result: { [date: string]: MultiDotMarking } = {};
+    const result: MultiDotMarkingType = {};
 
     competitions.forEach(compet => {
       //Date to a string format
-      const dateString = moment(compet.date).format(
-        CalendarHelper.calendarDateFormat
-      );
+      const dateString = CalendarHelper.getStringDate(compet.date);
 
       //Add the date if not present
       if (!result[dateString]) {
         result[dateString] = {
           disabled: false,
           dots: [],
-          selected: false
+          selected: DateHelper.areDatesEquals(compet.date, selectedDate)
         };
       }
 
@@ -89,6 +96,31 @@ export default class CalendarHelper {
       });
     });
 
+    //If the selected date has no competition, it is not present in the result
+    //Add it to select it
+    const selectedDateString = CalendarHelper.getStringDate(selectedDate);
+    if (selectedDate && !result[selectedDateString]) {
+      result[selectedDateString] = {
+        disabled: false,
+        dots: [],
+        selected: true
+      };
+    }
+
     return result;
   };
+
+  /**
+   * Get date in string format with the calendar format
+   */
+  public static getStringDate = (date: Date) =>
+    moment(date).format(CalendarHelper.calendarDateFormat);
+
+  /**
+   * Clone a multidot markers object
+   */
+  public static cloneMultiDotsMarkers = (
+    markers: MultiDotMarkingType
+  ): MultiDotMarkingType =>
+    JSON.parse(JSON.stringify(markers)) as MultiDotMarkingType;
 }

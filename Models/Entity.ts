@@ -1,9 +1,10 @@
+import { Guid } from "guid-typescript";
 export default abstract class Entity {
   //#region Fields
   /**
    * Identifier
    */
-  private _id: string;
+  private _id: string = Guid.create().toString();
 
   //#endregion
 

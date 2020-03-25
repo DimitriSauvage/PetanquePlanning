@@ -28,27 +28,27 @@ export default () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Map"
+      initialRouteName="CompetitionsStack"
       tabBarOptions={{
         tabStyle: { justifyContent: "center" },
         activeTintColor: activeTintColor
       }}
     >
       {/**Screens */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Map"
         component={Map}
         options={{
           tabBarIcon: ({ color }) => getIcon("map", color),
           title: "Carte"
         }}
-      ></Tab.Screen>
+      ></Tab.Screen> */}
       <Tab.Screen
         name="CompetitionsStack"
         component={CompetitionsStack}
         options={{
-          tabBarIcon: ({ color }) => getIcon("list", color),
-          title: "Liste"
+          tabBarIcon: ({ color }) => getIcon("calendar", color),
+          title: "Calendrier"
         }}
       ></Tab.Screen>
     </Tab.Navigator>
