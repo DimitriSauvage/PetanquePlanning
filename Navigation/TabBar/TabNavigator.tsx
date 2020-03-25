@@ -1,8 +1,9 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import Map from "../../Screens/Map/Map";
+import Map from "../../Screens/MapScreen/MapScreen";
 import CompetitionsStack from "../Stack/CompetitionsStack";
+import MapScreen from "../../Screens/MapScreen/MapScreen";
 
 export default () => {
   //#region Fields
@@ -35,14 +36,14 @@ export default () => {
       }}
     >
       {/**Screens */}
-      {/* <Tab.Screen
-        name="Map"
-        component={Map}
+      <Tab.Screen
+        name="MapScreen"
+        component={MapScreen}
         options={{
           tabBarIcon: ({ color }) => getIcon("map", color),
           title: "Carte"
         }}
-      ></Tab.Screen> */}
+      ></Tab.Screen>
       <Tab.Screen
         name="CompetitionsStack"
         component={CompetitionsStack}

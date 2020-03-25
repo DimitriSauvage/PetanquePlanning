@@ -1,23 +1,26 @@
 import { View } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
+import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import CompetitionsAgenda from "../../Components/Competitions/CompetitionsAgenda/CompetitionsAgenda";
+import DateHelper from "../../Helpers/DateHelper";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
-import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
-import moment from "moment";
-import { DateCallbackHandler, DateObject } from "react-native-calendars";
-import DateHelper from "../../Helpers/DateHelper";
-import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
-interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
+interface CompetitionsCalendarScreenProps extends CompetitionsProps {
+}
 
 const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> = props => {
   //#region State
   const [displayedCompetitions, setDisplayedCompetitions] = useState(
     props.competitions
   );
+  //#endregion
+
+  //#region Fields
+  const navigator = useNavigation();
   //#endregion
 
   //#region Methods
@@ -31,6 +34,14 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
     );
     setDisplayedCompetitions(compets);
   };
+
+  /**
+   * Call when a competition is selected
+   * @param competition Display the competition edition
+   */
+  const onCompetitionSelected = competition => {
+    navigator.navigate("EditCompetition", { competition: competition });
+  };
   //#endregion
   return (
     <View style={styles.container}>
@@ -42,7 +53,10 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
       ></CompetitionsAgenda>
 
       {/**Display list of competitions */}
-      <CompetitionList elements={displayedCompetitions}></CompetitionList>
+      <CompetitionList
+        elements={displayedCompetitions}
+        onSelect={onCompetitionSelected}
+      ></CompetitionList>
     </View>
   );
 };
