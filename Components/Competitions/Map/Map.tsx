@@ -2,7 +2,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { Toast } from "native-base";
 import React, { useEffect, useState, FunctionComponent } from "react";
-import MapView, { Region, Marker } from "react-native-maps";
+import MapView, { Region, Marker, LatLng } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import styles from "./Style";
@@ -31,6 +31,7 @@ const Map: FunctionComponent<MapProps> = props => {
   };
   //#endregion
 
+
   return (
     <MapView
       style={styles.map}
@@ -40,6 +41,7 @@ const Map: FunctionComponent<MapProps> = props => {
         props.competitions.map(competition =>
           MapHelper.competitionToMarker(competition)
         )}
+
     </MapView>
   );
 };
