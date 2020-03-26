@@ -91,7 +91,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
   const saveCompetition = () => {
     try {
       Toast.show({
-        text: "Compétition sauvegardé",
+        text: "Concours sauvegardé",
         type: "success"
       });
       navigation.goBack();

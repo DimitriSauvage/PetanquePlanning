@@ -1,15 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, Toast, View, Card, CardItem } from "native-base";
+import moment from "moment";
+import { Card, CardItem, Toast, View } from "native-base";
 import React, { FunctionComponent } from "react";
 import Map from "../../Components/Competitions/Map/Map";
-import TooltipButton from "../../Components/Shared/TooltipButton/TooltipButton";
-import Competition from "../../Models/Competition";
-import styles from "./Style";
-import CompetitionGender from "../../Models/Enums/CompetitionGender";
-import moment from "moment";
 import LabeledValue from "../../Components/Shared/LabeledValue/LabeledValue";
-import GlobalStyles from "../../Styles";
+import TooltipButton from "../../Components/Shared/TooltipButton/TooltipButton";
 import Club from "../../Models/Club";
+import Competition from "../../Models/Competition";
+import CompetitionGender from "../../Models/Enums/CompetitionGender";
+import GlobalStyles from "../../Styles";
+import styles from "./Style";
 
 interface CompetitionDetailsScreenProps {
   competition: Competition;
@@ -41,11 +41,11 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
   //#endregion
 
   competition.organizer = new Club();
-  competition.organizer.name = "Sporting pétanque club Bouillé-Bel-Air"
-  competition.organizer.shortName = "SPCBB"
+  competition.organizer.name = "Sporting pétanque club Bouillé-Bel-Air";
+  competition.organizer.shortName = "SPCBB";
   if (!competition) {
     Toast.show({
-      text: "Erreur lors de la récupération de la compétition",
+      text: "Erreur lors de la récupération du concours ",
       type: "danger"
     });
     navigation.goBack();
@@ -60,14 +60,14 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
             <TooltipButton
               buttonText={competition.competitionSport}
               buttonColor="primary"
-              tooltipText="Sport de la compétition (Pétanque ou jeu provençal)"
+              tooltipText="Sport du concours (Pétanque ou jeu provençal)"
               tooltipPlacement="bottom"
             ></TooltipButton>
             {/**Type */}
             <TooltipButton
               buttonText={competition.competitionType}
               buttonColor="success"
-              tooltipText="Type de la compétition (Tête à tête, Doublette, Triplette, Tir de précision)"
+              tooltipText="Type du concours (Tête à tête, Doublette, Triplette, Tir de précision)"
               tooltipPlacement="bottom"
             ></TooltipButton>
             {/**Gender */}
@@ -111,7 +111,10 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
             {competition.organizer && (
               <Card>
                 <CardItem>
-                  <LabeledValue label="Organisateur" value={competition.organizer.shortName}></LabeledValue>
+                  <LabeledValue
+                    label="Organisateur"
+                    value={competition.organizer.shortName}
+                  ></LabeledValue>
                 </CardItem>
               </Card>
             )}
@@ -132,7 +135,10 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
 
             <Card>
               <CardItem>
-              <LabeledValue label="Adresse" value={competition.address.getFullAddress()}></LabeledValue>
+                <LabeledValue
+                  label="Adresse"
+                  value={competition.address.getFullAddress()}
+                ></LabeledValue>
               </CardItem>
             </Card>
           </View>

@@ -35,8 +35,6 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * @param selectedDate Selected date
    */
   const onDaySelected = (selectedDate: Date) => {
-    const competitions = getCompetitions(selectedDate);
-    const competitions2 = getCompetitions(selectedDate);
     setDisplayedCompetitions(getCompetitions(selectedDate));
   };
 
@@ -58,7 +56,6 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
   return (
     <View style={styles.container}>
       {/**Display a calendar */}
-
       <CompetitionsAgenda
         competitions={props.competitions}
         onDayPress={onDaySelected}
@@ -76,7 +73,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
       {(!displayedCompetitions || displayedCompetitions.length === 0) && (
         <View style={styles.noCompetitions}>
           <Text style={styles.informationMessage}>
-            Aucune compétition pour cette date.
+            Aucun concours pour cette date.
           </Text>
         </View>
       )}

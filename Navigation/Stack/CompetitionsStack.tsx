@@ -16,7 +16,7 @@ export default () => {
         component={CompetitionsCalendar}
         name="CompetionsCalendar"
         options={{
-          title: "Calendrier des compétitions"
+          title: "Calendrier des concours"
         }}
       ></CompetitionStack.Screen>
 
@@ -25,7 +25,7 @@ export default () => {
         component={CompetitionDetails}
         name="CompetitionDetails"
         options={{
-          title: "Détails de la compétition"
+          title: "Détails du concourss"
         }}
       ></CompetitionStack.Screen>
 
@@ -34,7 +34,7 @@ export default () => {
         component={Competitions}
         name="Competitions"
         options={{
-          title: "Liste des compétitions"
+          title: "Liste des concours"
         }}
       ></CompetitionStack.Screen>
 
@@ -45,7 +45,7 @@ export default () => {
         options={({ route }) => ({
           title: route.params["competition"]
             ? route.params["competition"].name
-            : "Ajout d'une compétition"
+            : "Ajout d'un concours"
         })}
       ></CompetitionStack.Screen>
 

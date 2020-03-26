@@ -1,10 +1,9 @@
 UX:
 - Competition details page
-	- Title
-	- Contact
-	- Address
-	- Map view (Auto)
 	- Itinerary button
+
+Calendar:
+- Display competitions in the selected departments
 
 - Inscription page
 - Login page

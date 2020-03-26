@@ -7,8 +7,8 @@ import {
   MultiDotMarking
 } from "react-native-calendars";
 import CalendarHelper from "../../../Helpers/CalendarHelper";
-import CompetitionsProps from "../../../Shared/Props/Competitions.props";
 import DateHelper from "../../../Helpers/DateHelper";
+import CompetitionsProps from "../../../Shared/Props/Competitions.props";
 
 //Props
 interface CompetitionsAgendaProps extends CompetitionsProps, ViewProps {
@@ -110,5 +110,9 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
     ></CalendarList>
   );
 };
+export const textDayFontSize = 16;
+export const textMonthFontSize = 16;
+export const textDayHeaderFontSize = 13;
+export const todayButtonFontSize = 14;
 
 export default CompetitionsAgenda;
