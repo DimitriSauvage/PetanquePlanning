@@ -93,7 +93,6 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
       hideDayNames={false} //Display day names
       hideArrows={false} //Display arrows to navigate betweens months
       hideExtraDays={false} //Display the previous and next days in grey
-      minDate={new Date()} //Min date selectable
       renderArrow={getArrowIcon} // Get the arrow to display
       markingType="multi-dot"
       markedDates={markedDates}
