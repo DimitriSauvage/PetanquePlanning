@@ -1,4 +1,4 @@
-import { View } from "native-base";
+import { View, Text } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
@@ -9,8 +9,7 @@ import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
 import { useNavigation } from "@react-navigation/native";
 
-interface CompetitionsCalendarScreenProps extends CompetitionsProps {
-}
+interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
 const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> = props => {
   //#region State
@@ -53,10 +52,21 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
       ></CompetitionsAgenda>
 
       {/**Display list of competitions */}
-      <CompetitionList
-        elements={displayedCompetitions}
-        onSelect={onCompetitionSelected}
-      ></CompetitionList>
+      {displayedCompetitions && displayedCompetitions.length > 0 && (
+        <CompetitionList
+          elements={displayedCompetitions}
+          onSelect={onCompetitionSelected}
+        ></CompetitionList>
+      )}
+
+      {/**Display a message where there is no comptitions to display */}
+      {(!displayedCompetitions || displayedCompetitions.length === 0) && (
+        <View style={styles.noCompetitions}>
+          <Text style={styles.informationMessage}>
+            Aucune compétition pour cette date.
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

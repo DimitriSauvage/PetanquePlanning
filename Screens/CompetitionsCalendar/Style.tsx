@@ -9,5 +9,15 @@ export default StyleSheet.create({
   },
   list: {
     height: "auto"
+  },
+  noCompetitions: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  informationMessage: {
+    fontStyle: "italic",
+    opacity: 0.7,
+    color: "grey"
   }
 });
