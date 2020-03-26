@@ -13,21 +13,30 @@ import DateHelper from "../../../Helpers/DateHelper";
 //Props
 interface CompetitionsAgendaProps extends CompetitionsProps, ViewProps {
   onDayPress: Function;
+  initialSelectedDate?: Date;
 }
 
 //Components
 const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => {
+  //#region Config
+  /**Define the locales language for the calendar */
+  CalendarHelper.setLocales();
+  //#endregion
+
   //#region State
+  /**Selected date */
+  const [selectedDate, setSelectedDate] = useState(
+    props.initialSelectedDate ? props.initialSelectedDate : new Date()
+  );
+
+  /**Marked date */
   const [markedDates, setMarkedDates] = useState(
     CalendarHelper.getMultiDotsMarkedDatesFromCompetitions(
       props.competitions,
-      new Date()
+      selectedDate
     )
   );
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  //#endregion
 
-  //#region Fields
   //#endregion
 
   //#region Methods
@@ -81,7 +90,6 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
   };
   //#endregion
 
-  CalendarHelper.setLocales();
   return (
     <CalendarList
       horizontal={true} //Display the calendar with an horizontal scroll

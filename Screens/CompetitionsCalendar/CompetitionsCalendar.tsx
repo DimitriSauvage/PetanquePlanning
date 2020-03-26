@@ -12,26 +12,29 @@ import { useNavigation } from "@react-navigation/native";
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
 const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> = props => {
-  //#region State
-  const [displayedCompetitions, setDisplayedCompetitions] = useState(
-    props.competitions
-  );
-  //#endregion
-
   //#region Fields
+  /**Navigator */
   const navigator = useNavigation();
+  /**Initial selected date */
+  const initialSelectedDate = new Date();
   //#endregion
 
   //#region Methods
+  /**
+   * Get the competitions for the specified date
+   * @param date Competitions date
+   */
+  const getCompetitions = (date: Date) =>
+    props.competitions.filter(compet =>
+      DateHelper.areDatesEquals(date, compet.date)
+    );
+
   /**
    * Handle the day press event displaying selected day competitions
    * @param selectedDate Selected date
    */
   const onDaySelected = (selectedDate: Date) => {
-    const compets = props.competitions.filter(compet =>
-      DateHelper.areDatesEquals(selectedDate, compet.date)
-    );
-    setDisplayedCompetitions(compets);
+    setDisplayedCompetitions(getCompetitions(selectedDate));
   };
 
   /**
@@ -42,6 +45,13 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
     navigator.navigate("CompetitionDetails", { competition: competition });
   };
   //#endregion
+
+  //#region State
+  const [displayedCompetitions, setDisplayedCompetitions] = useState(
+    getCompetitions(initialSelectedDate)
+  );
+  //#endregion
+
   return (
     <View style={styles.container}>
       {/**Display a calendar */}
