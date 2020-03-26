@@ -1,14 +1,22 @@
+UX:
+- Competition details page
+	- Title
+	- Contact
+	- Address
+	- Map view (Auto)
+	- Itinerary button
 
-Add filters to search competitions
-Toast --> Review the displaying and create an abstraction for all application
-Repositories --> HOC ?
-Current components --> Presentational and container components
-Database :
-	- Saving
-	- Loading
+- Inscription page
+- Login page
+- Display edition if admin
+- Editor par departments (May be multiple departments per editor)
 
-Mettre props plutot que le nom de chaque props utilisé dans les parametres des finctions composants (A revoir)
 
-Date text input in readonly --> Plus bug
-App components (Input, DatePicker...)
-List components ==> How to reuse code
+Technicals:
+- Date text input in readonly --> Plus bug
+- App components (Input, DatePicker...)
+- Mettre props plutot que le nom de chaque props utilisé dans les parametres des finctions composants (A revoir)
+- Toast --> Review the displaying and create an abstraction for all application
+- Repositories --> HOC ?
+- Current components --> Presentational and container components
+- List components ==> How to reuse code

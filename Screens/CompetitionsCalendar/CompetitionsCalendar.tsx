@@ -40,7 +40,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * @param competition Display the competition edition
    */
   const onCompetitionSelected = competition => {
-    navigator.navigate("EditCompetition", { competition: competition });
+    navigator.navigate("CompetitionDetails", { competition: competition });
   };
   //#endregion
   return (

@@ -2,7 +2,7 @@ enum CompetitionGender {
   Male = "Hommes",
   Female = "Femmes",
   Mixed = "Mixte",
-  Unspecified = "Non spécifié"
+  Unspecified = "Libre"
 }
 
 export default CompetitionGender;

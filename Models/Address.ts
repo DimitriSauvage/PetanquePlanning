@@ -67,10 +67,17 @@ export default class Address {
    */
   public getFullAddress = () => {
     let fullAddress = "";
-    if (this.number) fullAddress += this.number;
-    if (this.street) fullAddress += this.street + " ";
-    if (this.zipCode) fullAddress += this.zipCode + " ";
-    if (this.city) fullAddress += this.city;
+    const addToAddress = valueToAdd => {
+      if (valueToAdd) {
+        if (fullAddress !== "") fullAddress += " ";
+        fullAddress += valueToAdd;
+      }
+    };
+
+    addToAddress(this.number);
+    addToAddress(this.street);
+    addToAddress(this.zipCode);
+    addToAddress(this.city);
     return fullAddress;
   };
   //#endregion

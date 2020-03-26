@@ -31,7 +31,15 @@ const Map: FunctionComponent<MapProps> = props => {
   };
   //#endregion
 
+  const origin: LatLng = {
+    latitude: 47.4701573,
+    longitude: -0.5312701
+  };
 
+  const dest: LatLng = {
+    latitude: 48.2145992,
+    longitude: -1.5059748
+  };
   return (
     <MapView
       style={styles.map}
@@ -42,6 +50,7 @@ const Map: FunctionComponent<MapProps> = props => {
           MapHelper.competitionToMarker(competition)
         )}
 
+      {MapHelper.getMarkerDirection(origin, dest)}
     </MapView>
   );
 };
