@@ -1,13 +1,14 @@
-import { View, Text } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { Text, View } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import CompetitionsAgenda from "../../Components/Competitions/CompetitionsAgenda/CompetitionsAgenda";
 import DateHelper from "../../Helpers/DateHelper";
+import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
-import { useNavigation } from "@react-navigation/native";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
@@ -24,7 +25,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * Get the competitions for the specified date
    * @param date Competitions date
    */
-  const getCompetitions = (date: Date) =>
+  const getCompetitions = (date: Date): Competition[] =>
     props.competitions.filter(compet =>
       DateHelper.areDatesEquals(date, compet.date)
     );
@@ -34,6 +35,8 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * @param selectedDate Selected date
    */
   const onDaySelected = (selectedDate: Date) => {
+    const competitions = getCompetitions(selectedDate);
+    const competitions2 = getCompetitions(selectedDate);
     setDisplayedCompetitions(getCompetitions(selectedDate));
   };
 

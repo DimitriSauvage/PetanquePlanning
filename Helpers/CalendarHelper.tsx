@@ -92,7 +92,8 @@ export default class CalendarHelper {
       //Add a dot for the competition
       result[dateString].dots.push({
         color: ColorHelper.getColorFromString(dateString),
-        key: compet.id.toString()
+        key: compet.id.toString(),
+        selectedDotColor: 'transparent'
       });
     });
 
@@ -109,6 +110,7 @@ export default class CalendarHelper {
 
     return result;
   };
+  
 
   /**
    * Get date in string format with the calendar format
