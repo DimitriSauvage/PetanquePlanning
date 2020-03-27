@@ -10,7 +10,7 @@ Calendar:
 - Edit information page
 - Display edition if admin
 - Editor par departments (May be multiple departments per editor)
-
+- Native base with react-navigation (Custom bar)
 
 Technicals:
 - Use openStreetMaps if possible

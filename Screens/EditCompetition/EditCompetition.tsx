@@ -12,6 +12,7 @@ import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
 import moment from "moment";
 import DateHelper from "../../Helpers/DateHelper";
+import FormHelper from "../../Helpers/FormHelper";
 
 interface EditCompetitionProps {
   route: any;
@@ -78,11 +79,12 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
    * @param value Value to set
    */
   const updateField = (field: string, value: any) => {
-    const newCompetition: Competition = {
-      ...competition
-    };
-    newCompetition[_.camelCase(field)] = value;
-    setCompetition(newCompetition);
+    FormHelper.updateField<Competition>(
+      competition,
+      field,
+      value,
+      setCompetition
+    );
   };
 
   /**
@@ -90,6 +92,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
    */
   const saveCompetition = () => {
     try {
+      dispatch(saveCompetitionAction(competition));
       Toast.show({
         text: "Concours sauvegardé",
         type: "success"
@@ -101,7 +104,6 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         type: "danger"
       });
     }
-    dispatch(saveCompetitionAction(competition));
   };
 
   /**

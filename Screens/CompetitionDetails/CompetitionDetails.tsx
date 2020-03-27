@@ -67,14 +67,14 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
             <TooltipButton
               buttonText={competition.competitionType}
               buttonColor="success"
-              tooltipText="Type du concours (Tête à tête, Doublette, Triplette, Tir de précision)"
+              tooltipText="Type du concours (Tête à tête, Doublette, Triplette, Tir de précision...)"
               tooltipPlacement="bottom"
             ></TooltipButton>
             {/**Gender */}
             <TooltipButton
               buttonText={competition.competitionGender}
               buttonColor="info"
-              tooltipText="Composition des équipes (Féminin, Maculin, Mixte, Libre)"
+              tooltipText="Composition des équipes (Féminin, Maculin, Mixte, Libre...)"
               tooltipPlacement="bottom"
               icon={
                 competition.competitionGender === CompetitionGender.Unspecified

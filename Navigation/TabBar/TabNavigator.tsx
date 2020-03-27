@@ -4,6 +4,7 @@ import React from "react";
 import Map from "../../Screens/MapScreen/MapScreen";
 import CompetitionsStack from "../Stack/CompetitionsStack";
 import MapScreen from "../../Screens/MapScreen/MapScreen";
+import SignUp from "../../Screens/SignUp/SignUp";
 
 export default () => {
   //#region Fields
@@ -50,6 +51,14 @@ export default () => {
         options={{
           tabBarIcon: ({ color }) => getIcon("calendar", color),
           title: "Calendrier"
+        }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          tabBarIcon: ({ color }) => getIcon("user-plus", color),
+          title: "Inscription"
         }}
       ></Tab.Screen>
     </Tab.Navigator>

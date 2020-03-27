@@ -1,13 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: {
-    padding: 3
-  },
-  input: {
-    marginTop: 3
-  },
-  saveButton: {
-    marginTop: 10
+  title: {
+    fontSize: 22,
+    textAlign: "center",
+    paddingVertical:10,
+    borderBottomWidth: 1
   }
 });

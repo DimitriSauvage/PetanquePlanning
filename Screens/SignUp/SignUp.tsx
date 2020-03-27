@@ -1,35 +1,49 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import _ from "lodash";
 import moment from "moment";
-import { Form, Input, Item, Toast } from "native-base";
+import { Form, Input, Item, Picker, Text, View } from "native-base";
 import React, { FunctionComponent, useState } from "react";
-import { Button, View } from "react-native";
-import { connect } from "react-redux";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Action } from "redux";
-import DateHelper from "../../Helpers/DateHelper";
-import Address from "../../Models/Address";
+import EnumHelper from "../../Helpers/EnumHelper";
+import FormHelper from "../../Helpers/FormHelper";
+import Club from "../../Models/Club";
+import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
-import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
+import PetanquePlanningState from "../../Models/PetanquePlanningState";
+import { connect } from "react-redux";
+import GeoHelper from "../../Helpers/GeoHelper";
+import Departement from "../../Models/Geo/Departments";
+import SectionedMultiSelect from "react-native-sectioned-multi-select";
+import Region from "../../Models/Geo/Region";
 
 interface SignUpProps {
+  clubs: Club[];
   route: any;
   navigation: any;
   dispatch: (action: Action) => void;
 }
 
-const SignUp: FunctionComponent<SignUpProps> = ({
-  route,
-  navigation,
-  dispatch
-}) => {
+const SignUp: FunctionComponent<SignUpProps> = props => {
   //#region State
-  /**
-   * User to edit
-   */
+  /** User to edit */
   const [user, setUser] = useState(
-    (route?.params?.user ? route.params.user : new User()) as User
+    (props.route?.params?.user ? props.route.params.user : new User()) as User
   );
+  /**Display or not the date picker */
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDepartments, setSelectedDepartments] = useState(
+    user.favoriteDepartmentCodes
+  );
+  //#endregion
+
+  //#region Fields
+  /**Regions to display */
+  const regions = GeoHelper.getRegions(true);
+
+  /**If the user has changed the selection */
+  let hasChangedSelection: boolean = false;
   //#endregion
 
   //#region Methods
@@ -40,6 +54,7 @@ const SignUp: FunctionComponent<SignUpProps> = ({
    * @param value Value to set
    */
   const updateField = (field: string, value: any) => {
+    FormHelper.updateField<User>(user, field, value, setUser);
     const newUser: User = {
       ...user
     };
@@ -48,109 +63,185 @@ const SignUp: FunctionComponent<SignUpProps> = ({
   };
 
   /**
-   * Save the user
+   * Update the birth date
+   * @param date Birth date
    */
-  const saveUser = () => {
-    try {
-      Toast.show({
-        text: "Concours sauvegardé",
-        type: "success"
-      });
-      navigation.goBack();
-    } catch (error) {
-      Toast.show({
-        text: "Erreur lors de l'enregistrement",
-        type: "danger"
-      });
-    }
-    dispatch(saveUserAction(user));
+  const updateBirthDate = (date: Date) => {
+    setShowDatePicker(false);
+    updateField("birthDate", date);
   };
 
   /**
-   * Get the default date time to display
+   * Update the user club
+   * @param club Club
    */
-  const getDefaultDateTime = () => {
-    const date = DateHelper.getNextDateOfDay(6);
-    date.setHours(14, 0, 0);
-    return date;
+  const updateClub = (club: Club) => {
+    if (club) {
+      updateField("clubId", club.id);
+    } else {
+      updateField("clubId", null);
+    }
+    updateField("club", club);
   };
+
+  /**
+   * Update the favorite departements
+   * @param departments Favorite departements
+   */
+  const setToggledDepartements = (selectedDepartmentCodes: string[]) => {
+    setSelectedDepartments(selectedDepartmentCodes);
+  };
+
+  /**
+   * Confirm the favorite departments
+   */
+  const confirmFavoriteDepartments = () => {
+    if (hasChangedSelection) {
+      //Get the departments with the codes
+      const departments = regions.flatMap(x => x.departments);
+      updateField(
+        "favoriteDepartments",
+        departments.filter(dep => selectedDepartments.includes(dep.code))
+      );
+      updateField("favoriteDepartmentCodes", selectedDepartments);
+    }
+    resetTempFavoriteDepartments();
+  };
+
+  /**
+   * Reset the values for the temps departments selection
+   */
+  const resetTempFavoriteDepartments = () => {
+    if (hasChangedSelection) {
+      hasChangedSelection = false;
+      setSelectedDepartments(user.favoriteDepartmentCodes);
+    }
+  };
+
+  // /**
+  //  * Save the user
+  //  */
+  // const saveUser = () => {
+  //   try {
+  //     dispatch(saveUserAction(user));
+  //     Toast.show({
+  //       text: "Enregistrement réussi !",
+  //       type: "success"
+  //     });
+  //     navigation.goBack();
+  //   } catch (error) {
+  //     Toast.show({
+  //       text: "Erreur lors de l'enregistrement",
+  //       type: "danger"
+  //     });
+  //   }
+  // };
   //#endregion
 
   return (
-    <Form>
-      {/**User name */}
-      <Item>
-        <Input
-          autoFocus={!user?.name || user?.name === ""}
-          placeholder="Nom du concours"
-          onChangeText={value => updateField("name", value)}
-        ></Input>
-      </Item>
-      {/**User address */}
-      <Item>
-        <Input
-          placeholder="Adresse"
-          style={styles.input}
-          value={
-            user?.address ? user.address.getFullAddress() : ""
-          }
-          onTouchStart={() => {
-            //Go to search address
-            navigation.navigate(SearchAddress.name, {
-              onGoBack: updateAddress
-            });
-          }}
-        ></Input>
-      </Item>
-      {/**User date*/}
-      <Item>
-        <Input
-          placeholder="Date"
-          onTouchStart={() => setShowDatePicker(true)}
-          value={user?.date ? moment(user.date).format("L") : ""}
-        ></Input>
-        {showDatePicker && (
-          <DateTimePicker
-            mode="date"
-            value={user?.date ? user.date : getDefaultDateTime()}
-            display="calendar"
-            onChange={(event, date) => updateDate(date)}
-            minimumDate={new Date()}
-          />
-        )}
-      </Item>
-      {/**User hour*/}
-      <Item>
-        <Input
-          placeholder="Heure"
-          onTouchStart={() => setShowTimePicker(true)}
-          value={user?.hour ? moment(user.hour).format("LT") : ""}
-        ></Input>
-        {showTimePicker && (
-          <DateTimePicker
-            mode="time"
-            value={user?.hour ? user.hour : getDefaultDateTime()}
-            display="clock"
-            onChange={(event, date) => updateHour(date)}
-            minimumDate={new Date()}
-          />
-        )}
-      </Item>
-      {/**User description */}
-      <Item>
-        <Input
-          placeholder="Decription"
-          multiline={true}
-          numberOfLines={2}
-          onChangeText={value => updateField("description", value)}
-        ></Input>
-      </Item>
-
-      {/**Save button */}
-      <View style={styles.saveButton}>
-        <Button title="Enregistrer" onPress={saveUser}></Button>
-      </View>
-    </Form>
+    <SafeAreaView>
+      <Text style={styles.title}>Parlez nous de vous</Text>
+      <Form>
+        {/**User name */}
+        <Item>
+          <Input
+            value={user.name}
+            autoFocus={(!__DEV__ && !user.name) || user.name === ""}
+            placeholder="Nom de famille"
+            onChangeText={value => updateField("name", value)}
+          ></Input>
+        </Item>
+        {/**First name */}
+        <Item>
+          <Input
+            placeholder="Prénom"
+            onChangeText={value => updateField("firstName", value)}
+          ></Input>
+        </Item>
+        {/**User date*/}
+        <Item>
+          <Input
+            placeholder="Date de naissance"
+            onTouchStart={() => setShowDatePicker(true)}
+            value={user?.birthDate ? moment(user?.birthDate).format("L") : ""}
+          ></Input>
+          {showDatePicker && (
+            <DateTimePicker
+              mode="date"
+              onTouchCancel={() => setShowDatePicker(false)}
+              value={user?.birthDate ? user?.birthDate : new Date()}
+              display="calendar"
+              onChange={(event, date) => updateBirthDate(date)}
+            />
+          )}
+        </Item>
+        {/**Profile */}
+        <Item>
+          <Picker
+            mode="dialog"
+            enabled={true}
+            inlineLabel={true}
+            placeholder="Type d'utilisateur"
+            selectedValue={user?.profile ? user?.profile : Profile.Player}
+            onValueChange={value => updateField("profile", value)}
+          >
+            {EnumHelper.getValues(Profile).map(x => (
+              <Picker.Item
+                label={x.toString()}
+                value={x}
+                key={x.toString()}
+              ></Picker.Item>
+            ))}
+          </Picker>
+        </Item>
+        {/**Club */}
+        <Item>
+          <Picker
+            mode="dialog"
+            inlineLabel={true}
+            placeholder="Club"
+            selectedValue={user?.club}
+            onValueChange={value => updateClub(value)}
+          >
+            {/**Item with null value */}
+            <Picker.Item
+              label={"Sélectionner votre club"}
+              value={null}
+              key={"NullValue"}
+            ></Picker.Item>
+            {/* Items */}
+            {props.clubs &&
+              props.clubs.map(club => (
+                <Picker.Item
+                  label={club.name}
+                  value={club}
+                  key={club.id.toString()}
+                ></Picker.Item>
+              ))}
+          </Picker>
+        </Item>
+        {/* Departements to display */}
+        <Item>
+          <View style={{ flex: 1 }}>
+            <SectionedMultiSelect
+              items={regions}
+              uniqueKey="code"
+              subKey="departments"
+              displayKey="name"
+              selectText="Départements favoris"
+              searchPlaceholderText="Départements favoris"
+              readOnlyHeadings={true}
+              confirmText="Confirmer"
+              selectedItems={selectedDepartments}
+              onSelectedItemsChange={setToggledDepartements}
+              onConfirm={confirmFavoriteDepartments}
+              onCancel={resetTempFavoriteDepartments}
+              showChips={false}
+            ></SectionedMultiSelect>
+          </View>
+        </Item>
+      </Form>
+    </SafeAreaView>
   );
 };
 
@@ -160,4 +251,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+const mapStateToProps = (state: PetanquePlanningState) => {
+  return {
+    clubs: state.clubs
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

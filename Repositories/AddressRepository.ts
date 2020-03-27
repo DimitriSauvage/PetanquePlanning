@@ -27,7 +27,8 @@ class AddressRepository extends Repository {
    */
   public searchAddress = async (
     searchedValue: string,
-    resultsLimit: number = 10
+    resultsLimit: number = 10,
+    autoComplete: boolean = true
   ) => {
     //Result
     let result: Address[] = [];
@@ -35,7 +36,8 @@ class AddressRepository extends Repository {
     //Get addresses
     const response = await this.httpClient.get<FeatureCollection<Point>>(
       `${this.baseApiURL +
-        this.baseSearchURL}?q=${searchedValue}&limit=${resultsLimit}`
+        this
+          .baseSearchURL}?q=${searchedValue}&limit=${resultsLimit}&autocomplete=${+autoComplete}`
     );
 
     //Transform feature to address

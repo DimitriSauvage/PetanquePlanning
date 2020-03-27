@@ -1,6 +1,7 @@
 import Club from "../Club";
 import Entity from "../Entity";
 import Profile from "./Profile";
+import Departement from "../Geo/Departments";
 
 export default class User extends Entity {
   //#region Fields
@@ -44,6 +45,13 @@ export default class User extends Entity {
    * Club identifier
    */
   public clubId: string;
-
+  /**
+   * Favorite department codes
+   */
+  public favoriteDepartmentCodes: string[];
+  /**
+   * Favorite departments
+   */
+  public favoriteDepartments: Departement[];
   //#endregion
 }

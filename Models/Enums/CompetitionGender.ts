@@ -1,7 +1,13 @@
 enum CompetitionGender {
-  Male = "Hommes",
-  Female = "Femmes",
+  Males = "Hommes",
+  Females = "Femmes",
   Mixed = "Mixte",
+  Veterans = "Vétéran",
+  UpAndComing = "Espoirs",
+  Juniors = "Juniors",
+  Cadets = "Cadets",
+  Minimal = "Minimes",
+  Benjamins = "Benjamins",
   Unspecified = "Libre"
 }
 
