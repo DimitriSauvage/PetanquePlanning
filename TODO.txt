@@ -7,11 +7,13 @@ Calendar:
 
 - Inscription page
 - Login page
+- Edit information page
 - Display edition if admin
 - Editor par departments (May be multiple departments per editor)
 
 
 Technicals:
+- Use openStreetMaps if possible
 - Date text input in readonly --> Plus bug
 - App components (Input, DatePicker...)
 - Mettre props plutot que le nom de chaque props utilisé dans les parametres des finctions composants (A revoir)
