@@ -1,10 +1,10 @@
-import { Guid } from "guid-typescript";
 import Address from "./Address";
+import Club from "./Club";
+import Entity from "./Entity";
 import CompetitionGender from "./Enums/CompetitionGender";
 import CompetitionSport from "./Enums/CompetitionSport";
 import CompetitionType from "./Enums/CompetitionType";
-import Club from "./Club";
-import Entity from "./Entity";
+import CompetitionLevel from "./Enums/CompetitionLevel";
 
 export default class Competition extends Entity {
   //#region Fields
@@ -40,6 +40,10 @@ export default class Competition extends Entity {
    * Competition type
    */
   public competitionType: CompetitionType = CompetitionType.Doublet;
+  /**
+   * Competition level
+   */
+  public competitionLevel: CompetitionLevel = CompetitionLevel.Free;
   /**
    * Organizer
    */

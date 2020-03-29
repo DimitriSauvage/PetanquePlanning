@@ -4,7 +4,7 @@ export default StyleSheet.create({
   title: {
     fontSize: 22,
     textAlign: "center",
-    paddingVertical:10,
+    paddingVertical: 10,
     borderBottomWidth: 1
-  }
+  },
 });

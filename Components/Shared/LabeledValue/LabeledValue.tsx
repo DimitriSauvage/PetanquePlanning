@@ -15,7 +15,7 @@ interface LabeledValueProps extends ViewProps {
 const LabeledValue: FunctionComponent<LabeledValueProps> = props => {
   return (
     <Text>
-      <Text style={styles.label}>{props.label}&nbsp;&#58;</Text>&nbsp;
+      <Text style={styles.label}>{props.label}</Text>&nbsp;&#58;&nbsp;
       {props.breakLine && "\n"}
       <Text>{props.value}</Text>
     </Text>

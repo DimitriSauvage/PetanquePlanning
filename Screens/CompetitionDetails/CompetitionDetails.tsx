@@ -70,6 +70,9 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
               tooltipText="Type du concours (Tête à tête, Doublette, Triplette, Tir de précision...)"
               tooltipPlacement="bottom"
             ></TooltipButton>
+          </View>
+
+          <View style={styles.competitionTypes}>
             {/**Gender */}
             <TooltipButton
               buttonText={competition.competitionGender}
@@ -82,6 +85,13 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
                   : null
               }
               iconType="Ionicons"
+            ></TooltipButton>
+            {/**Level */}
+            <TooltipButton
+              buttonText={competition.competitionLevel}
+              buttonColor="dark"
+              tooltipText="Niveau du concours (Départemental, régional, national...)"
+              tooltipPlacement="bottom"
             ></TooltipButton>
           </View>
 

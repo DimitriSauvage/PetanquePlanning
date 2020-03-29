@@ -4,19 +4,18 @@ import moment from "moment";
 import { Form, Input, Item, Picker, Text, View } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SectionedMultiSelect from "react-native-sectioned-multi-select";
+import { connect } from "react-redux";
 import { Action } from "redux";
 import EnumHelper from "../../Helpers/EnumHelper";
 import FormHelper from "../../Helpers/FormHelper";
+import GeoHelper from "../../Helpers/GeoHelper";
 import Club from "../../Models/Club";
+import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
-import styles from "./Style";
-import PetanquePlanningState from "../../Models/PetanquePlanningState";
-import { connect } from "react-redux";
-import GeoHelper from "../../Helpers/GeoHelper";
-import Departement from "../../Models/Geo/Departments";
-import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import Region from "../../Models/Geo/Region";
+import styles, { pickerStyle } from "./Style";
+import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
 
 interface SignUpProps {
   clubs: Club[];
@@ -222,8 +221,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
         </Item>
         {/* Departements to display */}
         <Item>
-          <View style={{ flex: 1 }}>
-            <SectionedMultiSelect
+            <AppPicker
               items={regions}
               uniqueKey="code"
               subKey="departments"
@@ -237,8 +235,8 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
               onConfirm={confirmFavoriteDepartments}
               onCancel={resetTempFavoriteDepartments}
               showChips={false}
-            ></SectionedMultiSelect>
-          </View>
+              selectedText="sélectionnés"
+            ></AppPicker>
         </Item>
       </Form>
     </SafeAreaView>
