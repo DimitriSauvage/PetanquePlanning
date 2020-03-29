@@ -54,7 +54,7 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
       <View style={styles.container}>
         {/**Competition details */}
         <View style={styles.informations}>
-          {/**Type, Gender, Sport */}
+          {/**Type, Gender */}
           <View style={styles.competitionTypes}>
             {/**Sport */}
             <TooltipButton
@@ -71,7 +71,7 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
               tooltipPlacement="bottom"
             ></TooltipButton>
           </View>
-
+          {/** Sport, Level */}
           <View style={styles.competitionTypes}>
             {/**Gender */}
             <TooltipButton
@@ -99,20 +99,20 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
           <View style={styles.competitionDetails}>
             {/**Date and hour */}
             <Card>
-              <CardItem style={[GlobalStyles.flexContainer, styles.datetime]}>
-                <View style={GlobalStyles.flexItem}>
-                  <LabeledValue
-                    style={GlobalStyles.flexItem}
-                    label="Date"
-                    value={moment(competition.date).format("L")}
-                  ></LabeledValue>
-                </View>
-                <View style={GlobalStyles.flexItem}>
-                  <LabeledValue
-                    style={GlobalStyles.flexItem}
-                    label="Jet du but"
-                    value={moment(competition.hour).format("LT")}
-                  ></LabeledValue>
+              <CardItem>
+                <View style={[styles.datetime, GlobalStyles.flexContainer]}>
+                  <View>
+                    <LabeledValue
+                      label="Date"
+                      value={moment(competition.date).format("L")}
+                    ></LabeledValue>
+                  </View>
+                  <View style={GlobalStyles.flexItem}>
+                    <LabeledValue
+                      label="Jet du but"
+                      value={moment(competition.hour).format("LT")}
+                    ></LabeledValue>
+                  </View>
                 </View>
               </CardItem>
             </Card>

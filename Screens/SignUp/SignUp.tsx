@@ -1,12 +1,22 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import _ from "lodash";
 import moment from "moment";
-import { Form, Input, Item, Picker, Text, View } from "native-base";
+import {
+  Button,
+  Footer,
+  FooterTab,
+  Form,
+  Input,
+  Item,
+  Picker,
+  Text,
+  Toast
+} from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { connect } from "react-redux";
 import { Action } from "redux";
+import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
 import EnumHelper from "../../Helpers/EnumHelper";
 import FormHelper from "../../Helpers/FormHelper";
 import GeoHelper from "../../Helpers/GeoHelper";
@@ -14,8 +24,8 @@ import Club from "../../Models/Club";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
-import styles, { pickerStyle } from "./Style";
-import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
+import styles from "./Style";
+import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
 
 interface SignUpProps {
   clubs: Club[];
@@ -32,14 +42,20 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
   );
   /**Display or not the date picker */
   const [showDatePicker, setShowDatePicker] = useState(false);
+  /**Selected departments */
   const [selectedDepartments, setSelectedDepartments] = useState(
     user.favoriteDepartmentCodes
   );
+  /**Input password */
+  const [password, setPassword] = useState(null);
   //#endregion
 
   //#region Fields
   /**Regions to display */
   const regions = GeoHelper.getRegions(true);
+  regions.forEach(region => {
+    region.code = "Region-" + region.code;
+  });
 
   /**If the user has changed the selection */
   let hasChangedSelection: boolean = false;
@@ -117,24 +133,50 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
     }
   };
 
-  // /**
-  //  * Save the user
-  //  */
-  // const saveUser = () => {
-  //   try {
-  //     dispatch(saveUserAction(user));
-  //     Toast.show({
-  //       text: "Enregistrement réussi !",
-  //       type: "success"
-  //     });
-  //     navigation.goBack();
-  //   } catch (error) {
-  //     Toast.show({
-  //       text: "Erreur lors de l'enregistrement",
-  //       type: "danger"
-  //     });
-  //   }
-  // };
+  /**
+   * Display the selected departments numbers
+   * @param props Picker props
+   */
+  const renderSelectText = props => {
+    let deps = "";
+    if (selectedDepartments) {
+      _.sortBy(selectedDepartments).forEach(dep => {
+        if (deps !== "") deps += " - ";
+        deps += dep;
+      });
+    }
+
+    return deps !== "" ? deps : props.selectText;
+  };
+
+  /**
+   * Update the password
+   * @param value New password
+   */
+  const updatePassword = value => {
+    if (value === password) {
+      updateField("password", value);
+    }
+  };
+
+  /**
+   * Save the user
+   */
+  const saveUser = () => {
+    try {
+      props.dispatch(editUserAction(user));
+      Toast.show({
+        text: "Enregistrement réussi !",
+        type: "success"
+      });
+      props.navigation.goBack();
+    } catch (error) {
+      Toast.show({
+        text: "Erreur lors de l'enregistrement",
+        type: "danger"
+      });
+    }
+  };
   //#endregion
 
   return (
@@ -221,24 +263,52 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
         </Item>
         {/* Departements to display */}
         <Item>
-            <AppPicker
-              items={regions}
-              uniqueKey="code"
-              subKey="departments"
-              displayKey="name"
-              selectText="Départements favoris"
-              searchPlaceholderText="Départements favoris"
-              readOnlyHeadings={true}
-              confirmText="Confirmer"
-              selectedItems={selectedDepartments}
-              onSelectedItemsChange={setToggledDepartements}
-              onConfirm={confirmFavoriteDepartments}
-              onCancel={resetTempFavoriteDepartments}
-              showChips={false}
-              selectedText="sélectionnés"
-            ></AppPicker>
+          <AppPicker
+            items={regions}
+            uniqueKey="code"
+            subKey="departments"
+            displayKey="name"
+            selectText="Départements favoris"
+            searchPlaceholderText="Départements favoris"
+            readOnlyHeadings={true}
+            confirmText="Confirmer"
+            selectedItems={selectedDepartments}
+            onSelectedItemsChange={setToggledDepartements}
+            onConfirm={confirmFavoriteDepartments}
+            onCancel={resetTempFavoriteDepartments}
+            showChips={false}
+            selectedText="sélectionnés"
+            renderSelectText={renderSelectText}
+          ></AppPicker>
+        </Item>
+        {/**Email */}
+        <Item>
+          <Input
+            value={user.email}
+            placeholder="Adresse mail"
+            onChangeText={value => updateField("email", value)}
+          ></Input>
+        </Item>
+        {/* Password */}
+        <Item>
+          <Input
+            secureTextEntry={true}
+            placeholder="Mot de passe"
+            onChangeText={value => setPassword(value)}
+          ></Input>
+        </Item>
+        {/* Confirmation */}
+        <Item>
+          <Input
+            secureTextEntry={true}
+            placeholder="Confirmer le mot de passe"
+            onChangeText={value => updatePassword(value)}
+          ></Input>
         </Item>
       </Form>
+        <Button block danger onPress={saveUser}>
+          <Text style={{ color: "white" }}>Valider</Text>
+        </Button>
     </SafeAreaView>
   );
 };

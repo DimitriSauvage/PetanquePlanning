@@ -1,10 +1,6 @@
-import { Guid } from "guid-typescript";
 import Competition from "../../../Models/Competition";
-import CompetitionAction from "../../Actions/Types/competition.actionType";
-import { DELETE_COMPETITION, SAVE_COMPETITION } from "../../storeConstants";
-import deleteCompetitionReducer from "./competition/deleteCompetition.reducer";
-import saveCompetitionReducer from "./competition/saveCompetition.reducer";
-import Address from "../../../Models/Address";
+import { CompetitionAction } from "../../Actions/Types/competition.actionType";
+import { EDIT_COMPETITION, REMOVE_COMPETITION } from "../../storeConstants";
 
 const initialState: Competition[] = [];
 
@@ -12,7 +8,11 @@ const initialState: Competition[] = [];
 if (__DEV__) {
   const randomCompetition = () => {
     const competition = new Competition();
-    competition.date = new Date(new Date().getFullYear(), new Date().getMonth(), Math.floor(Math.random() * (30) + 1));
+    competition.date = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      Math.floor(Math.random() * 30 + 1)
+    );
     competition.description = Math.random()
       .toString(36)
       .substring(7);
@@ -41,19 +41,34 @@ if (__DEV__) {
 }
 //#endregion
 
+/**
+ * Competition reducer
+ * @param state Current state
+ * @param action Action to realize
+ */
 export default (state = initialState, action: CompetitionAction) => {
   let nextState: Competition[] = state;
 
-  if (action?.payLoad) {
+  if (action.competition && action.type === EDIT_COMPETITION) {
     switch (action.type) {
-      case SAVE_COMPETITION:
-        const competition = action.payLoad as Competition;
-        nextState = saveCompetitionReducer(state, competition);
+      case EDIT_COMPETITION:
+        //Search competition;
+        const index = state.findIndex(x => x.id === action.competition.id);
+        if (index === -1) {
+          nextState = state.concat(action.competition);
+        } else {
+          //Action already exists, replace the old one with the new one
+          const newCompetitions = [...state];
+          newCompetitions.splice(index, 1, action.competition);
+          nextState = newCompetitions;
+        }
         break;
-      case DELETE_COMPETITION:
-        const id = action.payLoad as Guid;
-        nextState = deleteCompetitionReducer(state, id);
+
+      case REMOVE_COMPETITION:
+        nextState = state.filter(x => x.id !== action.competition.id);
+        break;
     }
   }
+
   return nextState;
 };

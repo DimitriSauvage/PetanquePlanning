@@ -1,13 +1,12 @@
 import { Button, Fab, Icon, View } from "native-base";
 import React, { FunctionComponent } from "react";
 import { Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
-import styles from "./Style";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
+import styles from "./Style";
 
 interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;

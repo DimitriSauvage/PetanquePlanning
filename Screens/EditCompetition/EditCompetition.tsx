@@ -1,18 +1,17 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import _ from "lodash";
+import moment from "moment";
 import { Form, Input, Item, Toast } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { Button, View } from "react-native";
 import { connect } from "react-redux";
 import { Action } from "redux";
-import Address from "../../Models/Address";
-import Competition from "../../Models/Competition";
-import saveCompetitionAction from "../../Store/Actions/Creators/competition.action";
-import SearchAddress from "../SearchAddress/SearchAddress";
-import styles from "./Style";
-import moment from "moment";
 import DateHelper from "../../Helpers/DateHelper";
 import FormHelper from "../../Helpers/FormHelper";
+import Address from "../../Models/Address";
+import Competition from "../../Models/Competition";
+import { editCompetitionAction } from "../../Store/Actions/Creators/competitionActions.creator";
+import SearchAddress from "../SearchAddress/SearchAddress";
+import styles from "./Style";
 
 interface EditCompetitionProps {
   route: any;
@@ -92,7 +91,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
    */
   const saveCompetition = () => {
     try {
-      dispatch(saveCompetitionAction(competition));
+      dispatch(editCompetitionAction(competition));
       Toast.show({
         text: "Concours sauvegardé",
         type: "success"
