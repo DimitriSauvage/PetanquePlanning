@@ -1,3 +1,8 @@
+Integrate HOC (Ex  MapScreen) :
+	- Use compose of Augustin
+		- WithLoading
+		- WithError
+
 UX:
 - Competition details page
 	- Itinerary button

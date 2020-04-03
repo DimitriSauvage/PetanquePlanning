@@ -1,31 +1,21 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import _ from "lodash";
 import moment from "moment";
-import {
-  Button,
-  Footer,
-  FooterTab,
-  Form,
-  Input,
-  Item,
-  Picker,
-  Text,
-  Toast
-} from "native-base";
+import { Button, Form, Input, Item, Picker, Text, Toast } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import { Action } from "redux";
 import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
-import EnumHelper from "../../Helpers/EnumHelper";
-import FormHelper from "../../Helpers/FormHelper";
-import GeoHelper from "../../Helpers/GeoHelper";
 import Club from "../../Models/Club";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
-import styles from "./Style";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
+import styles from "./Style";
+import getRegions from "../../Helpers/Geo/getRegions";
+import updateFormField from "../../Helpers/Form/updateFormField";
+import getEnumValues from "../../Helpers/Enums/getEnumValues";
 
 interface SignUpProps {
   clubs: Club[];
@@ -52,7 +42,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
 
   //#region Fields
   /**Regions to display */
-  const regions = GeoHelper.getRegions(true);
+  const regions = getRegions(true);
   regions.forEach(region => {
     region.code = "Region-" + region.code;
   });
@@ -68,13 +58,8 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
    * @param field Field to update
    * @param value Value to set
    */
-  const updateField = (field: string, value: any) => {
-    FormHelper.updateField<User>(user, field, value, setUser);
-    const newUser: User = {
-      ...user
-    };
-    newUser[_.camelCase(field)] = value;
-    setUser(newUser);
+  const updateField = <TField extends any>(field: string, value: TField) => {
+    updateFormField<User, TField>(user, field, value, setUser);
   };
 
   /**
@@ -226,7 +211,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
             selectedValue={user?.profile ? user?.profile : Profile.Player}
             onValueChange={value => updateField("profile", value)}
           >
-            {EnumHelper.getValues(Profile).map(x => (
+            {getEnumValues(Profile).map(x => (
               <Picker.Item
                 label={x.toString()}
                 value={x}
@@ -306,9 +291,9 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
           ></Input>
         </Item>
       </Form>
-        <Button block danger onPress={saveUser}>
-          <Text style={{ color: "white" }}>Valider</Text>
-        </Button>
+      <Button block danger onPress={saveUser}>
+        <Text style={{ color: "white" }}>Valider</Text>
+      </Button>
     </SafeAreaView>
   );
 };

@@ -5,13 +5,13 @@ import React, { FunctionComponent, useState } from "react";
 import { Button, View } from "react-native";
 import { connect } from "react-redux";
 import { Action } from "redux";
-import DateHelper from "../../Helpers/DateHelper";
-import FormHelper from "../../Helpers/FormHelper";
+import updateFormField from "../../Helpers/Form/updateFormField";
 import Address from "../../Models/Address";
 import Competition from "../../Models/Competition";
 import { editCompetitionAction } from "../../Store/Actions/Creators/competitionActions.creator";
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
+import getNextDateOfDay from "../../Helpers/Date/getNextDateOfDay";
 
 interface EditCompetitionProps {
   route: any;
@@ -77,8 +77,8 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
    * @param field Field to update
    * @param value Value to set
    */
-  const updateField = (field: string, value: any) => {
-    FormHelper.updateField<Competition>(
+  const updateField = <TField extends any>(field: string, value: TField) => {
+    updateFormField<Competition, TField>(
       competition,
       field,
       value,
@@ -109,7 +109,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
    * Get the default date time to display
    */
   const getDefaultDateTime = () => {
-    const date = DateHelper.getNextDateOfDay(6);
+    const date = getNextDateOfDay(6);
     date.setHours(14, 0, 0);
     return date;
   };

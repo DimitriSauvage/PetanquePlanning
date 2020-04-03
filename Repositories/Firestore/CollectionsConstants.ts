@@ -1,3 +1,6 @@
+/**User collection */
 export const UserCollection = "users";
-export const CompetitionCollection = "collections";
+/**Competitions collection */
+export const CompetitionCollection = "competitions";
+/**Club collection */
 export const ClubCollection = "clubs";

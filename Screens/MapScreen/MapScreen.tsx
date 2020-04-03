@@ -2,9 +2,9 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Region } from "react-native-maps";
 import { connect } from "react-redux";
 import Map from "../../Components/Competitions/Map/Map";
-import LocationHelper from "../../Helpers/LocationHelper";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
+import useCurrentLocation from "../../Helpers/Location/useCurrentLocation";
 
 interface MapProps extends CompetitionsProps {}
 
@@ -38,11 +38,11 @@ const MapScreen: FunctionComponent<MapProps> = ({ competitions }) => {
      * Get the current user location
      */
     const setCurrentLocation = async () => {
-      const currentPosition = await LocationHelper.getCurrentLocation();
-      if (currentPosition != null) {
+      const { error, loading, location } = useCurrentLocation();
+      if (location != null) {
         const position: Region = {
-          latitude: currentPosition.latitude,
-          longitude: currentPosition.longitude,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: defaultDelta,
           longitudeDelta: defaultDelta
         };

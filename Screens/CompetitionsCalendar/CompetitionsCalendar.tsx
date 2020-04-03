@@ -4,11 +4,11 @@ import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import CompetitionsAgenda from "../../Components/Competitions/CompetitionsAgenda/CompetitionsAgenda";
-import DateHelper from "../../Helpers/DateHelper";
 import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
+import areDateEquals from "../../Helpers/Date/areDateEquals";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
@@ -26,9 +26,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * @param date Competitions date
    */
   const getCompetitions = (date: Date): Competition[] =>
-    props.competitions.filter(compet =>
-      DateHelper.areDatesEquals(date, compet.date)
-    );
+    props.competitions.filter(compet => areDateEquals(date, compet.date));
 
   /**
    * Handle the day press event displaying selected day competitions

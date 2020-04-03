@@ -1,11 +1,11 @@
 import * as _ from "lodash";
-import { Form, Input, Item, Toast, Separator, Text } from "native-base";
-import React, { useState, FunctionComponent } from "react";
+import { Form, Input, Item, Toast } from "native-base";
+import React, { FunctionComponent, useEffect } from "react";
 import { View } from "react-native";
 import AddressList from "../../Components/Addresses/AddressList/AddressList";
 import Loader from "../../Components/Shared/Loader/Loader";
 import Address from "../../Models/Address";
-import addressRepository from "../../Repositories/AddressRepository";
+import { useSearchAddress } from "../../Repositories/Addresses/useSearchAddress";
 import styles from "./Style";
 
 interface SearchAddressProps {
@@ -18,36 +18,18 @@ const SearchAddress: FunctionComponent<SearchAddressProps> = ({
   navigation
 }) => {
   //#region Fields
-  /**
-   * Addresses to display
-   */
-  const [addresses, setAddresses] = useState([] as Address[]);
-  /**
-   * If search in progress
-   */
-  const [searching, setSearching] = useState(false);
+  const { error, ongoing, result, setSearchedValue } = useSearchAddress();
   //#endregion
 
   //#region Methods
-  /**
-   * Search addresses
-   * @param value Value to search
-   */
-  const searchAddresses = async value => {
-    try {
-      setSearching(true);
-      const result = await addressRepository.searchAddress(value);
-      setAddresses(result);
-    } catch (error) {
-      // Message for the error
+  useEffect(() => {
+    if (error) {
       Toast.show({
         text: `Search error : ${error}`,
         type: "danger"
       });
-    } finally {
-      setSearching(false);
     }
-  };
+  }, [error]);
 
   //#endregion
 
@@ -59,17 +41,17 @@ const SearchAddress: FunctionComponent<SearchAddressProps> = ({
           <Input
             autoFocus={true}
             placeholder="Taper pour rechercher"
-            onChangeText={_.debounce(searchAddresses, 500)}
+            onChangeText={_.debounce(setSearchedValue, 500)}
           ></Input>
         </Item>
       </Form>
 
       <View style={styles.listContainer}>
         {/**Search results */}
-        {!searching && addresses && addresses?.length > 0 && (
+        {!ongoing && result && result?.length > 0 && (
           <View>
             <AddressList
-              elements={addresses}
+              elements={result}
               onSelect={(address: Address) => {
                 //Call the function before go back
                 if (route?.params?.onGoBack) route?.params?.onGoBack(address);
@@ -80,7 +62,7 @@ const SearchAddress: FunctionComponent<SearchAddressProps> = ({
         )}
 
         {/**Display activity indicator if searching */}
-        {searching && <Loader style={styles.loader} loading={searching} />}
+        {ongoing && <Loader style={styles.loader} loading={ongoing} />}
       </View>
     </View>
   );
