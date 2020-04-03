@@ -8,7 +8,7 @@ import Competition from "../../Models/Competition";
 import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
-import areDateEquals from "../../Helpers/Date/areDateEquals";
+import areDatesEquals from "../../Helpers/Date/areDatesEquals";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
@@ -26,7 +26,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * @param date Competitions date
    */
   const getCompetitions = (date: Date): Competition[] =>
-    props.competitions.filter(compet => areDateEquals(date, compet.date));
+    props.competitions.filter(compet => areDatesEquals(date, compet.date));
 
   /**
    * Handle the day press event displaying selected day competitions

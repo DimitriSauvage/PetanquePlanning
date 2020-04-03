@@ -221,7 +221,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
           </Picker>
         </Item>
         {/**Club */}
-        <Item>
+          <Item>
           <Picker
             mode="dialog"
             inlineLabel={true}

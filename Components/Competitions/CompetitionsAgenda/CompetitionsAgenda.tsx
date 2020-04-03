@@ -6,9 +6,12 @@ import {
   DateObject,
   MultiDotMarking
 } from "react-native-calendars";
-import CalendarHelper from "../../../Helpers/CalendarHelper";
-import DateHelper from "../../../Helpers/DateHelper";
 import CompetitionsProps from "../../../Shared/Props/Competitions.props";
+import useCalendarLocales from "../../../Helpers/Calendar/useCalendarLocales";
+import getCalendarMultiDotsMarkersFromCompetitions from "../../../Helpers/Calendar/getCalendarMultiDotsMarkersFromCompetitions";
+import areDatesEquals from "../../../Helpers/Date/areDatesEquals";
+import cloneMultiDotsMarkers from "../../../Helpers/Calendar/cloneMultiDotsMarkers";
+import getCalendarStringFromDate from "../../../Helpers/Calendar/getCalendarStringFromDate";
 
 //Props
 interface CompetitionsAgendaProps extends CompetitionsProps, ViewProps {
@@ -20,7 +23,7 @@ interface CompetitionsAgendaProps extends CompetitionsProps, ViewProps {
 const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => {
   //#region Config
   /**Define the locales language for the calendar */
-  CalendarHelper.setLocales();
+  useCalendarLocales();
   //#endregion
 
   //#region State
@@ -31,7 +34,7 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
 
   /**Marked date */
   const [markedDates, setMarkedDates] = useState(
-    CalendarHelper.getMultiDotsMarkedDatesFromCompetitions(
+    getCalendarMultiDotsMarkersFromCompetitions(
       props.competitions,
       selectedDate
     )
@@ -55,10 +58,10 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
    */
   const onDaySelected = (dateObject: DateObject) => {
     const newSelectedDate = new Date(dateObject.timestamp);
-    if (!DateHelper.areDatesEquals(selectedDate, newSelectedDate)) {
+    if (!areDatesEquals(selectedDate, newSelectedDate)) {
       //Copy the dates because the object must be immutable
-      const newMarkedDates = CalendarHelper.cloneMultiDotsMarkers(markedDates);
-      const previousSelectedDateString = CalendarHelper.getStringDate(
+      const newMarkedDates = cloneMultiDotsMarkers(markedDates);
+      const previousSelectedDateString = getCalendarStringFromDate(
         selectedDate
       );
 
@@ -106,7 +109,7 @@ const CompetitionsAgenda: FunctionComponent<CompetitionsAgendaProps> = props => 
       markedDates={markedDates}
       theme={{ selectedDayBackgroundColor: "red" }}
       onDayPress={onDaySelected}
-      selected={CalendarHelper.getStringDate(new Date())}
+      selected={getCalendarStringFromDate(new Date())}
     ></CalendarList>
   );
 };

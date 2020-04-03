@@ -9,9 +9,9 @@ import { YellowBox } from "react-native";
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
-import FirebaseHelper from "./Helpers/FirebaseHelper";
 import Navigator from "./Navigation/Navigator";
 import store from "./Store/configureStore";
+import initializeFirebaseApp from "./Helpers/Firebase/initializeFirebaseApp";
 
 YellowBox.ignoreWarnings([
   "Non-serializable values were found in the navigation state",
@@ -21,7 +21,7 @@ YellowBox.ignoreWarnings([
 moment.locale(Localization.locale);
 
 //Initialize database
-FirebaseHelper.initializeApp();
+initializeFirebaseApp();
 
 Font.loadAsync({
   Roboto: require("native-base/Fonts/Roboto.ttf"),
