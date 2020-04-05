@@ -8,7 +8,7 @@ import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
 import areDatesEquals from "../../Helpers/Date/areDatesEquals";
-import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
+import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 

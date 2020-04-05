@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Map from "../../Components/Competitions/Map/Map";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import useCurrentLocation from "../../Helpers/Location/useCurrentLocation";
-import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
+import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
 
 interface MapProps extends CompetitionsProps {}
 

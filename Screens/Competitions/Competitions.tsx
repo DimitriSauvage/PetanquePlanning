@@ -6,7 +6,7 @@ import CompetitionList from "../../Components/Competitions/CompetitionList/Compe
 import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
-import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
+import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
 
 interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;

@@ -3,7 +3,7 @@ import { EDIT_COMPETITION, REMOVE_COMPETITION } from "../../storeConstants";
 import {
   EditCompetitionAction,
   RemoveCompetitionAction
-} from "../Types/competition.actionType";
+} from "../Types/competition.actions";
 
 /**
  * Create an EditCompetitionAction

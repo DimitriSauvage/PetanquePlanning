@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Competition from "../../../Models/Competition";
 import ListProps from "../../Props/ListProps";
 import CompetitionListItem from "../CompetitionListItem/CompetitionListItem";
-import { PetanquePlanningState } from "../../../Store/PetanquePlanningState";
+import PetanquePlanningState  from "../../../Store/States/PetanquePlanningState";
 
 //Props
 interface CompetitionListProps extends ListProps<Competition>, ViewProps {}

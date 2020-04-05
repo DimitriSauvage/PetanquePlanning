@@ -15,7 +15,7 @@ import styles from "./Style";
 import getRegions from "../../Helpers/Geo/getRegions";
 import updateFormField from "../../Helpers/Form/updateFormField";
 import getEnumValues from "../../Helpers/Enums/getEnumValues";
-import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
+import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
 
 interface SignUpProps {
   clubs: Club[];

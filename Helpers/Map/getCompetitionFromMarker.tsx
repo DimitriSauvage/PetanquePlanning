@@ -1,6 +1,7 @@
 import getCarriageReturn from "../String/getCarriageReturn";
 import Competition from "../../Models/Competition";
 import { Marker } from "react-native-maps";
+import React from "react";
 
 /**
  * Transform a feature into an address
