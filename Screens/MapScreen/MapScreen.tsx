@@ -2,9 +2,9 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Region } from "react-native-maps";
 import { connect } from "react-redux";
 import Map from "../../Components/Competitions/Map/Map";
-import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import useCurrentLocation from "../../Helpers/Location/useCurrentLocation";
+import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
 
 interface MapProps extends CompetitionsProps {}
 

@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import { Action } from "redux";
 import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
 import Club from "../../Models/Club";
-import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
@@ -16,6 +15,7 @@ import styles from "./Style";
 import getRegions from "../../Helpers/Geo/getRegions";
 import updateFormField from "../../Helpers/Form/updateFormField";
 import getEnumValues from "../../Helpers/Enums/getEnumValues";
+import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
 
 interface SignUpProps {
   clubs: Club[];

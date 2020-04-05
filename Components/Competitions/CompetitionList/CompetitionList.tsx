@@ -3,9 +3,9 @@ import React, { FunctionComponent } from "react";
 import { ViewProps, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import Competition from "../../../Models/Competition";
-import PetanquePlanningState from "../../../Models/PetanquePlanningState";
 import ListProps from "../../Props/ListProps";
 import CompetitionListItem from "../CompetitionListItem/CompetitionListItem";
+import { PetanquePlanningState } from "../../../Store/PetanquePlanningState";
 
 //Props
 interface CompetitionListProps extends ListProps<Competition>, ViewProps {}

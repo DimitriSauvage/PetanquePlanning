@@ -1,6 +1,6 @@
-import { Action } from "redux";
 import Competition from "../../../Models/Competition";
+import BaseAction from "./baseAction";
 
-export interface CompetitionAction extends Action {
-  competition: Competition;
-}
+export interface EditCompetitionAction extends BaseAction<Competition> {}
+
+export interface RemoveCompetitionAction extends BaseAction<string> {}

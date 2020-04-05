@@ -4,9 +4,9 @@ import { Platform } from "react-native";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import Competition from "../../Models/Competition";
-import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
+import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
 
 interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;

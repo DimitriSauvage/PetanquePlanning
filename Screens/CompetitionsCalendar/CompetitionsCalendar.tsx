@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import CompetitionsAgenda from "../../Components/Competitions/CompetitionsAgenda/CompetitionsAgenda";
 import Competition from "../../Models/Competition";
-import PetanquePlanningState from "../../Models/PetanquePlanningState";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
 import areDatesEquals from "../../Helpers/Date/areDatesEquals";
+import { PetanquePlanningState } from "../../Store/PetanquePlanningState";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
