@@ -1,4 +1,3 @@
-import { useAsyncStorage } from "@react-native-community/async-storage";
 import firebase from "firebase";
 import { useEffect, useState } from "react";
 import {
@@ -8,6 +7,8 @@ import {
 import User from "../../Models/Users/User";
 import { UserCollection } from "../Firestore/CollectionsConstants";
 import { IHttpRequestResult } from "../Shared/Types/HttpTypes";
+import useLocalStorageAsync from "../Storage/useLocalStorage";
+import useLocalStorage from "../Storage/useLocalStorage";
 
 export interface ISignInResult extends IHttpRequestResult<User> {
   /**Invalid credentials */
@@ -35,8 +36,10 @@ export default (): ISignInResult => {
   const [ongoing, setOngoing] = useState(false);
   /**If the credentials are bads */
   const [invalidCredentials, setInvalidCredentials] = useState(false);
-  /**Use the storage to store the connected user */
-  const AsyncStorage = useAsyncStorage(AuthUserKey);
+  /**
+   * Local storage
+   */
+  const LocalStorage = useLocalStorage(AuthUserKey);
   //#endregion
 
   //Launch the sigin in action when email or password changes
@@ -70,7 +73,7 @@ export default (): ISignInResult => {
               datetime: new Date(),
               user: user,
             };
-            await AsyncStorage.setItem(JSON.stringify(signInInformation));
+            await LocalStorage.setItemAsync(JSON.stringify(signInInformation));
             setInvalidCredentials(false);
             setUser(user);
           }

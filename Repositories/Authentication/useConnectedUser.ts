@@ -1,4 +1,3 @@
-import { useAsyncStorage } from "@react-native-community/async-storage";
 import { useEffect, useState } from "react";
 import {
   AuthInformations,
@@ -7,6 +6,7 @@ import {
 import WithError from "../../Models/Types/WithError";
 import WithOngoing from "../../Models/Types/WithOngoing";
 import User from "../../Models/Users/User";
+import useLocalStorage from "../Storage/useLocalStorage";
 
 export interface IConnectedUserResult extends WithOngoing, WithError {
   connectedUser: User;
@@ -23,9 +23,8 @@ export default (): IConnectedUserResult => {
   const [error, setError] = useState<Error>(null);
   /**Connected user */
   const [connectedUser, setConnectedUser] = useState<User>(null);
-  /**Async storage to get informations */
-  const AsyncStorage = useAsyncStorage(AuthUserKey);
-
+  /**Local storage */
+  const LocalStorage = useLocalStorage(AuthUserKey);
   //#endregion
 
   //Launch the sigin in action when email or password changes
@@ -35,12 +34,9 @@ export default (): IConnectedUserResult => {
 
       //Get the connected user in local storage
       try {
-        const infos = await AsyncStorage.getItem();
+        const infos = await LocalStorage.getItemAsync<AuthInformations>();
         if (infos !== null) {
-          const authInformations = JSON.parse(infos) as AuthInformations;
-          if (authInformations.user != null) {
-            setConnectedUser(authInformations.user);
-          }
+          setConnectedUser(infos.user);
         }
       } catch (error) {
         setError(error);

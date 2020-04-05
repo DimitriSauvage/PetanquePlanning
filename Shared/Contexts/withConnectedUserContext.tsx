@@ -1,13 +1,16 @@
-import { Component, useState } from "react";
+import React, { useState } from "react";
 import User from "../../Models/Users/User";
-import React from "react";
 import ConnectedUserContext from "./ConnectedUserContext";
 
-export default (Component: Component) => {
+export interface WithConnectedUserProps {
+  connectedUser?: User;
+}
+
+export default (props) => (Component) => {
   const [connectedUser, setConnectedUser] = useState<User>(null);
   return (
-    <ConnectedUserContext.Provider
-      value={{ connectedUser, setConnectedUser }}
-    ></ConnectedUserContext.Provider>
+    <ConnectedUserContext.Provider value={{ connectedUser, setConnectedUser }}>
+      <Component {...props}></Component>
+    </ConnectedUserContext.Provider>
   );
 };

@@ -4,11 +4,14 @@ const flexSpace: number = 10;
 
 const GlobalStyles = StyleSheet.create({
   flexContainer: {
-    paddingLeft: -flexSpace
+    paddingLeft: -flexSpace,
   },
   flexItem: {
-    paddingLeft: flexSpace
-  }
+    paddingLeft: flexSpace,
+  },
+  fullContainer: {
+    flex: 1,
+  },
 });
 
 export default GlobalStyles;
