@@ -2,20 +2,21 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import _ from "lodash";
 import moment from "moment";
 import { Button, Form, Input, Item, Picker, Text, Toast } from "native-base";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import { Action } from "redux";
 import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
+import getEnumValues from "../../Helpers/Enums/getEnumValues";
+import updateFormField from "../../Helpers/Form/updateFormField";
+import getRegions from "../../Helpers/Geo/getRegions";
 import Club from "../../Models/Club";
 import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
+import useSignIn from "../../Repositories/Authentication/useSignIn";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
+import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
 import styles from "./Style";
-import getRegions from "../../Helpers/Geo/getRegions";
-import updateFormField from "../../Helpers/Form/updateFormField";
-import getEnumValues from "../../Helpers/Enums/getEnumValues";
-import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
 
 interface SignUpProps {
   clubs: Club[];
@@ -24,7 +25,7 @@ interface SignUpProps {
   dispatch: (action: Action) => void;
 }
 
-const SignUp: FunctionComponent<SignUpProps> = props => {
+const SignUp: FunctionComponent<SignUpProps> = (props) => {
   //#region State
   /** User to edit */
   const [user, setUser] = useState(
@@ -38,12 +39,13 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
   );
   /**Input password */
   const [password, setPassword] = useState(null);
+  const SignInManager = useSignIn();
   //#endregion
 
   //#region Fields
   /**Regions to display */
   const regions = getRegions(true);
-  regions.forEach(region => {
+  regions.forEach((region) => {
     region.code = "Region-" + region.code;
   });
 
@@ -98,10 +100,10 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
   const confirmFavoriteDepartments = () => {
     if (hasChangedSelection) {
       //Get the departments with the codes
-      const departments = regions.flatMap(x => x.departments);
+      const departments = regions.flatMap((x) => x.departments);
       updateField(
         "favoriteDepartments",
-        departments.filter(dep => selectedDepartments.includes(dep.code))
+        departments.filter((dep) => selectedDepartments.includes(dep.code))
       );
       updateField("favoriteDepartmentCodes", selectedDepartments);
     }
@@ -122,10 +124,10 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
    * Display the selected departments numbers
    * @param props Picker props
    */
-  const renderSelectText = props => {
+  const renderSelectText = (props) => {
     let deps = "";
     if (selectedDepartments) {
-      _.sortBy(selectedDepartments).forEach(dep => {
+      _.sortBy(selectedDepartments).forEach((dep) => {
         if (deps !== "") deps += " - ";
         deps += dep;
       });
@@ -138,7 +140,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
    * Update the password
    * @param value New password
    */
-  const updatePassword = value => {
+  const updatePassword = (value) => {
     if (value === password) {
       updateField("password", value);
     }
@@ -150,15 +152,22 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
   const saveUser = () => {
     try {
       props.dispatch(editUserAction(user));
-      Toast.show({
-        text: "Enregistrement réussi !",
-        type: "success"
-      });
-      props.navigation.goBack();
+      //Set password && email to sign in the user
+      SignInManager.setEmail(user.email);
+      SignInManager.setPassword(user.password);
+      useEffect(() => {
+        if (!SignInManager.ongoing) {
+          Toast.show({
+            text: "Enregistrement réussi !",
+            type: "success",
+          });
+          props.navigation.goBack();
+        }
+      }, [SignInManager.ongoing]);
     } catch (error) {
       Toast.show({
         text: "Erreur lors de l'enregistrement",
-        type: "danger"
+        type: "danger",
       });
     }
   };
@@ -174,14 +183,14 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
             value={user.name}
             autoFocus={(!__DEV__ && !user.name) || user.name === ""}
             placeholder="Nom de famille"
-            onChangeText={value => updateField("name", value)}
+            onChangeText={(value) => updateField("name", value)}
           ></Input>
         </Item>
         {/**First name */}
         <Item>
           <Input
             placeholder="Prénom"
-            onChangeText={value => updateField("firstName", value)}
+            onChangeText={(value) => updateField("firstName", value)}
           ></Input>
         </Item>
         {/**User date*/}
@@ -209,9 +218,9 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
             inlineLabel={true}
             placeholder="Type d'utilisateur"
             selectedValue={user?.profile ? user?.profile : Profile.Player}
-            onValueChange={value => updateField("profile", value)}
+            onValueChange={(value) => updateField("profile", value)}
           >
-            {getEnumValues(Profile).map(x => (
+            {getEnumValues(Profile).map((x) => (
               <Picker.Item
                 label={x.toString()}
                 value={x}
@@ -221,13 +230,13 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
           </Picker>
         </Item>
         {/**Club */}
-          <Item>
+        <Item>
           <Picker
             mode="dialog"
             inlineLabel={true}
             placeholder="Club"
             selectedValue={user?.club}
-            onValueChange={value => updateClub(value)}
+            onValueChange={(value) => updateClub(value)}
           >
             {/**Item with null value */}
             <Picker.Item
@@ -237,7 +246,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
             ></Picker.Item>
             {/* Items */}
             {props.clubs &&
-              props.clubs.map(club => (
+              props.clubs.map((club) => (
                 <Picker.Item
                   label={club.name}
                   value={club}
@@ -271,7 +280,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
           <Input
             value={user.email}
             placeholder="Adresse mail"
-            onChangeText={value => updateField("email", value)}
+            onChangeText={(value) => updateField("email", value)}
           ></Input>
         </Item>
         {/* Password */}
@@ -279,7 +288,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
           <Input
             secureTextEntry={true}
             placeholder="Mot de passe"
-            onChangeText={value => setPassword(value)}
+            onChangeText={(value) => setPassword(value)}
           ></Input>
         </Item>
         {/* Confirmation */}
@@ -287,7 +296,7 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
           <Input
             secureTextEntry={true}
             placeholder="Confirmer le mot de passe"
-            onChangeText={value => updatePassword(value)}
+            onChangeText={(value) => updatePassword(value)}
           ></Input>
         </Item>
       </Form>
@@ -298,15 +307,15 @@ const SignUp: FunctionComponent<SignUpProps> = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch: action => dispatch(action)
+    dispatch: (action) => dispatch(action),
   };
 };
 
 const mapStateToProps = (state: PetanquePlanningState) => {
   return {
-    clubs: state.clubs
+    clubs: state.clubs,
   };
 };
 
