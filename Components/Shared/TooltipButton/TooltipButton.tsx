@@ -3,6 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import { ViewProps } from "react-native";
 import Tooltip from "react-native-walkthrough-tooltip";
 import styles from "./Style";
+import IconType from "../../../Models/Types/IconType";
 
 //Props
 interface TooltipButtonProps extends ViewProps {
@@ -11,24 +12,11 @@ interface TooltipButtonProps extends ViewProps {
   tooltipText: string;
   tooltipPlacement?: "top" | "bottom" | "left" | "right" | "center";
   icon?: string;
-  iconType?:
-    | "AntDesign"
-    | "Entypo"
-    | "EvilIcons"
-    | "Feather"
-    | "FontAwesome"
-    | "FontAwesome5"
-    | "Foundation"
-    | "Ionicons"
-    | "MaterialCommunityIcons"
-    | "MaterialIcons"
-    | "Octicons"
-    | "SimpleLineIcons"
-    | "Zocial";
+  iconType?: IconType;
 }
 
 //Components
-const TooltipButton: FunctionComponent<TooltipButtonProps> = props => {
+const TooltipButton: FunctionComponent<TooltipButtonProps> = (props) => {
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
   //#region Methods
@@ -36,7 +24,7 @@ const TooltipButton: FunctionComponent<TooltipButtonProps> = props => {
    * Check if the button has this color
    * @param color Color to check
    */
-  const hasColor = color => props?.buttonColor === color;
+  const hasColor = (color) => props?.buttonColor === color;
   //#endregion
   return (
     <View style={styles.container}>

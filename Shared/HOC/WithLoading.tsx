@@ -1,11 +1,6 @@
 import { View } from "native-base";
-import { StyleSheet } from "react-native";
 import React from "react";
-import { Text } from "react-native";
-
-export interface WithLoadingProps {
-  ongoing: boolean;
-}
+import { ActivityIndicator, StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
   container: {
@@ -15,10 +10,10 @@ const style = StyleSheet.create({
   },
 });
 
-export default (Component) => (props: WithLoadingProps) => {
+export default (Component) => (props) => {
   return props.ongoing ? (
     <View style={style.container}>
-      <Text>Traitement en cours...</Text>
+      <ActivityIndicator color="red" size="large"></ActivityIndicator>
     </View>
   ) : (
     <Component {...props} />

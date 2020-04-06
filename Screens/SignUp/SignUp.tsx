@@ -3,10 +3,10 @@ import _ from "lodash";
 import moment from "moment";
 import { Button, Form, Input, Item, Picker, Text, Toast } from "native-base";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import { Action } from "redux";
-import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
+import { compose } from "wizhooks/lib";
+import AppSectionedPicker from "../../Components/Shared/AppSectionedPicker/AppSectionedPicker";
 import getEnumValues from "../../Helpers/Enums/getEnumValues";
 import updateFormField from "../../Helpers/Form/updateFormField";
 import getRegions from "../../Helpers/Geo/getRegions";
@@ -14,9 +14,12 @@ import Club from "../../Models/Club";
 import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
 import useSignIn from "../../Repositories/Authentication/useSignIn";
+import withKeyboardAvoidingView from "../../Shared/HOC/withKeyboardAvoidingView";
+import withSafeAreaView from "../../Shared/HOC/withSafeAreaView";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
 import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
 import styles from "./Style";
+import AppInput from "../../Components/Shared/AppInputs/AppInput";
 
 interface SignUpProps {
   clubs: Club[];
@@ -174,42 +177,36 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
   //#endregion
 
   return (
-    <SafeAreaView>
+    <>
       <Text style={styles.title}>Parlez nous de vous</Text>
       <Form>
         {/**User name */}
-        <Item>
-          <Input
-            value={user.name}
-            autoFocus={(!__DEV__ && !user.name) || user.name === ""}
-            placeholder="Nom de famille"
-            onChangeText={(value) => updateField("name", value)}
-          ></Input>
-        </Item>
+        <AppInput
+          value={user.name}
+          autoFocus={(!__DEV__ && !user.name) || user.name === ""}
+          label="Nom de famille"
+          onChangeText={(value) => updateField("name", value)}
+        ></AppInput>
         {/**First name */}
-        <Item>
-          <Input
-            placeholder="Prénom"
-            onChangeText={(value) => updateField("firstName", value)}
-          ></Input>
-        </Item>
+        <AppInput
+          label="Prénom"
+          onChangeText={(value) => updateField("firstName", value)}
+        ></AppInput>
         {/**User date*/}
-        <Item>
-          <Input
-            placeholder="Date de naissance"
-            onTouchStart={() => setShowDatePicker(true)}
-            value={user?.birthDate ? moment(user?.birthDate).format("L") : ""}
-          ></Input>
-          {showDatePicker && (
-            <DateTimePicker
-              mode="date"
-              onTouchCancel={() => setShowDatePicker(false)}
-              value={user?.birthDate ? user?.birthDate : new Date()}
-              display="calendar"
-              onChange={(event, date) => updateBirthDate(date)}
-            />
-          )}
-        </Item>
+        <AppInput
+          label="Date de naissance"
+          onTouchStart={() => setShowDatePicker(true)}
+          value={user?.birthDate ? moment(user?.birthDate).format("L") : ""}
+        ></AppInput>
+        {showDatePicker && (
+          <DateTimePicker
+            mode="date"
+            onTouchCancel={() => setShowDatePicker(false)}
+            value={user?.birthDate ? user?.birthDate : new Date()}
+            display="calendar"
+            onChange={(event, date) => updateBirthDate(date)}
+          />
+        )}
         {/**Profile */}
         <Item>
           <Picker
@@ -230,7 +227,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
           </Picker>
         </Item>
         {/**Club */}
-        <Item>
+        <Item picker>
           <Picker
             mode="dialog"
             inlineLabel={true}
@@ -256,25 +253,23 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
           </Picker>
         </Item>
         {/* Departements to display */}
-        <Item>
-          <AppPicker
-            items={regions}
-            uniqueKey="code"
-            subKey="departments"
-            displayKey="name"
-            selectText="Départements favoris"
-            searchPlaceholderText="Départements favoris"
-            readOnlyHeadings={true}
-            confirmText="Confirmer"
-            selectedItems={selectedDepartments}
-            onSelectedItemsChange={setToggledDepartements}
-            onConfirm={confirmFavoriteDepartments}
-            onCancel={resetTempFavoriteDepartments}
-            showChips={false}
-            selectedText="sélectionnés"
-            renderSelectText={renderSelectText}
-          ></AppPicker>
-        </Item>
+        <AppSectionedPicker
+          items={regions}
+          uniqueKey="code"
+          subKey="departments"
+          displayKey="name"
+          selectText="Départements favoris"
+          searchPlaceholderText="Départements favoris"
+          readOnlyHeadings={true}
+          confirmText="Confirmer"
+          selectedItems={selectedDepartments}
+          onSelectedItemsChange={setToggledDepartements}
+          onConfirm={confirmFavoriteDepartments}
+          onCancel={resetTempFavoriteDepartments}
+          showChips={false}
+          selectedText="sélectionnés"
+          renderSelectText={renderSelectText}
+        ></AppSectionedPicker>
         {/**Email */}
         <Item>
           <Input
@@ -303,7 +298,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
       <Button block danger onPress={saveUser}>
         <Text style={{ color: "white" }}>Valider</Text>
       </Button>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -319,4 +314,7 @@ const mapStateToProps = (state: PetanquePlanningState) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(compose(withSafeAreaView, withKeyboardAvoidingView)(SignUp));

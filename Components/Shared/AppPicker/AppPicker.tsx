@@ -1,29 +1,30 @@
+import { Item, Label, Picker } from "native-base";
 import React from "react";
-import { View } from "react-native";
-import SectionedMultiSelect, {
-  SectionedMultiSelectProps
-} from "react-native-sectioned-multi-select";
+import { View, TouchableWithoutFeedback } from "react-native";
+import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import styles, { pickerStyle } from "./Style";
 
 //Props
-interface AppPickerProps<ItemType>
-  extends SectionedMultiSelectProps<ItemType> {}
+interface AppPickerProps extends Picker {}
 
-const AppPicker: <ItemType>(
-  props: AppPickerProps<ItemType>
-) => React.ReactElement<AppPickerProps<ItemType>> = props => {
-  //Custom styles are the mixed between my style and the asked types by the user
-  const customStyles = {
-    ...pickerStyle,
-    ...props.styles
-  };
+const AppPicker = (props: AppPickerProps) => {
+  const pickerRef = null;
   return (
-    <View style={styles.container}>
-      <SectionedMultiSelect
-        {...props}
-        styles={customStyles}
-      ></SectionedMultiSelect>
-    </View>
+    <>
+      <Item>
+        {/**Label to display */}
+        <TouchableWithoutFeedback
+          onPressOut={() => {
+            inputRef.wrappedInstance.focus();
+          }}
+        >
+          <Label>{label}</Label>
+        </TouchableWithoutFeedback>
+
+        {/**Input field */}
+        <Picker {...props} ref={(x) => (pickerRef = x)} />
+      </Item>
+    </>
   );
 };
 

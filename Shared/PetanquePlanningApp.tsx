@@ -5,7 +5,7 @@ import useFonts from "../Helpers/Fonts/useFonts";
 import Navigator from "../Navigation/Navigator";
 import useConnectedUser from "../Repositories/Authentication/useConnectedUser";
 import store from "../Store/configureStore";
-import WithLoading from "./HOC/WithLoading";
+import withLoading from "./HOC/withLoading";
 
 const PetanquePlanningApp = () => {
   return (
@@ -16,8 +16,6 @@ const PetanquePlanningApp = () => {
 };
 
 export default compose(
-  withHooks({ hook: useConnectedUser }),
-  WithLoading,
-  withHooks({ hook: useFonts }),
-  WithLoading
+  withHooks({ hook: useFonts }, { hook: useConnectedUser }),
+  withLoading
 )(PetanquePlanningApp);
