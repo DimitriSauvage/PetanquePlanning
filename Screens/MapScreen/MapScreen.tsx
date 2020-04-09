@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import Map from "../../Components/Competitions/Map/Map";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import useCurrentLocation from "../../Helpers/Location/useCurrentLocation";
-import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
+import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
+import mapStateToProps from "../../Store/mapStateToProps";
 
 interface MapProps extends CompetitionsProps {}
 
@@ -21,7 +22,7 @@ const MapScreen: FunctionComponent<MapProps> = ({ competitions }) => {
     latitude: 47.47111129760742,
     longitude: -0.5482971668243408,
     latitudeDelta: defaultDelta,
-    longitudeDelta: defaultDelta
+    longitudeDelta: defaultDelta,
   };
   //#endregion
 
@@ -44,7 +45,7 @@ const MapScreen: FunctionComponent<MapProps> = ({ competitions }) => {
           latitude: location.latitude,
           longitude: location.longitude,
           latitudeDelta: defaultDelta,
-          longitudeDelta: defaultDelta
+          longitudeDelta: defaultDelta,
         };
         setMapPosition(position);
       }
@@ -59,14 +60,4 @@ const MapScreen: FunctionComponent<MapProps> = ({ competitions }) => {
   return <Map competitions={competitions} mapPosition={mapPosition}></Map>;
 };
 
-/**
- * Map the global app state to the props
- * @param state Global app state
- */
-const mapStateToProps = (state: PetanquePlanningState) => {
-  return {
-    competitions: state.competitions
-  };
-};
-
-export default connect(mapStateToProps)(MapScreen);
+export default connect(mapStateToProps("competitions"))(MapScreen);

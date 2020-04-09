@@ -1,6 +1,6 @@
 enum Profile {
-    Player,
-    Admin
+    Player = "Joueur",
+    Admin = "Administrateur"
 }
 
 export default Profile;

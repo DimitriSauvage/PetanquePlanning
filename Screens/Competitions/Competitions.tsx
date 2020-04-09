@@ -6,7 +6,8 @@ import CompetitionList from "../../Components/Competitions/CompetitionList/Compe
 import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
-import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
+import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
+import mapStateToProps from "../../Store/mapStateToProps";
 
 interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;
@@ -14,7 +15,7 @@ interface CompetitionsScreenProps extends CompetitionsProps {
 
 const Competitions: FunctionComponent<CompetitionsScreenProps> = ({
   navigation,
-  competitions
+  competitions,
 }) => {
   //#region Add button in header bar for ios
   if (Platform.OS === "ios") {
@@ -24,7 +25,7 @@ const Competitions: FunctionComponent<CompetitionsScreenProps> = ({
           <Button transparent>
             <Icon name="plus" type="Entypo" />
           </Button>
-        )
+        ),
       });
     }, []);
   }
@@ -34,7 +35,7 @@ const Competitions: FunctionComponent<CompetitionsScreenProps> = ({
    * Open the competition edition
    * @param competition Selected competition
    */
-  const onSelect = competition => {
+  const onSelect = (competition) => {
     editCompetition(competition);
   };
 
@@ -67,14 +68,4 @@ const Competitions: FunctionComponent<CompetitionsScreenProps> = ({
   );
 };
 
-/**
- * Map the global app state to the props
- * @param state Global app state
- */
-const mapStateToProps = (state: PetanquePlanningState) => {
-  return {
-    competitions: state.competitions
-  };
-};
-
-export default connect(mapStateToProps)(Competitions);
+export default connect(mapStateToProps("competitions"))(Competitions);

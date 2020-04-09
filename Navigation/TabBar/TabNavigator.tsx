@@ -5,6 +5,7 @@ import Map from "../../Screens/MapScreen/MapScreen";
 import CompetitionsStack from "../Stack/CompetitionsStack";
 import MapScreen from "../../Screens/MapScreen/MapScreen";
 import SignUp from "../../Screens/SignUp/SignUp";
+import UserStack from "../Stack/UserStack";
 
 export default () => {
   //#region Fields
@@ -33,7 +34,7 @@ export default () => {
       initialRouteName="CompetitionsStack"
       tabBarOptions={{
         tabStyle: { justifyContent: "center" },
-        activeTintColor: activeTintColor
+        activeTintColor: activeTintColor,
       }}
     >
       {/**Screens */}
@@ -42,7 +43,7 @@ export default () => {
         component={MapScreen}
         options={{
           tabBarIcon: ({ color }) => getIcon("map", color),
-          title: "Carte"
+          title: "Carte",
         }}
       ></Tab.Screen>
       <Tab.Screen
@@ -50,15 +51,15 @@ export default () => {
         component={CompetitionsStack}
         options={{
           tabBarIcon: ({ color }) => getIcon("calendar", color),
-          title: "Calendrier"
+          title: "Calendrier",
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="SignUp"
-        component={SignUp}
+        name="UserStack"
+        component={UserStack}
         options={{
-          tabBarIcon: ({ color }) => getIcon("user-plus", color),
-          title: "Inscription"
+          tabBarIcon: ({ color }) => getIcon("user", color),
+          title: "Connexion",
         }}
       ></Tab.Screen>
     </Tab.Navigator>

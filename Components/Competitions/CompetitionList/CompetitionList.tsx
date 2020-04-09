@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import Competition from "../../../Models/Competition";
 import ListProps from "../../Props/ListProps";
 import CompetitionListItem from "../CompetitionListItem/CompetitionListItem";
-import PetanquePlanningState  from "../../../Store/States/PetanquePlanningState";
+import PetanquePlanningState from "../../../Store/States/PetanquePlanningState";
+import mapStateToProps from "../../../Store/mapStateToProps";
 
 //Props
 interface CompetitionListProps extends ListProps<Competition>, ViewProps {}
@@ -13,17 +14,17 @@ interface CompetitionListProps extends ListProps<Competition>, ViewProps {}
 //Components
 const AddressList: FunctionComponent<CompetitionListProps> = ({
   elements,
-  onSelect
+  onSelect,
 }) => {
   return (
     elements?.length > 0 && (
       <ScrollView>
         <List>
-          {elements.map(competition => (
+          {elements.map((competition) => (
             <CompetitionListItem
               key={competition.id.toString()}
               element={competition}
-              onSelect={competition =>
+              onSelect={(competition) =>
                 onSelect ? onSelect(competition) : undefined
               }
             ></CompetitionListItem>
@@ -34,14 +35,4 @@ const AddressList: FunctionComponent<CompetitionListProps> = ({
   );
 };
 
-/**
- * Map the global app state to the props
- * @param state Global app state
- */
-const mapStateToProps = (state: PetanquePlanningState) => {
-  return {
-    competitions: state.competitions
-  };
-};
-
-export default connect(mapStateToProps)(AddressList);
+export default connect(mapStateToProps("competitions"))(AddressList);

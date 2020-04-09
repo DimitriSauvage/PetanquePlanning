@@ -8,7 +8,9 @@ import { Item, Label } from "native-base";
 
 //Props
 interface AppSectionedPickerProps<ItemType>
-  extends SectionedMultiSelectProps<ItemType> {}
+  extends SectionedMultiSelectProps<ItemType> {
+  label?: string;
+}
 
 const AppSectionedPicker: <ItemType>(
   props: AppSectionedPickerProps<ItemType>
@@ -20,7 +22,7 @@ const AppSectionedPicker: <ItemType>(
   };
   return (
     <Item picker inlineLabel>
-      <Label>Test</Label>
+      {props.label && <Label>{props.label}</Label>}
       <View style={styles.container}>
         <SectionedMultiSelect
           {...props}

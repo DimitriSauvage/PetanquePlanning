@@ -5,5 +5,11 @@ import _ from "lodash";
  * @param enumeration Enum for which get the values
  */
 export default (enumeration): string[] => {
-  return _.uniq(Object.keys(enumeration).filter(x => isNaN(Number(x))));
+  let values: Array<any> = Object.values(enumeration).filter((x) =>
+    isNaN(Number(x))
+  );
+  if (values.length === 0) {
+    values = Object.keys(enumeration);
+  }
+  return _.uniq(values);
 };

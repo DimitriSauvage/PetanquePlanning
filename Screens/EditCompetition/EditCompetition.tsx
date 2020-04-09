@@ -12,6 +12,7 @@ import { editCompetitionAction } from "../../Store/Actions/Creators/competitionA
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
 import getNextDateOfDay from "../../Helpers/Date/getNextDateOfDay";
+import mapDispatchToProps from "../../Store/mapDispatchToProps";
 
 interface EditCompetitionProps {
   route: any;
@@ -22,7 +23,7 @@ interface EditCompetitionProps {
 const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
   route,
   navigation,
-  dispatch
+  dispatch,
 }) => {
   //#region State
   /**
@@ -94,13 +95,13 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
       dispatch(editCompetitionAction(competition));
       Toast.show({
         text: "Concours sauvegardé",
-        type: "success"
+        type: "success",
       });
       navigation.goBack();
     } catch (error) {
       Toast.show({
         text: "Erreur lors de l'enregistrement",
-        type: "danger"
+        type: "danger",
       });
     }
   };
@@ -122,7 +123,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         <Input
           autoFocus={!competition?.name || competition?.name === ""}
           placeholder="Nom du concours"
-          onChangeText={value => updateField("name", value)}
+          onChangeText={(value) => updateField("name", value)}
         ></Input>
       </Item>
       {/**Competition address */}
@@ -136,7 +137,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
           onTouchStart={() => {
             //Go to search address
             navigation.navigate(SearchAddress.name, {
-              onGoBack: updateAddress
+              onGoBack: updateAddress,
             });
           }}
         ></Input>
@@ -181,7 +182,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
           placeholder="Decription"
           multiline={true}
           numberOfLines={2}
-          onChangeText={value => updateField("description", value)}
+          onChangeText={(value) => updateField("description", value)}
         ></Input>
       </Item>
 
@@ -192,11 +193,4 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
     </Form>
   );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatch: action => dispatch(action)
-  };
-};
-
 export default connect(null, mapDispatchToProps)(EditCompetition);

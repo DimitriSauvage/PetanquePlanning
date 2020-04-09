@@ -19,7 +19,10 @@ import withSafeAreaView from "../../Shared/HOC/withSafeAreaView";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
 import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
 import styles from "./Style";
-import AppInput from "../../Components/Shared/AppInputs/AppInput";
+import AppInput from "../../Components/Shared/AppInput/AppInput";
+import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
+import mapDispatchToProps from "../../Store/mapDispatchToProps";
+import mapStateToProps from "../../Store/mapStateToProps";
 
 interface SignUpProps {
   clubs: Club[];
@@ -136,7 +139,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
       });
     }
 
-    return deps !== "" ? deps : props.selectText;
+    return deps !== "" ? deps : "";
   };
 
   /**
@@ -158,6 +161,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
       //Set password && email to sign in the user
       SignInManager.setEmail(user.email);
       SignInManager.setPassword(user.password);
+      SignInManager.launchSignIn();
       useEffect(() => {
         if (!SignInManager.ongoing) {
           Toast.show({
@@ -208,57 +212,54 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
           />
         )}
         {/**Profile */}
-        <Item>
-          <Picker
-            mode="dialog"
-            enabled={true}
-            inlineLabel={true}
-            placeholder="Type d'utilisateur"
-            selectedValue={user?.profile ? user?.profile : Profile.Player}
-            onValueChange={(value) => updateField("profile", value)}
-          >
-            {getEnumValues(Profile).map((x) => (
+        <AppPicker
+          mode="dialog"
+          enabled={true}
+          inlineLabel={true}
+          label="Type d'utilisateur"
+          selectedValue={user?.profile ? user?.profile : Profile.Player}
+          onValueChange={(value) => updateField("profile", value)}
+        >
+          {getEnumValues(Profile).map((x) => (
+            <Picker.Item
+              label={x.toString()}
+              value={x}
+              key={x.toString()}
+            ></Picker.Item>
+          ))}
+        </AppPicker>
+        {/**Club */}
+        <AppPicker
+          mode="dialog"
+          inlineLabel={true}
+          label="Club"
+          selectedValue={user?.club}
+          onValueChange={(value) => updateClub(value)}
+          enabled={props.clubs?.length > 0}
+        >
+          {/**Item with null value */}
+          <Picker.Item
+            label={props.clubs?.length > 0 ? "" : "Aucun club enregistré"}
+            value={null}
+            key={"NullValue"}
+          ></Picker.Item>
+          {/* Items */}
+          {props.clubs &&
+            props.clubs.map((club) => (
               <Picker.Item
-                label={x.toString()}
-                value={x}
-                key={x.toString()}
+                label={club.name}
+                value={club}
+                key={club.id.toString()}
               ></Picker.Item>
             ))}
-          </Picker>
-        </Item>
-        {/**Club */}
-        <Item picker>
-          <Picker
-            mode="dialog"
-            inlineLabel={true}
-            placeholder="Club"
-            selectedValue={user?.club}
-            onValueChange={(value) => updateClub(value)}
-          >
-            {/**Item with null value */}
-            <Picker.Item
-              label={"Sélectionner votre club"}
-              value={null}
-              key={"NullValue"}
-            ></Picker.Item>
-            {/* Items */}
-            {props.clubs &&
-              props.clubs.map((club) => (
-                <Picker.Item
-                  label={club.name}
-                  value={club}
-                  key={club.id.toString()}
-                ></Picker.Item>
-              ))}
-          </Picker>
-        </Item>
+        </AppPicker>
         {/* Departements to display */}
         <AppSectionedPicker
           items={regions}
           uniqueKey="code"
           subKey="departments"
           displayKey="name"
-          selectText="Départements favoris"
+          selectText=""
           searchPlaceholderText="Départements favoris"
           readOnlyHeadings={true}
           confirmText="Confirmer"
@@ -268,32 +269,27 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
           onCancel={resetTempFavoriteDepartments}
           showChips={false}
           selectedText="sélectionnés"
+          label="Départements favoris"
           renderSelectText={renderSelectText}
         ></AppSectionedPicker>
         {/**Email */}
-        <Item>
-          <Input
-            value={user.email}
-            placeholder="Adresse mail"
-            onChangeText={(value) => updateField("email", value)}
-          ></Input>
-        </Item>
+        <AppInput
+          value={user.email}
+          label="Adresse mail"
+          onChangeText={(value) => updateField("email", value)}
+        ></AppInput>
         {/* Password */}
-        <Item>
-          <Input
-            secureTextEntry={true}
-            placeholder="Mot de passe"
-            onChangeText={(value) => setPassword(value)}
-          ></Input>
-        </Item>
+        <AppInput
+          secureTextEntry={true}
+          label="Mot de passe"
+          onChangeText={(value) => setPassword(value)}
+        ></AppInput>
         {/* Confirmation */}
-        <Item>
-          <Input
-            secureTextEntry={true}
-            placeholder="Confirmer le mot de passe"
-            onChangeText={(value) => updatePassword(value)}
-          ></Input>
-        </Item>
+        <AppInput
+          secureTextEntry={true}
+          label="Confirmer le mot de passe"
+          onChangeText={(value) => updatePassword(value)}
+        ></AppInput>
       </Form>
       <Button block danger onPress={saveUser}>
         <Text style={{ color: "white" }}>Valider</Text>
@@ -302,19 +298,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch: (action) => dispatch(action),
-  };
-};
-
-const mapStateToProps = (state: PetanquePlanningState) => {
-  return {
-    clubs: state.clubs,
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  mapStateToProps("clubs"),
   mapDispatchToProps
-)(compose(withSafeAreaView, withKeyboardAvoidingView)(SignUp));
+)(compose(withKeyboardAvoidingView)(SignUp));

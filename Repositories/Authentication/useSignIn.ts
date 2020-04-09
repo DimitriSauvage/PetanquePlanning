@@ -1,13 +1,12 @@
 import firebase from "firebase";
 import { useEffect, useState } from "react";
 import {
-  AuthUserKey,
   AuthInformations,
+  AuthUserKey,
 } from "../../Models/Auth/AuthInformations";
 import User from "../../Models/Users/User";
 import { UserCollection } from "../Firestore/CollectionsConstants";
 import { IHttpRequestResult } from "../Shared/Types/HttpTypes";
-import useLocalStorageAsync from "../Storage/useLocalStorage";
 import useLocalStorage from "../Storage/useLocalStorage";
 
 export interface ISignInResult extends IHttpRequestResult<User> {
@@ -17,6 +16,8 @@ export interface ISignInResult extends IHttpRequestResult<User> {
   setEmail: (email: string) => void;
   /**Update the password */
   setPassword: (password: string) => void;
+  /**Launch the operation */
+  launchSignIn: () => void;
 }
 
 /**
@@ -36,11 +37,21 @@ export default (): ISignInResult => {
   const [ongoing, setOngoing] = useState(false);
   /**If the credentials are bads */
   const [invalidCredentials, setInvalidCredentials] = useState(false);
+  /**If we have to start the operation */
+  const [signIn, setSignIn] = useState(false);
   /**
    * Local storage
    */
   const LocalStorage = useLocalStorage(AuthUserKey);
   //#endregion
+
+  //#region Methods
+  /**
+   * Launch the operation of signing
+   */
+  const launchSignIn = () => {
+    setSignIn(true);
+  };
 
   //Launch the sigin in action when email or password changes
   useEffect(() => {
@@ -86,12 +97,15 @@ export default (): ISignInResult => {
         setError(error);
       } finally {
         //Stop ongoing
+        setSignIn(false);
         setOngoing(false);
       }
     };
 
     signIn();
-  }, [email, password]);
+  }, [signIn]);
+
+  //#endregion
 
   return {
     result: user,
@@ -100,5 +114,6 @@ export default (): ISignInResult => {
     error,
     ongoing,
     invalidCredentials,
+    launchSignIn,
   };
 };

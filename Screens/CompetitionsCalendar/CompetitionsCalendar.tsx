@@ -8,11 +8,14 @@ import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import styles from "./Style";
 import areDatesEquals from "../../Helpers/Date/areDatesEquals";
-import PetanquePlanningState  from "../../Store/States/PetanquePlanningState";
+import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
+import mapStateToProps from "../../Store/mapStateToProps";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
-const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> = props => {
+const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> = (
+  props
+) => {
   //#region Fields
   /**Navigator */
   const navigator = useNavigation();
@@ -26,7 +29,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * @param date Competitions date
    */
   const getCompetitions = (date: Date): Competition[] =>
-    props.competitions.filter(compet => areDatesEquals(date, compet.date));
+    props.competitions.filter((compet) => areDatesEquals(date, compet.date));
 
   /**
    * Handle the day press event displaying selected day competitions
@@ -40,7 +43,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * Call when a competition is selected
    * @param competition Display the competition edition
    */
-  const onCompetitionSelected = competition => {
+  const onCompetitionSelected = (competition) => {
     navigator.navigate("CompetitionDetails", { competition: competition });
   };
   //#endregion
@@ -78,15 +81,4 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
     </View>
   );
 };
-
-/**
- * Map the global app state to the props
- * @param state Global app state
- */
-const mapStateToProps = (state: PetanquePlanningState) => {
-  return {
-    competitions: state.competitions
-  };
-};
-
-export default connect(mapStateToProps)(CompetitionsCalendar);
+export default connect(mapStateToProps("competitions"))(CompetitionsCalendar);
