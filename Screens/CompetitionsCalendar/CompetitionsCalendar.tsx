@@ -4,12 +4,11 @@ import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import CompetitionsAgenda from "../../Components/Competitions/CompetitionsAgenda/CompetitionsAgenda";
+import areDatesEquals from "../../Helpers/Date/areDatesEquals";
 import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
-import styles from "./Style";
-import areDatesEquals from "../../Helpers/Date/areDatesEquals";
-import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
 import mapStateToProps from "../../Store/mapStateToProps";
+import styles from "./Style";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 

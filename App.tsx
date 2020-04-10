@@ -13,6 +13,7 @@ import PetanquePlanningApp from "./Shared/PetanquePlanningApp";
 YellowBox.ignoreWarnings([
   "Non-serializable values were found in the navigation state",
   "Remote debugger",
+  "Require cycle"
 ]);
 
 moment.locale(Localization.locale);

@@ -1,11 +1,13 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import _ from "lodash";
 import moment from "moment";
-import { Button, Form, Input, Item, Picker, Text, Toast } from "native-base";
+import { Button, Form, Picker, Text, Toast } from "native-base";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Action } from "redux";
 import { compose } from "wizhooks/lib";
+import AppInput from "../../Components/Shared/AppInput/AppInput";
+import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
 import AppSectionedPicker from "../../Components/Shared/AppSectionedPicker/AppSectionedPicker";
 import getEnumValues from "../../Helpers/Enums/getEnumValues";
 import updateFormField from "../../Helpers/Form/updateFormField";
@@ -15,14 +17,10 @@ import Profile from "../../Models/Users/Profile";
 import User from "../../Models/Users/User";
 import useSignIn from "../../Repositories/Authentication/useSignIn";
 import withKeyboardAvoidingView from "../../Shared/HOC/withKeyboardAvoidingView";
-import withSafeAreaView from "../../Shared/HOC/withSafeAreaView";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
-import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
-import styles from "./Style";
-import AppInput from "../../Components/Shared/AppInput/AppInput";
-import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
 import mapDispatchToProps from "../../Store/mapDispatchToProps";
 import mapStateToProps from "../../Store/mapStateToProps";
+import styles from "./Style";
 
 interface SignUpProps {
   clubs: Club[];

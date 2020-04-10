@@ -1,22 +1,18 @@
-import React, { FunctionComponent } from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { ListItem, Text } from "native-base";
+import React, { FC } from "react";
 import Address from "../../../Models/Address";
-import { ListItem } from "native-base";
 import ListItemProps from "../../Props/ListItemProps";
 
 //Props
 interface AddressListItemProps extends ListItemProps<Address> {}
 
 //Components
-const AddressListItem: FunctionComponent<AddressListItemProps> = ({
-  element,
-  onSelect
-}) => {
+const AddressListItem: FC<AddressListItemProps> = ({ element, onSelect }) => {
   return (
     element && (
       <ListItem
         key={element.id.toString()}
-        onPress={_ => {
+        onPress={(_) => {
           if (onSelect) onSelect(element);
         }}
       >

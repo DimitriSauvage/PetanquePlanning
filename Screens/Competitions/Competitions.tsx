@@ -5,9 +5,8 @@ import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
-import styles from "./Style";
-import PetanquePlanningState from "../../Store/States/PetanquePlanningState";
 import mapStateToProps from "../../Store/mapStateToProps";
+import styles from "./Style";
 
 interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;

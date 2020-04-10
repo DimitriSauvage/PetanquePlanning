@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export default (Component) => (props) => {
   return (
-    <KeyboardAwareScrollView >
+    <KeyboardAwareScrollView>
       <Component {...props}></Component>
     </KeyboardAwareScrollView>
   );

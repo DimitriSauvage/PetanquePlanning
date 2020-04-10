@@ -1,10 +1,8 @@
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import Map from "../../Screens/MapScreen/MapScreen";
-import CompetitionsStack from "../Stack/CompetitionsStack";
 import MapScreen from "../../Screens/MapScreen/MapScreen";
-import SignUp from "../../Screens/SignUp/SignUp";
+import CompetitionsStack from "../Stack/CompetitionsStack";
 import UserStack from "../Stack/UserStack";
 
 export default () => {
@@ -24,7 +22,7 @@ export default () => {
    * @param color Icon color
    */
   const getIcon = (name: string, color: string) => (
-    <FontAwesome name={name} color={color} size={iconSize}></FontAwesome>
+    <FontAwesome5 name={name} color={color} size={iconSize}></FontAwesome5>
   );
 
   const Tab = createBottomTabNavigator();

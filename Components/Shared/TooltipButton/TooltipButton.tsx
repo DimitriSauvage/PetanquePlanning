@@ -1,9 +1,9 @@
-import { Badge, Button, Icon, Text, Content, View } from "native-base";
+import { Button, Icon, Text, View } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { ViewProps } from "react-native";
 import Tooltip from "react-native-walkthrough-tooltip";
-import styles from "./Style";
 import IconType from "../../../Models/Types/IconType";
+import styles from "./Style";
 
 //Props
 interface TooltipButtonProps extends ViewProps {

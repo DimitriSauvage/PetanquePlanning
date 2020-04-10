@@ -1,9 +1,12 @@
-import { Button, Card, Form, Text, View } from "native-base";
-import React, { FunctionComponent } from "react";
+import { Button, Card, Form, Text, Toast, View } from "native-base";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import { Image } from "react-native";
 import { connect } from "react-redux";
 import { compose } from "wizhooks/lib";
 import AppInput from "../../Components/Shared/AppInput/AppInput";
+import Loader from "../../Components/Shared/Loader/Loader";
+import useSignIn from "../../Repositories/Authentication/useSignIn";
+import ConnectedUserContext from "../../Shared/Contexts/ConnectedUserContext";
 import withKeyboardAvoidingView from "../../Shared/HOC/withKeyboardAvoidingView";
 import BaseAction from "../../Store/Actions/Types/baseAction";
 import mapDispatchToProps from "../../Store/mapDispatchToProps";
@@ -16,10 +19,48 @@ interface SignInProps {
 
 const SignIn: FunctionComponent<SignInProps> = (props) => {
   //#region Fields
-  
+  /**Sign in manager */
+  const SignInManager = useSignIn();
+  /**Get the connected user context */
+  const { setConnectedUser } = useContext(ConnectedUserContext);
   //#endregion
 
+  //#region Methods
+  /**Display a message if the credentials are bad */
+  useEffect(() => {
+    if (SignInManager.invalidCredentials) {
+      Toast.show({
+        text: "Adresse email ou mot de passe incorrect",
+        type: "danger",
+        position: "top",
+      });
+    }
+  }, [SignInManager.invalidCredentials]);
 
+  /**Display a message if there is an error */
+  useEffect(() => {
+    if (SignInManager.error && !SignInManager.ongoing) {
+      Toast.show({
+        text: SignInManager.error.message,
+        type: "danger",
+        position: "top",
+        duration: 1500,
+      });
+    }
+  }, [SignInManager.error, SignInManager.ongoing]);
+
+  /**Update the connected user */
+  useEffect(() => {
+    if (
+      SignInManager.result &&
+      !SignInManager.ongoing &&
+      !SignInManager.error
+    ) {
+      setConnectedUser(SignInManager.result);
+    }
+  }, [SignInManager.result]);
+
+  //#endregion
   return (
     <>
       {/**Display the logo */}
@@ -34,25 +75,30 @@ const SignIn: FunctionComponent<SignInProps> = (props) => {
           <Form>
             {/**Username */}
             <AppInput
+              autoCapitalize="none"
               autoCompleteType="email"
               placeholder="Adresse mail"
               iconType="FontAwesome"
               iconName="user"
+              onChangeText={(email) => SignInManager.setEmail(email)}
             ></AppInput>
 
             {/**Password */}
             <AppInput
+              autoCapitalize="none"
               autoCompleteType="password"
               style={styles.passwordInput}
               secureTextEntry
               placeholder="Mot de passe"
               iconType="FontAwesome"
               iconName="lock"
+              onChangeText={(password) => SignInManager.setPassword(password)}
             ></AppInput>
             {/**Forgotten password */}
             <Button
-              style={styles.forgottenPassword}
               transparent
+              small
+              style={styles.forgottenPassword}
               onPress={() => alert("Fonctionnalité pas encore implémentée")}
             >
               <Text style={styles.forgottenPasswordText}>
@@ -65,9 +111,13 @@ const SignIn: FunctionComponent<SignInProps> = (props) => {
               style={styles.submitButton}
               rounded
               info
-              onPress={() => alert("Fonctionnalité pas encore implémentée")}
+              onPress={() => SignInManager.launchSignIn()}
             >
-              <Text>Se connecter</Text>
+              {SignInManager.ongoing ? (
+                <Loader></Loader>
+              ) : (
+                <Text>Se connecter</Text>
+              )}
             </Button>
           </Form>
         </Card>
@@ -93,4 +143,4 @@ const SignIn: FunctionComponent<SignInProps> = (props) => {
 export default connect(
   null,
   mapDispatchToProps
-)(compose(withKeyboardAvoidingView)(SignIn));
+)(withKeyboardAvoidingView(SignIn));

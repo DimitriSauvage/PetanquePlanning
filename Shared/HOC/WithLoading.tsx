@@ -1,5 +1,5 @@
 import { View } from "native-base";
-import React from "react";
+import React, { FC } from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
@@ -10,7 +10,7 @@ const style = StyleSheet.create({
   },
 });
 
-export default (Component) => (props) => {
+export default (Component: FC) => (props) => {
   return props.ongoing ? (
     <View style={style.container}>
       <ActivityIndicator color="red" size="large"></ActivityIndicator>

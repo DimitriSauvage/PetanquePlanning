@@ -1,18 +1,17 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { Form, Input, Item, Toast } from "native-base";
+import { Button, Form, Input, Item, Toast, View } from "native-base";
 import React, { FunctionComponent, useState } from "react";
-import { Button, View } from "react-native";
 import { connect } from "react-redux";
 import { Action } from "redux";
+import getNextDateOfDay from "../../Helpers/Date/getNextDateOfDay";
 import updateFormField from "../../Helpers/Form/updateFormField";
 import Address from "../../Models/Address";
 import Competition from "../../Models/Competition";
 import { editCompetitionAction } from "../../Store/Actions/Creators/competitionActions.creator";
+import mapDispatchToProps from "../../Store/mapDispatchToProps";
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
-import getNextDateOfDay from "../../Helpers/Date/getNextDateOfDay";
-import mapDispatchToProps from "../../Store/mapDispatchToProps";
 
 interface EditCompetitionProps {
   route: any;

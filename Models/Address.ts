@@ -1,6 +1,7 @@
 import { LatLng } from "react-native-maps";
+import Entity from "./Entity";
 
-export default class Address {
+export default class Address extends Entity {
   //#region Fields
   /**
    * GPS Coordinate
@@ -31,7 +32,7 @@ export default class Address {
    */
   public getFullAddress = () => {
     let fullAddress = "";
-    const addToAddress = valueToAdd => {
+    const addToAddress = (valueToAdd) => {
       if (valueToAdd) {
         if (fullAddress !== "") fullAddress += " ";
         fullAddress += valueToAdd;

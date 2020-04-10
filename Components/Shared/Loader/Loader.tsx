@@ -1,17 +1,18 @@
-import { View, ActivityIndicator, ViewProps } from "react-native";
-import styles from "./Style";
 import React, { FunctionComponent } from "react";
-import { Text } from "native-base";
+import { ActivityIndicator, ViewProps } from "react-native";
+import styles from "./Style";
+import _ from "lodash";
 
 //Props
 interface LoaderProps extends ViewProps {
-  loading: boolean;
+  loading?: boolean;
 }
 
 //Components
 const Loader: FunctionComponent<LoaderProps> = ({ loading }) => {
+  const ongoing = _.isUndefined(loading) || _.isNull(loading) || loading;
   return (
-    loading && (
+    ongoing && (
       <ActivityIndicator style={styles.loader} size="large"></ActivityIndicator>
     )
   );

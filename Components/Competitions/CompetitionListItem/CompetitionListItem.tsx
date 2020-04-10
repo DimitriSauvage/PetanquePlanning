@@ -1,11 +1,10 @@
 import moment from "moment";
-import { Body, ListItem, Right, View } from "native-base";
+import { Body, ListItem, Right, View, Text } from "native-base";
 import React, { FunctionComponent } from "react";
 import Competition from "../../../Models/Competition";
 import ListItemProps from "../../Props/ListItemProps";
 import styles from "./Style";
 import _ from "lodash";
-import { Text } from "react-native";
 
 //Props
 interface CompetitionListItemProps extends ListItemProps<Competition> {}
@@ -13,7 +12,7 @@ interface CompetitionListItemProps extends ListItemProps<Competition> {}
 //Components
 const CompetitionListItem: FunctionComponent<CompetitionListItemProps> = ({
   element,
-  onSelect
+  onSelect,
 }) => {
   return (
     element && (

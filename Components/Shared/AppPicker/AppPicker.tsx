@@ -1,8 +1,5 @@
-import { Picker } from "native-base";
 import React from "react";
-import PickerWithLabel, {
-  PickerWithLabelProps,
-} from "./AppPickerWithLabel/PickerWithLabel";
+import PickerWithLabel, { PickerWithLabelProps } from "./AppPickerWithLabel/PickerWithLabel";
 
 //Props
 interface AppPickerProps extends PickerWithLabelProps {}

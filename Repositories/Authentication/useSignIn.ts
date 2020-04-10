@@ -39,9 +39,7 @@ export default (): ISignInResult => {
   const [invalidCredentials, setInvalidCredentials] = useState(false);
   /**If we have to start the operation */
   const [signIn, setSignIn] = useState(false);
-  /**
-   * Local storage
-   */
+  /** Local storage */
   const LocalStorage = useLocalStorage(AuthUserKey);
   //#endregion
 
@@ -57,6 +55,8 @@ export default (): ISignInResult => {
   useEffect(() => {
     const signIn = async () => {
       try {
+        //Start to logging
+        setSignIn(false);
         setOngoing(true);
 
         //Try to sign in in firebase
@@ -94,15 +94,28 @@ export default (): ISignInResult => {
 
         setUser(user);
       } catch (error) {
+        console.log("Sign In error", error);
         setError(error);
       } finally {
+        console.log("Sign In end");
         //Stop ongoing
-        setSignIn(false);
         setOngoing(false);
       }
     };
 
-    signIn();
+    console.log("Ask to signIn");
+    if (
+      !ongoing &&
+      password &&
+      email &&
+      password.length > 0 &&
+      email.length > 0
+    ) {
+      console.log("Start to signIn");
+      signIn();
+    } else {
+      console.log("Refuse signIn");
+    }
   }, [signIn]);
 
   //#endregion
