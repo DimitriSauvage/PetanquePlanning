@@ -1,8 +1,7 @@
 import _ from "lodash";
 import { Item, Label } from "native-base";
-import React, { useRef } from "react";
+import React from "react";
 import { TextInputProps } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import IconType from "../../../../Models/Types/IconType";
 import InputWithIcon from "../InputWithIcon/InputWithIcon";
 
@@ -18,13 +17,7 @@ export interface InputWithLabelProps extends TextInputProps {
 
 const InputWithLabel: (
   props: InputWithLabelProps
-) => React.ReactElement<InputWithLabelProps> = ({
-  iconName,
-  iconType,
-  label,
-  style,
-  ...props
-}) => {
+) => React.ReactElement<InputWithLabelProps> = ({ label, style, ...props }) => {
   //#region Fields
   /**If the label is displayed */
   const displayLabel =
@@ -34,7 +27,7 @@ const InputWithLabel: (
   return (
     <Item fixedLabel={displayLabel} style={style}>
       {/**Label to display */}
-      <Label>{label}</Label>
+      {displayLabel && <Label>{label}</Label>}
 
       {/**Input field */}
       <InputWithIcon {...props}></InputWithIcon>

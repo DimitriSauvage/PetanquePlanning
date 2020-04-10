@@ -7,9 +7,7 @@ import AppInput from "../../Components/Shared/AppInput/AppInput";
 import withKeyboardAvoidingView from "../../Shared/HOC/withKeyboardAvoidingView";
 import BaseAction from "../../Store/Actions/Types/baseAction";
 import mapDispatchToProps from "../../Store/mapDispatchToProps";
-import mapStateToProps from "../../Store/mapStateToProps";
 import styles from "./Style";
-import SignUp from "../SignUp/SignUp";
 
 interface SignInProps {
   navigation: any;
@@ -17,6 +15,11 @@ interface SignInProps {
 }
 
 const SignIn: FunctionComponent<SignInProps> = (props) => {
+  //#region Fields
+  
+  //#endregion
+
+
   return (
     <>
       {/**Display the logo */}
@@ -31,13 +34,15 @@ const SignIn: FunctionComponent<SignInProps> = (props) => {
           <Form>
             {/**Username */}
             <AppInput
-              placeholder="Nom d'utilisateur"
+              autoCompleteType="email"
+              placeholder="Adresse mail"
               iconType="FontAwesome"
               iconName="user"
             ></AppInput>
 
             {/**Password */}
             <AppInput
+              autoCompleteType="password"
               style={styles.passwordInput}
               secureTextEntry
               placeholder="Mot de passe"
@@ -73,7 +78,7 @@ const SignIn: FunctionComponent<SignInProps> = (props) => {
           <Button
             dark
             rounded
-            onPress={() => props.navigation.navigate(SignUp.name)}
+            onPress={() => props.navigation.navigate("SignUp")}
             style={styles.signUpButton}
           >
             <Text>Inscrivez-vous</Text>
