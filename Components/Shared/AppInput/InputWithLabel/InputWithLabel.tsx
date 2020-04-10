@@ -22,6 +22,7 @@ const InputWithLabel: (
   iconName,
   iconType,
   label,
+  style,
   ...props
 }) => {
   //#region Fields
@@ -31,7 +32,7 @@ const InputWithLabel: (
   //#endregion
 
   return (
-    <Item fixedLabel={displayLabel}>
+    <Item fixedLabel={displayLabel} style={style}>
       {/**Label to display */}
       <Label>{label}</Label>
 

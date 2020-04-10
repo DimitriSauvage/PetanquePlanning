@@ -6,10 +6,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  image: {
-    width: "auto",
-    height: "auto",
-  },
   otherFields: {
     flex: 6,
     marginTop: 5,
@@ -20,11 +16,21 @@ export default StyleSheet.create({
   forgottenPassword: {
     justifyContent: "flex-end",
   },
+  forgottenPasswordText: {
+    fontStyle: "italic",
+    fontSize: 12,
+  },
   submitButton: {
     justifyContent: "center",
   },
   signUp: {
-    justifyContent: "center",
-    marginTop: 3,
+    alignItems: "center",
+    marginTop: 7,
+  },
+  signUpButton: {
+    marginTop: 4,
+  },
+  formContainer: {
+    padding: 15,
   },
 });
