@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
 import CompetitionsAgenda from "../../Components/Competitions/CompetitionsAgenda/CompetitionsAgenda";
 import areDatesEquals from "../../Helpers/Date/areDatesEquals";
-import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import mapStateToProps from "../../Store/mapStateToProps";
 import styles from "./Style";
+import { CompetitionDTO } from "../../Models/generated";
 
 interface CompetitionsCalendarScreenProps extends CompetitionsProps {}
 
@@ -27,7 +27,7 @@ const CompetitionsCalendar: FunctionComponent<CompetitionsCalendarScreenProps> =
    * Get the competitions for the specified date
    * @param date Competitions date
    */
-  const getCompetitions = (date: Date): Competition[] =>
+  const getCompetitions = (date: Date): CompetitionDTO[] =>
     props.competitions.filter((compet) => areDatesEquals(date, compet.date));
 
   /**

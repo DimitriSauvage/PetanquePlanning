@@ -25,16 +25,7 @@ const Map: FunctionComponent<MapProps> = (props) => {
     longitudeDelta: defaultDelta,
   };
   //#endregion
-
-  // const origin: LatLng = {
-  //   latitude: 47.4701573,
-  //   longitude: -0.5312701
-  // };
-
-  // const dest: LatLng = {
-  //   latitude: 48.2145992,
-  //   longitude: -1.5059748
-  // };
+  
   return (
     <MapView
       style={styles.map}

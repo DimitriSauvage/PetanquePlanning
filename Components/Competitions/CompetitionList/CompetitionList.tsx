@@ -2,13 +2,13 @@ import { List } from "native-base";
 import React, { FunctionComponent } from "react";
 import { ScrollView, ViewProps } from "react-native";
 import { connect } from "react-redux";
-import Competition from "../../../Models/Competition";
 import mapStateToProps from "../../../Store/mapStateToProps";
 import ListProps from "../../Props/ListProps";
 import CompetitionListItem from "../CompetitionListItem/CompetitionListItem";
+import { CompetitionDTO } from "../../../Models/generated";
 
 //Props
-interface CompetitionListProps extends ListProps<Competition>, ViewProps {}
+interface CompetitionListProps extends ListProps<CompetitionDTO>, ViewProps {}
 
 //Components
 const AddressList: FunctionComponent<CompetitionListProps> = ({
@@ -21,7 +21,7 @@ const AddressList: FunctionComponent<CompetitionListProps> = ({
         <List>
           {elements.map((competition) => (
             <CompetitionListItem
-              key={competition.id.toString()}
+              key={competition.Id.toString()}
               element={competition}
               onSelect={(competition) =>
                 onSelect ? onSelect(competition) : undefined

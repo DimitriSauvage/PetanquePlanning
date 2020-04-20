@@ -3,10 +3,10 @@ import React, { FunctionComponent } from "react";
 import { Platform } from "react-native";
 import { connect } from "react-redux";
 import CompetitionList from "../../Components/Competitions/CompetitionList/CompetitionList";
-import Competition from "../../Models/Competition";
 import CompetitionsProps from "../../Shared/Props/Competitions.props";
 import mapStateToProps from "../../Store/mapStateToProps";
 import styles from "./Style";
+import { CompetitionDTO } from "../../Models/generated";
 
 interface CompetitionsScreenProps extends CompetitionsProps {
   navigation: any;
@@ -42,7 +42,7 @@ const Competitions: FunctionComponent<CompetitionsScreenProps> = ({
    * Navigate to the edition screen
    * @param competition Competition to edit
    */
-  const editCompetition = (competition?: Competition) => {
+  const editCompetition = (competition?: CompetitionDTO) => {
     navigation.navigate("EditCompetition", { competition: competition });
   };
   //#endregion

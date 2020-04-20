@@ -2,7 +2,6 @@ import { Button, Card, Form, Text, Toast, View } from "native-base";
 import React, { FunctionComponent, useContext, useEffect } from "react";
 import { Image } from "react-native";
 import { connect } from "react-redux";
-import { compose } from "wizhooks/lib";
 import AppInput from "../../Components/Shared/AppInput/AppInput";
 import Loader from "../../Components/Shared/Loader/Loader";
 import useSignIn from "../../Repositories/Authentication/useSignIn";

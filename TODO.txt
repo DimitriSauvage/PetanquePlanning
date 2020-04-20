@@ -1,3 +1,6 @@
+TODO :
+- In the repositories, use TransactionalExecution
+
 Integrate HOC (Ex  MapScreen) :
 	- Use compose of Augustin
 		- WithLoading

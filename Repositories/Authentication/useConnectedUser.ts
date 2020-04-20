@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  AuthInformations,
-  AuthUserKey,
-} from "../../Models/Auth/AuthInformations";
 import WithError from "../../Models/Types/WithError";
 import WithOngoing from "../../Models/Types/WithOngoing";
-import User from "../../Models/Users/User";
 import useLocalStorage from "../Storage/useLocalStorage";
+import { ApplicationUserDTO } from "../../Models/generated";
+import { AuthUserKey, AuthInformations } from "../../Models/Auth/AuthInformations";
 
 export interface IConnectedUserResult extends WithOngoing, WithError {
-  connectedUser: User;
+  connectedUser: ApplicationUserDTO;
 }
 
 /**
@@ -22,7 +19,7 @@ export default (): IConnectedUserResult => {
   /**Error */
   const [error, setError] = useState<Error>(null);
   /**Connected user */
-  const [connectedUser, setConnectedUser] = useState<User>(null);
+  const [connectedUser, setConnectedUser] = useState<ApplicationUserDTO>(null);
   /**Local storage */
   const LocalStorage = useLocalStorage(AuthUserKey);
   //#endregion

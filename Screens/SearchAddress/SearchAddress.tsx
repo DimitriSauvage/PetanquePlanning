@@ -4,9 +4,9 @@ import React, { FunctionComponent, useEffect } from "react";
 import { View } from "react-native";
 import AddressList from "../../Components/Addresses/AddressList/AddressList";
 import Loader from "../../Components/Shared/Loader/Loader";
-import Address from "../../Models/Address";
 import { useSearchAddress } from "../../Repositories/Addresses/useSearchAddress";
 import styles from "./Style";
+import { Address } from "../../Models/generated";
 
 interface SearchAddressProps {
   route: any;

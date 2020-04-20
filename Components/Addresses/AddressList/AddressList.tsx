@@ -1,6 +1,6 @@
 import { List } from "native-base";
 import React, { FunctionComponent } from "react";
-import Address from "../../../Models/Address";
+import { Address } from "../../../Models/generated";
 import ListProps from "../../Props/ListProps";
 import AddressListItem from "../AddressListItem/AddressListItem";
 
@@ -17,7 +17,7 @@ const AddressList: FunctionComponent<AddressListProps> = ({
       <List>
         {elements.map((address) => (
           <AddressListItem
-            key={address.id.toString()}
+            key={address.FullAddress}
             element={address}
             onSelect={(address) => (onSelect ? onSelect(address) : undefined)}
           ></AddressListItem>

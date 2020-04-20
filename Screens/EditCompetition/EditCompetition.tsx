@@ -1,17 +1,16 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { Button, Form, Input, Item, Toast, View } from "native-base";
+import { Button, Form, Input, Item, Toast, View, Text } from "native-base";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 import { Action } from "redux";
 import getNextDateOfDay from "../../Helpers/Date/getNextDateOfDay";
 import updateFormField from "../../Helpers/Form/updateFormField";
-import Address from "../../Models/Address";
-import Competition from "../../Models/Competition";
 import { editCompetitionAction } from "../../Store/Actions/Creators/competitionActions.creator";
 import mapDispatchToProps from "../../Store/mapDispatchToProps";
 import SearchAddress from "../SearchAddress/SearchAddress";
 import styles from "./Style";
+import { CompetitionDTO, Address } from "../../Models/generated";
 
 interface EditCompetitionProps {
   route: any;
@@ -31,7 +30,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
   const [competition, setCompetition] = useState(
     (route?.params?.competition
       ? route.params.competition
-      : new Competition()) as Competition
+      : new CompetitionDTO()) as CompetitionDTO
   );
   /**
    * Display or not the date picker
@@ -78,7 +77,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
    * @param value Value to set
    */
   const updateField = <TField extends any>(field: string, value: TField) => {
-    updateFormField<Competition, TField>(
+    updateFormField<CompetitionDTO, TField>(
       competition,
       field,
       value,
@@ -120,7 +119,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
       {/**Competition name */}
       <Item>
         <Input
-          autoFocus={!competition?.name || competition?.name === ""}
+          autoFocus={!competition?.Name || competition?.Name === ""}
           placeholder="Nom du concours"
           onChangeText={(value) => updateField("name", value)}
         ></Input>
@@ -130,9 +129,7 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         <Input
           placeholder="Adresse"
           style={styles.input}
-          value={
-            competition?.address ? competition.address.getFullAddress() : ""
-          }
+          value={competition?.Address ? competition.Address.FullAddress : ""}
           onTouchStart={() => {
             //Go to search address
             navigation.navigate(SearchAddress.name, {
@@ -146,12 +143,12 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         <Input
           placeholder="Date"
           onTouchStart={() => setShowDatePicker(true)}
-          value={competition?.date ? moment(competition.date).format("L") : ""}
+          value={competition?.Date ? moment(competition.Date).format("L") : ""}
         ></Input>
         {showDatePicker && (
           <DateTimePicker
             mode="date"
-            value={competition?.date ? competition.date : getDefaultDateTime()}
+            value={competition?.Date ? competition.Date : getDefaultDateTime()}
             display="calendar"
             onChange={(event, date) => updateDate(date)}
             minimumDate={new Date()}
@@ -163,12 +160,12 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
         <Input
           placeholder="Heure"
           onTouchStart={() => setShowTimePicker(true)}
-          value={competition?.hour ? moment(competition.hour).format("LT") : ""}
+          value={competition?.Date ? moment(competition.Date).format("LT") : ""}
         ></Input>
         {showTimePicker && (
           <DateTimePicker
             mode="time"
-            value={competition?.hour ? competition.hour : getDefaultDateTime()}
+            value={competition?.Date ? competition.Date : getDefaultDateTime()}
             display="clock"
             onChange={(event, date) => updateHour(date)}
             minimumDate={new Date()}
@@ -187,7 +184,9 @@ const EditCompetition: FunctionComponent<EditCompetitionProps> = ({
 
       {/**Save button */}
       <View style={styles.saveButton}>
-        <Button title="Enregistrer" onPress={saveCompetition}></Button>
+        <Button onPress={saveCompetition}>
+          <Text>Enregistrer</Text>
+        </Button>
       </View>
     </Form>
   );

@@ -1,10 +1,10 @@
 import { FeatureCollection, Point } from "geojson";
 import { useEffect, useState } from "react";
 import featureToAddress from "../../Helpers/Address/featureToAddress";
-import Address from "../../Models/Address";
 import { IHttpRequestResult } from "../Shared/Types/HttpTypes";
 import useHttpGet from "../Shared/useHttpGet";
-import getSearchAdressApiUrl from "./getSearchAdressApiUrl";
+import getSearchAdressApiUrl from "./getSearchAddressApiUrl";
+import { Address } from "../../Models/generated";
 
 export interface ISearchAdressResult extends IHttpRequestResult<Address[]> {
   setSearchedValue: (value: string) => void;
@@ -38,7 +38,7 @@ export const useSearchAddress = (
     //Get addresses
     try {
       const response = useHttpGet<FeatureCollection<Point>>({
-        baseURL: `${getSearchAdressApiUrl()}?q=${searchedValue}&limit=${resultsLimit}&autocomplete=${+autoComplete}`
+        baseURL: `${getSearchAdressApiUrl()}?q=${searchedValue}&limit=${resultsLimit}&autocomplete=${+autoComplete}`,
       });
 
       //Transform feature to address
@@ -47,7 +47,7 @@ export const useSearchAddress = (
       setAddresses(
         response.result.features
           .sort((a, b) => b.properties.score - a.properties.score)
-          .map(x => featureToAddress(x))
+          .map((x) => featureToAddress(x))
       );
     } catch (error) {
       setError(error);
@@ -66,6 +66,6 @@ export const useSearchAddress = (
     error,
     ongoing,
     result: addresses,
-    setSearchedValue
+    setSearchedValue,
   };
 };

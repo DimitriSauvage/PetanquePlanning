@@ -11,19 +11,16 @@ import AppPicker from "../../Components/Shared/AppPicker/AppPicker";
 import AppSectionedPicker from "../../Components/Shared/AppSectionedPicker/AppSectionedPicker";
 import getEnumValues from "../../Helpers/Enums/getEnumValues";
 import updateFormField from "../../Helpers/Form/updateFormField";
-import getRegions from "../../Helpers/Geo/getRegions";
-import Club from "../../Models/Club";
-import Profile from "../../Models/Users/Profile";
-import User from "../../Models/Users/User";
 import useSignIn from "../../Repositories/Authentication/useSignIn";
 import withKeyboardAvoidingView from "../../Shared/HOC/withKeyboardAvoidingView";
 import { editUserAction } from "../../Store/Actions/Creators/userAction.creator";
 import mapDispatchToProps from "../../Store/mapDispatchToProps";
 import mapStateToProps from "../../Store/mapStateToProps";
 import styles from "./Style";
+import { ClubDTO, ApplicationUserDTO } from "../../Models/generated";
 
 interface SignUpProps {
-  clubs: Club[];
+  clubs: ClubDTO[];
   route: any;
   navigation: any;
   dispatch: (action: Action) => void;
@@ -33,13 +30,15 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
   //#region State
   /** User to edit */
   const [user, setUser] = useState(
-    (props.route?.params?.user ? props.route.params.user : new User()) as User
+    (props.route?.params?.user
+      ? props.route.params.user
+      : new ApplicationUserDTO()) as ApplicationUserDTO
   );
   /**Display or not the date picker */
   const [showDatePicker, setShowDatePicker] = useState(false);
   /**Selected departments */
   const [selectedDepartments, setSelectedDepartments] = useState(
-    user.favoriteDepartmentCodes
+    user.FavoriteDepartments
   );
   /**Input password */
   const [password, setPassword] = useState(null);
@@ -48,7 +47,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
 
   //#region Fields
   /**Regions to display */
-  const regions = getRegions(true);
+  const regions = [];
   regions.forEach((region) => {
     region.code = "Region-" + region.code;
   });
@@ -65,7 +64,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
    * @param value Value to set
    */
   const updateField = <TField extends any>(field: string, value: TField) => {
-    updateFormField<User, TField>(user, field, value, setUser);
+    updateFormField<ApplicationUserDTO, TField>(user, field, value, setUser);
   };
 
   /**
@@ -81,9 +80,9 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
    * Update the user club
    * @param club Club
    */
-  const updateClub = (club: Club) => {
+  const updateClub = (club: ClubDTO) => {
     if (club) {
-      updateField("clubId", club.id);
+      updateField("clubId", club.Id);
     } else {
       updateField("clubId", null);
     }
@@ -120,7 +119,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
   const resetTempFavoriteDepartments = () => {
     if (hasChangedSelection) {
       hasChangedSelection = false;
-      setSelectedDepartments(user.favoriteDepartmentCodes);
+      setSelectedDepartments(user.FavoriteDepartments);
     }
   };
 
@@ -157,8 +156,8 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
     try {
       props.dispatch(editUserAction(user));
       //Set password && email to sign in the user
-      SignInManager.setEmail(user.email);
-      SignInManager.setPassword(user.password);
+      SignInManager.setEmail(user.Email);
+      SignInManager.setPassword(user.PasswordHash);
       SignInManager.launchSignIn();
       useEffect(() => {
         if (!SignInManager.ongoing) {
@@ -184,8 +183,8 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
       <Form>
         {/**User name */}
         <AppInput
-          value={user.name}
-          autoFocus={(!__DEV__ && !user.name) || user.name === ""}
+          value={user.LastName}
+          autoFocus={(!__DEV__ && !user.LastName) || user.LastName === ""}
           label="Nom de famille"
           onChangeText={(value) => updateField("name", value)}
         ></AppInput>
@@ -198,13 +197,13 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
         <AppInput
           label="Date de naissance"
           onTouchStart={() => setShowDatePicker(true)}
-          value={user?.birthDate ? moment(user?.birthDate).format("L") : ""}
+          value={user?.BirthDate ? moment(user?.BirthDate).format("L") : ""}
         ></AppInput>
         {showDatePicker && (
           <DateTimePicker
             mode="date"
             onTouchCancel={() => setShowDatePicker(false)}
-            value={user?.birthDate ? user?.birthDate : new Date()}
+            value={user?.BirthDate ? user?.BirthDate : new Date()}
             display="calendar"
             onChange={(event, date) => updateBirthDate(date)}
           />
@@ -215,23 +214,24 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
           enabled={true}
           inlineLabel={true}
           label="Type d'utilisateur"
-          selectedValue={user?.profile ? user?.profile : Profile.Player}
+          selectedValue={user?.Roles[0] ? user?.Roles[0] : null}
           onValueChange={(value) => updateField("profile", value)}
         >
-          {getEnumValues(Profile).map((x) => (
+          {/**TODO */}
+          {/* {getEnumValues(Profile).map((x) => (
             <Picker.Item
               label={x.toString()}
               value={x}
               key={x.toString()}
             ></Picker.Item>
-          ))}
+          ))} */}
         </AppPicker>
         {/**Club */}
         <AppPicker
           mode="dialog"
           inlineLabel={true}
           label="Club"
-          selectedValue={user?.club}
+          selectedValue={user?.ClubId}
           onValueChange={(value) => updateClub(value)}
           enabled={props.clubs?.length > 0}
         >
@@ -245,9 +245,9 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
           {props.clubs &&
             props.clubs.map((club) => (
               <Picker.Item
-                label={club.name}
-                value={club}
-                key={club.id.toString()}
+                label={club.Name}
+                value={club.Id}
+                key={club.Id.toString()}
               ></Picker.Item>
             ))}
         </AppPicker>
@@ -272,7 +272,7 @@ const SignUp: FunctionComponent<SignUpProps> = (props) => {
         ></AppSectionedPicker>
         {/**Email */}
         <AppInput
-          value={user.email}
+          value={user.Email}
           label="Adresse mail"
           onChangeText={(value) => updateField("email", value)}
         ></AppInput>

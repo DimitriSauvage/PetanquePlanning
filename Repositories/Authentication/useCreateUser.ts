@@ -1,52 +1,54 @@
-import User from "../../Models/Users/User";
 import { useState, useEffect } from "react";
 import firebase from "firebase";
 import UserConverter from "../Firestore/Converters/UserConverter";
 import { UserCollection } from "../Firestore/CollectionsConstants";
 import { IHttpRequestResult } from "../Shared/Types/HttpTypes";
+import { ApplicationUserDTO } from "../../Models/generated";
 
 /**
  * Try to add a user
  * @param user User to add
  */
-export default (user: User): IHttpRequestResult<User> => {
-  const [addedUser, setAddedUser] = useState<User>(null);
+export default (
+  user: ApplicationUserDTO
+): IHttpRequestResult<ApplicationUserDTO> => {
+  const [addedUser, setAddedUser] = useState<ApplicationUserDTO>(null);
   const [error, setError] = useState(null);
   const [ongoing, setOngoing] = useState(false);
 
-  const addUser = async () => {
-    try {
-      setOngoing(true);
+  // const addUser = async () => {
+  //   try {
+  //     setOngoing(true);
 
-      //Create the user in firebase auth
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(user.email, user.password);
+  //     //Create the user in firebase auth
+  //     await firebase
+  //       .auth()
+  //       .createUserWithEmailAndPassword(user.Email, user.PasswordHash);
 
-      //Create user in the database
-      await firebase
-        .firestore()
-        .collection(UserCollection)
-        .doc(user.id)
-        .withConverter(UserConverter)
-        .set(user);
+  //     //Create user in the database
+  //     await firebase
+  //       .firestore()
+  //       .collection(UserCollection)
+  //       .doc(user.Id)
+  //       .withConverter(UserConverter)
+  //       .set(user);
 
-      setAddedUser(user);
-    } catch (error) {
-      setError(error);
-    }
+  //     setAddedUser(user);
+  //   } catch (error) {
+  //     setError(error);
+  //   }
 
-    //Stop ongoing
-    setOngoing(false);
-  };
+  //   //Stop ongoing
+  //   setOngoing(false);
+  // };
 
-  useEffect(() => {
-    addUser();
-  });
+  // useEffect(() => {
+  //   addUser();
+  // });
 
   return {
     error,
     ongoing,
-    result: addedUser
+    result: addedUser,
   };
 };

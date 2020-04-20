@@ -1,8 +1,8 @@
-import MapViewDirections from "react-native-maps-directions";
-import { Platform } from "react-native";
 import Constants from "expo-constants";
-import { LatLng } from "react-native-maps";
 import React from "react";
+import { Platform } from "react-native";
+import { LatLng } from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
 
 /**
  * Get marker direction with the api key

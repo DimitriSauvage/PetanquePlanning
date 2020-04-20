@@ -1,4 +1,4 @@
-import Address from "../../Models/Address";
+import { Address } from "../../Models/generated";
 
 /**
  * Get the full address
@@ -6,16 +6,16 @@ import Address from "../../Models/Address";
  */
 export default (address: Address) => {
   let fullAddress = "";
-  const addToAddress = valueToAdd => {
+  const addToAddress = (valueToAdd) => {
     if (valueToAdd) {
       if (fullAddress !== "") fullAddress += " ";
       fullAddress += valueToAdd;
     }
   };
 
-  addToAddress(address.number);
-  addToAddress(address.street);
-  addToAddress(address.zipCode);
-  addToAddress(address.city);
+  addToAddress(address.Number);
+  addToAddress(address.Street);
+  addToAddress(address.ZipCode);
+  addToAddress(address.City);
   return fullAddress;
 };

@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import Competition from "../../Models/Competition";
-import MultiDotMarkingType from "./Types/MultiDotMarking.type";
-import getCalendarStringFromDate from "./getCalendarStringFromDate";
-import areDatesEquals from "../Date/areDatesEquals";
 import getColorFromString from "../Color/getColorFromString";
+import areDatesEquals from "../Date/areDatesEquals";
+import getCalendarStringFromDate from "./getCalendarStringFromDate";
+import MultiDotMarkingType from "./Types/MultiDotMarking.type";
+import { CompetitionDTO } from "../../Models/generated";
 
 /**
  * Get multidots markers from competitions
@@ -11,28 +10,28 @@ import getColorFromString from "../Color/getColorFromString";
  * @param selectedDate Selected date in the calendar
  */
 export default (
-  competitions: Competition[],
+  competitions: CompetitionDTO[],
   selectedDate?: Date
 ): MultiDotMarkingType => {
   const markers: MultiDotMarkingType = {};
-  competitions.forEach(compet => {
+  competitions.forEach((compet) => {
     //Date to a string format
-    const dateString = getCalendarStringFromDate(compet.date);
+    const dateString = getCalendarStringFromDate(compet.Date);
 
     //Add the date if not present
     if (!markers[dateString]) {
       markers[dateString] = {
         disabled: false,
         dots: [],
-        selected: areDatesEquals(compet.date, selectedDate)
+        selected: areDatesEquals(compet.Date, selectedDate),
       };
     }
 
     //Add a dot for the competition
     markers[dateString].dots.push({
       color: getColorFromString(dateString),
-      key: compet.id.toString(),
-      selectedDotColor: "transparent"
+      key: compet.Id.toString(),
+      selectedDotColor: "transparent",
     });
   });
 
@@ -43,7 +42,7 @@ export default (
     markers[selectedDateString] = {
       disabled: false,
       dots: [],
-      selected: true
+      selected: true,
     };
   }
 

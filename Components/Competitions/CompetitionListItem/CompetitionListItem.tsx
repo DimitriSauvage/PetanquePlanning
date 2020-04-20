@@ -1,13 +1,13 @@
 import moment from "moment";
 import { Body, ListItem, Right, View, Text } from "native-base";
 import React, { FunctionComponent } from "react";
-import Competition from "../../../Models/Competition";
 import ListItemProps from "../../Props/ListItemProps";
 import styles from "./Style";
 import _ from "lodash";
+import { CompetitionDTO } from "../../../Models/generated";
 
 //Props
-interface CompetitionListItemProps extends ListItemProps<Competition> {}
+interface CompetitionListItemProps extends ListItemProps<CompetitionDTO> {}
 
 //Components
 const CompetitionListItem: FunctionComponent<CompetitionListItemProps> = ({
@@ -17,34 +17,34 @@ const CompetitionListItem: FunctionComponent<CompetitionListItemProps> = ({
   return (
     element && (
       <ListItem
-        key={element.id.toString()}
+        key={element.Id.toString()}
         onPress={() => {
           if (onSelect) onSelect(element);
         }}
       >
         <Body>
           {/**Affichage de l'adresse */}
-          <Text style={styles.title}>{element.name}</Text>
-          {element.address && (
+          <Text style={styles.title}>{element.Name}</Text>
+          {element.Address && (
             <View>
               <Text>
-                {element.address.number}&nbsp;{element.address.street}
+                {element.Address.Number}&nbsp;{element.Address.Street}
               </Text>
               <Text>
-                {element.address.zipCode}&nbsp;{element.address.city}
+                {element.Address.ZipCode}&nbsp;{element.Address.City}
               </Text>
             </View>
           )}
         </Body>
         <Right style={styles.datetimeContainer}>
           <Text style={styles.datetime}>
-            {element.date
-              ? _.upperFirst(moment(element.date).format("DD/MM"))
+            {element.Date
+              ? _.upperFirst(moment(element.Date).format("DD/MM"))
               : "Date inconnue"}
           </Text>
           <Text style={styles.datetime}>
-            {element.hour
-              ? moment(element.hour).format("HH:mm")
+            {element.Date
+              ? moment(element.Date).format("HH:mm")
               : "Heure inconnue"}
           </Text>
         </Right>

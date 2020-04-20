@@ -5,23 +5,27 @@ import React, { FunctionComponent } from "react";
 import Map from "../../Components/Competitions/Map/Map";
 import LabeledValue from "../../Components/Shared/LabeledValue/LabeledValue";
 import TooltipButton from "../../Components/Shared/TooltipButton/TooltipButton";
-import Club from "../../Models/Club";
-import Competition from "../../Models/Competition";
-import CompetitionGender from "../../Models/Enums/CompetitionGender";
 import GlobalStyles from "../../Styles";
 import styles from "./Style";
+import {
+  CompetitionDTO,
+  ClubDTO,
+  CompetitionGenderEnum,
+} from "../../Models/generated";
 
 interface CompetitionDetailsScreenProps {
-  competition: Competition;
+  competition: CompetitionDTO;
   route: any;
 }
 
-const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = props => {
+const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = (
+  props
+) => {
   //#region Fields
   /**
    * Competition to display
    */
-  const competition = props.route?.params?.competition as Competition;
+  const competition = props.route?.params?.competition as CompetitionDTO;
   /**
    * Navigation manager
    */
@@ -30,23 +34,26 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
 
   //#region Config
   //Change the header bar title to display the competition name
-  if (competition.name && competition.name.trim() !== "") {
+  if (competition.Name && competition.Name.trim() !== "") {
     React.useLayoutEffect(() => {
       navigation.setOptions({
-        title: competition.name
+        title: competition.Name,
       });
     }, [competition]);
   }
 
   //#endregion
 
-  competition.organizer = new Club();
-  competition.organizer.name = "Sporting pétanque club Bouillé-Bel-Air";
-  competition.organizer.shortName = "SPCBB";
+  if (__DEV__) {
+    competition.Organizer = new ClubDTO();
+    competition.Organizer.Name = "Sporting pétanque club Bouillé-Bel-Air";
+    competition.Organizer.ShortName = "SPCBB";
+  }
+
   if (!competition) {
     Toast.show({
-      text: "Erreur lors de la récupération du concours ",
-      type: "danger"
+      text: "Erreur lors de la récupération du concours",
+      type: "danger",
     });
     navigation.goBack();
   } else {
@@ -58,14 +65,14 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
           <View style={styles.competitionTypes}>
             {/**Sport */}
             <TooltipButton
-              buttonText={competition.competitionSport}
+              buttonText={competition.CompetitionSport.Value}
               buttonColor="primary"
               tooltipText="Sport du concours (Pétanque ou jeu provençal)"
               tooltipPlacement="bottom"
             ></TooltipButton>
             {/**Type */}
             <TooltipButton
-              buttonText={competition.competitionType}
+              buttonText={competition.CompetitionType.Value}
               buttonColor="success"
               tooltipText="Type du concours (Tête à tête, Doublette, Triplette, Tir de précision...)"
               tooltipPlacement="bottom"
@@ -75,12 +82,13 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
           <View style={styles.competitionTypes}>
             {/**Gender */}
             <TooltipButton
-              buttonText={competition.competitionGender}
+              buttonText={competition.CompetitionGender.Value}
               buttonColor="info"
               tooltipText="Composition des équipes (Féminin, Maculin, Mixte, Libre...)"
               tooltipPlacement="bottom"
               icon={
-                competition.competitionGender === CompetitionGender.Unspecified
+                competition.CompetitionGender.Value ===
+                CompetitionGenderEnum.Unspecified.toString()
                   ? "ios-information-circle-outline"
                   : null
               }
@@ -88,7 +96,7 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
             ></TooltipButton>
             {/**Level */}
             <TooltipButton
-              buttonText={competition.competitionLevel}
+              buttonText={competition.CompetitionLevel.Value}
               buttonColor="dark"
               tooltipText="Niveau du concours (Départemental, régional, national...)"
               tooltipPlacement="bottom"
@@ -104,13 +112,13 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
                   <View>
                     <LabeledValue
                       label="Date"
-                      value={moment(competition.date).format("L")}
+                      value={moment(competition.Date).format("L")}
                     ></LabeledValue>
                   </View>
                   <View style={GlobalStyles.flexItem}>
                     <LabeledValue
                       label="Jet du but"
-                      value={moment(competition.hour).format("LT")}
+                      value={moment(competition.Date).format("LT")}
                     ></LabeledValue>
                   </View>
                 </View>
@@ -118,26 +126,26 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
             </Card>
 
             {/**Organizer */}
-            {competition.organizer && (
+            {competition.Organizer && (
               <Card>
                 <CardItem>
                   <LabeledValue
                     label="Organisateur"
-                    value={competition.organizer.shortName}
+                    value={competition.Organizer.ShortName}
                   ></LabeledValue>
                 </CardItem>
               </Card>
             )}
 
             {/**Description */}
-            {competition.description && competition.description.trim() !== "" && (
+            {competition.Description && competition.Description.trim() !== "" && (
               <Card>
                 <CardItem>
                   <LabeledValue
                     style={GlobalStyles.flexItem}
                     label="Description"
                     breakLine={true}
-                    value={competition.description}
+                    value={competition.Description}
                   ></LabeledValue>
                 </CardItem>
               </Card>
@@ -147,7 +155,7 @@ const CompetitionDetails: FunctionComponent<CompetitionDetailsScreenProps> = pro
               <CardItem>
                 <LabeledValue
                   label="Adresse"
-                  value={competition.address.getFullAddress()}
+                  value={competition.Address.FullAddress}
                 ></LabeledValue>
               </CardItem>
             </Card>
