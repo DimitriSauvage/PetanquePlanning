@@ -5,11 +5,7 @@
     "slug": "PetanquePlanning",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "fr.dimitrisauvage.petanqueplanning",
@@ -37,6 +31,11 @@
         "googleMaps": {
           "apiKey": "AIzaSyA0Z-Cix3veOmoko1dF_U2VkH798V2qbWg"
         }
+      }
+    },
+    "extra": {
+      "api": {
+        "baseUrl": "http://localhost:8080/api"
       }
     }
   }

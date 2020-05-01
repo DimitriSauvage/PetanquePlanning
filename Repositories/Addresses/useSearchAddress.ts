@@ -2,7 +2,7 @@ import { FeatureCollection, Point } from "geojson";
 import { useEffect, useState } from "react";
 import featureToAddress from "../../Helpers/Address/featureToAddress";
 import { IHttpRequestResult } from "../Shared/Types/HttpTypes";
-import useHttpGet from "../Shared/useHttpGet";
+import useHttpGet from "../Shared/Requests/HttpRequests/useHttpGet";
 import getSearchAdressApiUrl from "./getSearchAddressApiUrl";
 import { Address } from "../../Models/generated";
 

@@ -1,6 +1,7 @@
 import { Method } from "axios";
 import WithOngoing from "../../../Models/Types/WithOngoing";
 import WithError from "../../../Models/Types/WithError";
+import { IRequestValue } from "./RequestTypes";
 
 /**
  * Post params
@@ -49,9 +50,4 @@ export interface IHttpRequestBaseParams {
  * Request result
  */
 export interface IHttpRequestResult<TWaitedResult>
-  extends WithOngoing,
-    WithError {
-  /**
-    Request result */
-  result: TWaitedResult;
-}
+  extends IRequestValue<TWaitedResult> {}

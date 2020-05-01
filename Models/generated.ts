@@ -101,9 +101,9 @@ export abstract class BaseDTO {
 
 export class AdjacentDepartmentsDTO extends BaseDTO {
     FirstDepartment: DepartmentDTO;
-    FirstDepartmentId: number;
+    FirstDepartmentId: any;
     SecondDepartment: DepartmentDTO;
-    SecondDepartmentId: number;
+    SecondDepartmentId: any;
 }
 
 export class DepartmentDTO extends BaseDTO {
@@ -111,7 +111,7 @@ export class DepartmentDTO extends BaseDTO {
     Code: string;
     Name: string;
     Region: RegionDTO;
-    RegionId: number;
+    RegionId: any;
 }
 
 export class RegionDTO extends BaseDTO {
@@ -121,7 +121,7 @@ export class RegionDTO extends BaseDTO {
 }
 
 export class ClubDTO extends BaseDTO {
-    Id: number;
+    Id: any;
     Address: Address;
     Name: string;
     ShortName: string;
@@ -145,7 +145,7 @@ export class LatLng extends ValueObject {
 }
 
 export class CompetitionDTO extends BaseDTO {
-    Id: number;
+    Id: any;
     Address: Address;
     CompetitionGender: EnumDTO<CompetitionGenderEnum>;
     CompetitionLevel: EnumDTO<CompetitionLevelEnum>;
@@ -155,7 +155,7 @@ export class CompetitionDTO extends BaseDTO {
     Description: string;
     Name: string;
     Organizer: ClubDTO;
-    OrganizerId: string;
+    OrganizerId: any;
 }
 
 export class EnumDTO<TEnum> {
@@ -169,14 +169,14 @@ export class ApplicationUserDTO extends BaseDTO {
     AvatarUrl: string;
     MustChangePassword: boolean;
     BirthDate: any;
-    ClubId: number;
+    ClubId: any;
     FavoriteDepartments: any;
     Gender: EnumDTO<GenderEnum>;
     FirstName: string;
     LastName: string;
     SubscriptionDate: any;
     Roles: any;
-    Id: number;
+    Id: any;
     PasswordHash: string;
     UserName: string;
     Email: string;
@@ -186,24 +186,24 @@ export class ApplicationUserDTO extends BaseDTO {
 }
 
 export class ApplicationUserFavoriteDepartmentDTO extends BaseDTO {
-    Id: number;
+    Id: any;
     Department: DepartmentDTO;
-    DepartmentId: number;
+    DepartmentId: any;
     User: ApplicationUserDTO;
-    UserId: number;
+    UserId: any;
 }
 
 export class ApplicationUserRoleDTO extends BaseDTO {
-    Id: number;
-    UserId: number;
+    Id: any;
+    UserId: any;
     User: ApplicationUserDTO;
-    RoleId: number;
+    RoleId: any;
     Role: ApplicationRoleDTO;
 }
 
 export class ApplicationRoleDTO extends BaseDTO {
     Description: string;
-    Id: number;
+    Id: any;
     Name: string;
     NormalizedName: string;
 }
