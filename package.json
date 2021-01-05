@@ -16,7 +16,7 @@
     "@types/geojson": "^7946.0.7",
     "@types/react-native-calendars": "^1.20.7",
     "@types/react-native-snap-carousel": "^3.8.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo": "~36.0.0",
     "expo-constants": "~8.0.0",
     "expo-localization": "~8.0.0",
